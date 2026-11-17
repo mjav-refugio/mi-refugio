@@ -1292,7 +1292,7 @@ function pintarChat(){
   const cont = $("#chat"); cont.innerHTML = "";
   if (!estado.chat.length) cont.append(burbuja({ r:"a", t: BIENVENIDA.replace("{n}", estado.nombre ? ", " + estado.nombre : "") }));
   estado.chat.forEach((m, i) => cont.append(burbuja(m, i)));
-  $("#chips").classList.toggle("oculto", estado.chat.length > 2);
+  $("#chips").classList.toggle("oculto", !!sample && estado.chat.length > 2);
 }
 function alFinal(){ const m = $("#main"); requestAnimationFrame(() => { m.scrollTop = m.scrollHeight; }); }
 const RIESGO = /(suicid|matarme|quitarme la vida|no quiero (seguir )?vivir|quiero morir(me)?|hacerme da[ñn]o|cortarme|acabar con (todo|mi vida)|desaparecer para siempre|no aguanto m[aá]s la vida)/i;
@@ -1300,7 +1300,7 @@ let enviando = false;
 async function enviar(texto){
   texto = (texto || "").trim();
   if (!texto || enviando) return;
-  if (!sample){ $("#aviso-sin-claude").classList.remove("oculto"); toast(MODO === "web" ? "El chat está en la versión de Claude: toca el enlace" : "Para conversar necesitas entrar con una cuenta de Claude"); return; }
+  if (!sample){ return enviarGuiado(texto); }
   enviando = true; $("#enviar").disabled = true;
   estado.chat.push({ r:"u", t:texto, ts:Date.now() });
   if (RIESGO.test(texto)) $("#alerta-crisis").classList.remove("oculto");
@@ -1328,6 +1328,23 @@ async function enviar(texto){
   pintarChat(); alFinal(); guardarEstado();
   enviando = false; $("#enviar").disabled = false;
 }
+async function enviarGuiado(texto){
+  enviando = true; $("#enviar").disabled = true;
+  estado.chat.push({ r:"u", t:texto, ts:Date.now() });
+  pintarChat();
+  const viva = burbuja({ r:"a", t:"" });
+  viva.querySelector(".cuerpo").innerHTML = '<span class="pensando" aria-label="Escribiendo"><i></i><i></i><i></i></span>';
+  $("#chat").append(viva); alFinal();
+  let res;
+  try { res = await responderGuiado(texto); } catch(e){ console.warn(e); res = { t: "Perdón, algo falló. Intenta de nuevo o toca uno de los temas de abajo.", chips:true }; }
+  await new Promise(r => setTimeout(r, 650));
+  estado.chat.push({ r:"a", t:res.t, ts:Date.now() });
+  if (estado.chat.length > 60) estado.chat = estado.chat.slice(-60);
+  pintarChat();
+  if (res.chips) $("#chips").classList.remove("oculto");
+  alFinal(); guardarEstado();
+  enviando = false; $("#enviar").disabled = false;
+}
 function ajustarAlto(){ const ta = $("#entrada"); ta.style.height = "auto"; ta.style.height = Math.min(ta.scrollHeight, 160) + "px"; }
 $("#form-chat").addEventListener("submit", (ev) => { ev.preventDefault(); const t = $("#entrada").value; $("#entrada").value = ""; ajustarAlto(); enviar(t); });
 $("#entrada").addEventListener("input", ajustarAlto);
@@ -1345,6 +1362,114 @@ function iniciarDictado(campo){
 }
 $("#mic").onclick = () => iniciarDictado($("#entrada"));
 $("#mic-diario").onclick = () => iniciarDictado($("#diario-txt"));
+
+/* ===================== ACOMPAÑAMIENTO GUIADO (sin inteligencia artificial, sin cuenta) ===================== */
+const TEMAS_GUIA = [
+  { k:"crisis", re:/(suicid|matarme|quitarme la vida|no quiero (seguir )?vivir|quiero morir|hacerme da[ñn]o|cortarme|acabar con (todo|mi vida)|desaparecer para siempre|no aguanto m[aá]s la vida)/,
+    e:["Gracias por contármelo. Lo que sientes es muy serio y mereces que una persona te acompañe ahora mismo, no solo una página."],
+    x:"Por favor, habla hoy con alguien. En Colombia puedes llamar a la Línea Nacional 106 (atiende las 24 horas). En Bucaramanga está la Línea Espérame, 322 964 3755, también las 24 horas. Si estás en peligro ahora, marca el 123. Y si puedes, escríbele o llama a alguien de confianza para que esté contigo.",
+    refs:["Salmos 34:18"], q:"¿Estás en un lugar seguro en este momento?" },
+  { k:"violencia", re:/(me pega|me golpea|me maltrata|me grita|me amenaza|violencia|abus|me obliga|me encierra|me hace da[ñn]o)/,
+    e:["Lo que me cuentas es grave y no es tu culpa. Dios no te pide aguantar lo que te hace daño."],
+    x:"Tu seguridad va primero. Si estás en peligro, marca el 123. Si eres mujer, la línea 155 te orienta las 24 horas. Busca a alguien de confianza que sepa lo que está pasando.",
+    refs:["Salmos 34:18","Isaías 41:10"], q:"¿Hay alguien de confianza a quien le puedas contar esto hoy?" },
+  { k:"ansiedad", re:/(ansie|angust|nervios|preocup|estres|estr[eé]s|agobi|no puedo dormir|insomnio|pensamientos|mente no para|p[aá]nico)/,
+    e:["Siento que estés con esa ansiedad. Cuando la mente va tan rápido, todo pesa el doble.","Qué duro sentir el pecho apretado y la cabeza llena. No tienes que resolverlo todo ahora."],
+    x:"San Pablo escribió esto desde la cárcel, sin saber qué iba a pasar con su vida. Aun así invita a contarle todo a Dios, con gratitud, y promete una paz que cuida el corazón y la mente. Prueba esto: respira despacio tres veces y entrégale a Dios, una por una, las cosas que te preocupan.",
+    refs:["Filipenses 4:6-7","Salmos 94:19","1 Pedro 5:7"], o:"ansiedad", q:"¿Qué es lo que más te preocupa en este momento?" },
+  { k:"tristeza", re:/(triste|tristeza|llor|deprim|sin ganas|vac[ií]o|desanim|me siento mal|decaid)/,
+    e:["Lamento que estés pasando por esto. La tristeza también tiene lugar delante de Dios.","Gracias por contarlo. No tienes que fingir que estás bien."],
+    x:"Los salmos están llenos de lágrimas: quien los rezaba no escondía su dolor, se lo contaba a Dios. Y Dios no se aleja del corazón roto, se acerca. Si la tristeza no se va o cada vez pesa más, busca también a una psicóloga o a alguien de confianza.",
+    refs:["Salmos 34:18","Salmos 147:3","Salmos 42:11"], o:"triste", q:"¿Desde cuándo te sientes así?" },
+  { k:"duelo", re:/(muri|falleci|perd[ií] a|duelo|extra[ñn]o a|se fue para siempre|velorio|entierro)/,
+    e:["Lo siento mucho. Perder a alguien que amamos duele en el alma."],
+    x:"Jesús lloró frente a la tumba de su amigo Lázaro, aun sabiendo lo que iba a hacer. Eso nos dice que el duelo no es falta de fe. Dios llora contigo y guarda a quienes amas.",
+    refs:["Juan 11:25-26","Salmos 34:18","Apocalipsis 21:4"], q:"¿Quieres contarme cómo era esa persona?" },
+  { k:"miedo", re:/(miedo|temor|asust|p[aá]nico a|me da susto|inseguridad)/,
+    e:["Es muy humano sentir miedo. No estás ⟨sola|solo|sin compañía⟩ en esto."],
+    x:"La frase «no temas» aparece muchas veces en la Biblia, casi siempre seguida de una razón: «porque yo estoy contigo». El miedo no desaparece de un golpe, pero cambia cuando sabemos que alguien camina a nuestro lado.",
+    refs:["Isaías 41:10","Salmos 56:3","Salmos 27:1"], o:"patricio", q:"¿A qué le tienes miedo hoy?" },
+  { k:"soledad", re:/(sol[oa]\b|soledad|sin compa[ñn][ií]a|nadie me|abandon|aislad|no tengo a nadie|me siento invisible)/,
+    e:["La soledad duele mucho. Gracias por decirlo en voz alta."],
+    x:"Dios no promete que nunca nos sentiremos solos, pero sí que Él no se va. Y muchas veces su compañía llega a través de personas: vale la pena buscar una comunidad, un grupo de oración o alguien de confianza.",
+    refs:["Deuteronomio 31:8","Salmos 145:18","Isaías 43:1-2"], o:"patricio", q:"¿Hay alguna persona con la que te gustaría volver a conectar?" },
+  { k:"cansancio", re:/(cansad|agotad|sin fuerzas|no puedo m[aá]s|rendid|exhaust|quemad|descans)/,
+    e:["Se nota que vienes cargando mucho. Mereces descansar."],
+    x:"Jesús invita a los cansados a ir a Él, y dice que su carga es ligera. El yugo era la pieza que unía a dos bueyes para compartir el peso: Él no te quita la vida, la carga contigo. Hoy permítete un rato de descanso sin culpa.",
+    refs:["Mateo 11:28-29","Salmos 23:1-3","Salmos 116:7"], o:"descanso", q:"¿Qué te quita más energía en estos días?" },
+  { k:"gratitud", re:/(gracias|agradec|feliz|contenta|contento|alegr|bendecid|buena noticia)/,
+    e:["¡Qué bonito! Agradecer le hace mucho bien al alma."],
+    x:"La gratitud nos ayuda a ver a Dios en lo pequeño. Escribe en tu diario tres cosas por las que hoy das gracias, con nombre propio.",
+    refs:["Salmos 103:2-4","Salmos 118:24","1 Tesalonicenses 5:16-18"], o:"gracias", q:"¿Qué es lo que más agradeces hoy?" },
+  { k:"culpa", re:/(culpa|me arrepient|pecad|me equivoqu|verg[uü]enza|no merezco|fall[eé]|hice algo mal)/,
+    e:["Gracias por tu honestidad. Reconocer lo que nos duele de nosotros mismos ya es un paso de valentía."],
+    x:"La misericordia de Dios no se gasta. En la parábola del hijo que vuelve, el padre sale corriendo a abrazarlo antes de que termine de pedir perdón. Si eres católica o católico, la confesión es un encuentro con ese abrazo, no un juicio.",
+    refs:["Salmos 103:12","Lamentaciones 3:22-23","Romanos 8:38-39"], q:"¿Qué necesitas soltar hoy en las manos de Dios?" },
+  { k:"perdonar", re:/(perdonar|perd[oó]n a|rencor|resentim|me hicieron da[ñn]o|me traicion|no puedo olvidar)/,
+    e:["Perdonar cuesta, sobre todo cuando la herida es grande. No tienes que hacerlo a la fuerza."],
+    x:"Perdonar no es decir que no pasó nada ni volver a exponerte al daño. Es, poco a poco, no dejar que el rencor se quede a vivir en ti, y dejar la justicia en manos de Dios.",
+    refs:["Efesios 4:32","Colosenses 3:12"], o:"perdonar", q:"¿Qué sería un primer paso pequeño para ti?" },
+  { k:"dudas", re:/(dud|no s[eé] si creo|no siento a dios|dios no me escucha|d[oó]nde est[aá] dios|fe d[eé]bil|perd[ií] la fe)/,
+    e:["Las dudas no te alejan de Dios. Muchas personas de la Biblia también dudaron."],
+    x:"Un papá le dijo a Jesús: «creo, ayuda mi incredulidad», y Jesús lo escuchó. Tomás dudó y Jesús le mostró sus heridas. Puedes traerle a Dios tus preguntas tal como son.",
+    refs:["Marcos 9:24","Salmos 42:11","Juan 20:27"], o:"agustin", q:"¿Qué pregunta le harías a Dios si lo tuvieras al frente?" },
+  { k:"familia", re:/(familia|mam[aá]|pap[aá]|hij[oa]s?|pareja|espos[oa]|novi[oa]|herman[oa]|abuel)/,
+    e:["La familia es de lo que más nos alegra y a veces de lo que más nos duele."],
+    x:"Pon a cada persona en manos de Dios, con su nombre. Y pide para ti paciencia, ternura y sabiduría para saber cuándo hablar y cuándo esperar.",
+    refs:["Colosenses 3:12","1 Corintios 13:4-7"], o:"familia", q:"¿Por quién de tu familia quieres orar hoy?" },
+  { k:"futuro", re:/(futuro|decisi[oó]n|no s[eé] qu[eé] hacer|trabajo|empleo|estudi|examen|plata|dinero|deuda|camino)/,
+    e:["Es normal sentir incertidumbre cuando no vemos claro el camino."],
+    x:"La Biblia no promete que todo saldrá como queremos, pero sí que no caminamos sin guía. Haz lo que te toca hoy, pide consejo a personas sabias y deja el resto en manos de Dios.",
+    refs:["Proverbios 3:5-6","Jeremías 29:11","Salmos 32:8"], q:"¿Cuál es el siguiente paso pequeño que sí puedes dar?" },
+  { k:"valor", re:/(no valgo|no sirvo|fe[oa]|me odio|no me quiero|autoestima|nadie me quiere|poca cosa)/,
+    e:["Me duele que te veas así. Esa no es la mirada de Dios sobre ti."],
+    x:"El salmo 139 dice que Dios te formó con cuidado desde el vientre de tu mamá. Isaías dice que te tiene grabada en la palma de sus manos. Tu valor no depende de lo que logras ni de lo que otros dicen.",
+    refs:["Salmos 139:13-14","Isaías 49:16","Sofonías 3:17"], q:"¿Qué te diría alguien que te quiere mucho si te escuchara hablar así de ti?" },
+  { k:"salud", re:/(enferm|diagn|hospital|cirug|dolor f[ií]sico|m[eé]dic|tratamiento|c[aá]ncer)/,
+    e:["Lamento que estés pasando por esto. Pedir fuerza en la enfermedad también es oración."],
+    x:"Dios acompaña en la enfermedad, y también actúa a través de los médicos y de quienes te cuidan. Sigue tu tratamiento y pide la fuerza que necesitas para cada día.",
+    refs:["2 Corintios 12:9","Salmos 73:26","Isaías 41:10"], q:"¿Quién te está acompañando en este proceso?" },
+  { k:"leer", re:/(empezar a leer|leer la biblia|c[oó]mo leo|no entiendo la biblia|por d[oó]nde empiezo)/,
+    e:["¡Qué lindo que quieras empezar!"],
+    x:"No empieces por el Génesis. Empieza por el Evangelio de Lucas, poquito cada día, y léelo como quien recibe una carta. En «Cómo empezar a leer» te dejé una ruta de 14 días y la forma de leer que guarda la Iglesia, la lectio divina.",
+    refs:["Salmos 119:105"], ir:"empezar", q:"¿Te gustaría empezar hoy con el día 1?" },
+  { k:"rosario", re:/(rosario|misterios|virgen|mar[ií]a)/,
+    e:["María acompaña con mucha ternura."],
+    x:"En la sección de Oraciones encuentras el Santo Rosario de hoy con sus misterios y cómo rezarlo, además del Ave María, la Salve y el Ángelus.",
+    refs:["Lucas 1:46-55"], ir:"oraciones", q:"¿Por quién quieres ofrecer tu rosario hoy?" },
+  { k:"palabra", re:/(quiero conversar sobre|acomp[aá][ñn]ame|expl[ií]came|cu[eé]ntame del libro|me sali[oó]|escrib[ií] esto|quiero rezar con|el evangelio|salmo para hoy|dame un salmo)/,
+    e:["Qué bueno que te detengas en la Palabra."],
+    x:"Te propongo leerla así, como hace la Iglesia desde hace siglos: léela despacio dos veces y fíjate en una frase que te toque. Pregúntate qué te dice Dios con esa frase hoy. Respóndele con tus palabras. Y quédate un momento en silencio.",
+    refs:[], q:"¿Qué frase te llamó más la atención?" },
+  { k:"saludo", re:/^(hola|buenas|buenos d[ií]as|buenas tardes|buenas noches|hey|holi)/,
+    e:["¡Hola! Qué bueno que estés aquí."],
+    x:"Este es un espacio para descansar en Dios. Cuéntame con una palabra o una frase cómo te sientes, o toca uno de los temas de abajo.",
+    refs:["Mateo 11:28"], q:"¿Cómo llegas hoy?" }
+];
+const CHIPS_GUIA = ["Tengo ansiedad","Estoy triste","Siento miedo","Me siento sin compañía","Estoy sin fuerzas","Quiero dar gracias","Siento culpa","Me cuesta perdonar","Tengo dudas de fe","Por mi familia","No sé qué decisión tomar","Quiero empezar a leer la Biblia","Rezar el rosario"];
+function normG(s){ return String(s).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase(); }
+async function responderGuiado(texto){
+  const t = normG(texto);
+  const reNorm = (re) => new RegExp(normG(re.source), re.flags);
+  let tema = TEMAS_GUIA.find(x => x.k === "crisis" && reNorm(x.re).test(t)) || TEMAS_GUIA.find(x => reNorm(x.re).test(t));
+  if (!tema){
+    return { t: G("Gracias por contármelo. Quiero acompañarte bien: ¿con cuál de estas palabras se parece más lo que sientes? Puedes tocar uno de los temas de abajo o contarme un poquito más."), chips:true };
+  }
+  if (tema.k === "crisis" || tema.k === "violencia") $("#alerta-crisis").classList.remove("oculto");
+  const partes = [G(azar(tema.e))];
+  for (const r of (tema.refs || []).slice(0, 2)){
+    let vs = null; try { vs = await textoRef(r); } catch(e){}
+    if (vs) partes.push("> «" + unir(vs) + "» (" + r + ")");
+  }
+  partes.push(G(tema.x));
+  if (tema.o){ const o = CONT.oraciones.find(x => x.id === tema.o); if (o) partes.push("Una oración para ti, «" + o.t + "»:\n" + (o.ref ? unir(PAS[o.ref]) : o.x).split("\n").slice(0, 6).join("\n") + (((o.x || "").split("\n").length > 6) ? "\n…(la encuentras completa en Oraciones)" : "")); }
+  if (tema.q) partes.push(G(tema.q));
+  return { t: partes.join("\n\n"), ir: tema.ir || null };
+}
+function pintarChipsGuia(){
+  const c = $("#chips"); c.innerHTML = "";
+  CHIPS_GUIA.forEach((x, i) => { const b = document.createElement("button"); b.type = "button"; b.className = "chip" + (i % 2 ? " lav" : ""); b.textContent = x; c.append(b); });
+}
 
 /* ===================== WEB PÚBLICA ===================== */
 function icsTexto(hora){
@@ -1369,11 +1494,9 @@ if (MODO === "web"){
     document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
     toast("Abre el archivo y acepta agregarlo a tu calendario");
   };
-  $("#aviso-sin-claude").innerHTML = 'El chat vive en la versión de Mi Refugio dentro de Claude, porque ahí es donde la inteligencia artificial puede conversar contigo. Ábrelo aquí: <a href="' + CLAUDE_URL + '" target="_blank" rel="noopener">Conversar en Mi Refugio con Claude</a>. Para usarlo necesitas una cuenta de Claude, que se crea gratis.';
-  $("#aviso-sin-claude").classList.remove("oculto");
-  $("#chips").classList.add("oculto");
-  $("#form-chat").classList.add("oculto");
-  $("#form-oracion").querySelector(".fila").innerHTML = '<a class="btn oro" href="' + CLAUDE_URL + '" target="_blank" rel="noopener">Escribir mi oración en Claude</a>';
+  $("#aviso-sin-claude").classList.add("oculto");
+  $("#form-oracion").classList.add("oculto");
+  pintarChipsGuia();
 }
 if (FORM_URL){ $("#opinion").classList.remove("oculto"); $("#form-link").href = FORM_URL; }
 
@@ -1397,10 +1520,10 @@ pintarInicio(); pintarEvangelio(); pintarTemas(); pintarRejillaSalmos(); pintarL
 
 (async function(){
   const cl = window.claude;
-  if (!cl || typeof cl.use !== "function"){ $("#aviso-sin-claude").classList.remove("oculto"); soloLocal(); return; }
+  if (!cl || typeof cl.use !== "function"){ pintarChipsGuia(); soloLocal(); return; }
   const [s, d, base_, u] = await Promise.all([cl.use("sample").catch(() => null), cl.use("dictation").catch(() => null), cl.use("db").catch(() => null), cl.use("user").catch(() => null)]);
   sample = s || null;
-  if (!sample) $("#aviso-sin-claude").classList.remove("oculto");
+  if (!sample) pintarChipsGuia();
   dict = d || null;
   if (dict){
     $("#mic").classList.remove("oculto"); $("#mic-diario").classList.remove("oculto");
