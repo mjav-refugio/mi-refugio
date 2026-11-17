@@ -463,6 +463,7 @@ nav.abajo .rueda .disco svg{stroke:#fff;width:26px;height:26px}
   <section class="marco lav oculto" id="guia-info">
     <span class="ojo">Cómo funciona este acompañamiento</span>
     <p>Escríbeme con tus palabras cómo te sientes, o toca uno de los temas de abajo. Te respondo con la Palabra, una explicación sencilla, una oración y una pregunta para seguir.</p>
+    <p>Y puedes preguntarme por enseñanzas de la Biblia para la vida de hoy, como «¿qué dice la Biblia sobre el dinero?», «sobre las redes sociales», «sobre la pareja» o «sobre la salud mental»; por personajes, como «¿quién fue Rut?», o pedirme «explícame Lucas 15».</p>
     <p>También me puedes pedir cosas concretas: «rezar el rosario», «el Evangelio de hoy», «Padre nuestro», «Nada te turbe», «una oración para dormir», «Salmo 91», «Juan 3:16» o «Lucas 15», y te los muestro aquí mismo.</p>
     <p>No es una persona ni una inteligencia artificial. Son respuestas preparadas con cariño para cada tema, por eso funciona gratis y sin cuenta. Si no reconozco lo que escribes, te pediré que escojas un tema.</p>
     <p>Lo que escribas se guarda solo en tu celular. Este espacio no reemplaza a una psicóloga, un médico ni a tu comunidad de fe. Si estás pasando por algo muy difícil, busca también a una persona; en la sección «Yo» están las líneas de ayuda.</p>
@@ -1547,8 +1548,238 @@ const TEMAS_GUIA = [
     x:"Este es un espacio para descansar en Dios. Cuéntame con una palabra o una frase cómo te sientes, o toca uno de los temas de abajo.",
     refs:["Mateo 11:28"], q:"¿Cómo llegas hoy?" }
 ];
-const CHIPS_GUIA = ["Rezar el rosario de hoy","El Evangelio de hoy","Salmo 23","Padre nuestro","Una oración para dormir","Tengo ansiedad","Estoy triste","Siento miedo","Me siento sin compañía","Estoy sin fuerzas","Quiero dar gracias","Siento culpa","Me cuesta perdonar","Tengo dudas de fe","Por mi familia","No sé qué decisión tomar","Quiero empezar a leer la Biblia"];
+const CHIPS_GUIA = ["Rezar el rosario de hoy","El Evangelio de hoy","Salmo 23","Padre nuestro","Una oración para dormir","¿Qué dice la Biblia sobre las redes sociales?","¿Quién fue Moisés?","Explícame Juan 3:16","Tengo ansiedad","Estoy triste","Siento miedo","Me siento sin compañía","Estoy sin fuerzas","Quiero dar gracias","Siento culpa","Me cuesta perdonar","Tengo dudas de fe","Por mi familia","No sé qué decisión tomar","Quiero empezar a leer la Biblia"];
 function normG(s){ return String(s).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase(); }
+
+/* ----- enseñanzas de la Biblia para la vida de hoy ----- */
+const ENSENANZAS = [
+  { k:"redes", n:"las redes sociales y las comparaciones", re:/(redes sociales|instagram|tiktok|facebook|likes|seguidores|influencer|compararme|me comparo|comparaciones)/,
+    refs:["Gálatas 1:10","Filipenses 4:8"],
+    hoy:"En tiempos de Jesús no existían las redes, pero sí la tentación de vivir para la mirada de los demás. San Pablo dice que si buscara agradar a la gente no sería servidor de Cristo. Hoy eso se parece a medir lo que vales por los «me gusta» o a compararte con vidas editadas. La Biblia te invita a llenar la mente de lo verdadero, lo amable y lo bueno.",
+    pasos:["Antes de abrir una red, pregúntate para qué entras.","Deja de seguir las cuentas que te hacen sentir menos.","Usa las redes para bendecir: un mensaje de ánimo, algo bonito para alguien.","Regálate un día a la semana con menos pantalla."],
+    q:"¿Cómo te sientes después de un rato en redes?" },
+  { k:"dinero", n:"el dinero y las deudas", re:/(dinero|plata|deuda|deudas|ahorr|riqueza|gastar|gasto|salario|sueldo|econom|prestamo)/,
+    refs:["Mateo 6:19-21","Proverbios 22:7","Hebreos 13:5"],
+    hoy:"La Biblia no dice que el dinero sea malo, sino que no sea tu tesoro ni tu seguridad. Jesús invita a poner el corazón en lo que no se acaba. Proverbios advierte con realismo que quien pide prestado queda atado a quien le presta, y la carta a los Hebreos invita a vivir contentos con lo que tenemos, porque Dios no nos abandona.",
+    pasos:["Haz un presupuesto sencillo y honesto de lo que entra y lo que sale.","Evita endeudarte por cosas que no necesitas.","Agradece lo que tienes antes de desear más.","Comparte algo, aunque sea poco: la generosidad libera el corazón."],
+    q:"¿Qué lugar ocupa hoy el dinero en tus preocupaciones?" },
+  { k:"trabajo", n:"el trabajo", re:/(trabajo|empleo|mi jefe|oficina|desemplead|emprend|negocio|laboral|renunciar)/,
+    refs:["Colosenses 3:23","Éxodo 20:9-10"],
+    hoy:"Para la Biblia el trabajo tiene dignidad: se puede hacer «como para el Señor», con amor y bien hecho, aunque nadie lo vea. Pero el mismo Dios que manda trabajar seis días manda descansar el séptimo. Trabajar sin parar no es santidad; descansar también es obediencia.",
+    pasos:["Ofrécele a Dios tu jornada al empezarla.","Haz bien lo pequeño, aunque nadie lo note.","Pon límites: tu descanso también es sagrado.","Si tu trabajo te está dañando, busca consejo y opciones."],
+    q:"¿Cómo podrías vivir tu trabajo de esta semana como un servicio?" },
+  { k:"estudio", n:"el estudio", re:/(estudi|examen|parcial|universidad|colegio|tesis|maestria|calificacion|nota baja)/,
+    refs:["Santiago 1:5","Proverbios 2:6"],
+    hoy:"La sabiduría también es un regalo de Dios, y Santiago invita a pedirla con confianza. Estudiar es una forma de cuidar los talentos que recibiste. Dios no hace el examen por ti, pero sí te acompaña en el esfuerzo y en la calma.",
+    pasos:["Antes de estudiar, pide luz y concentración.","Organiza tu tiempo en ratos cortos con pausas.","Duerme: el cansancio no ayuda a aprender.","Si te va mal, no eres una nota: vuelve a intentar."],
+    q:"¿Qué necesitas pedirle a Dios para tus estudios hoy?" },
+  { k:"pareja", n:"la pareja y el amor", re:/(pareja|novio|novia|noviazgo|esposo|esposa|matrimonio|enamorad|relacion amorosa|mi ex\b)/,
+    refs:["1 Corintios 13:4-7","Colosenses 3:14"],
+    hoy:"San Pablo describe el amor con hechos, no con sentimientos: es paciente, es amable, no busca lo suyo, no guarda rencor. Eso sirve para revisar una relación: el amor verdadero no controla, no humilla ni da miedo. Si en tu relación hay maltrato, eso no es amor y no tienes que aguantarlo: en Colombia la línea 155 orienta a las mujeres, y el 123 atiende emergencias.",
+    pasos:["Lee 1 Corintios 13 y revisa con honestidad cómo amas y cómo te aman.","Hablen con respeto, incluso cuando estén en desacuerdo.","Recen juntos, aunque sea un Padre nuestro.","Busca ayuda si hay algo que no pueden resolver solos."],
+    q:"¿Qué rasgo de ese amor te gustaría cultivar más?" },
+  { k:"amistad", n:"la amistad", re:/(amig|amistad)/,
+    refs:["Proverbios 17:17","Eclesiastés 4:9-10"],
+    hoy:"La Biblia valora mucho la amistad: el amigo ama en todo tiempo, y dos son mejor que uno, porque si uno cae, el otro lo levanta. Jesús llamó amigos a sus discípulos. Hoy, entre tanta prisa, la amistad se cuida con tiempo, presencia y lealtad.",
+    pasos:["Escríbele hoy a un amigo o amiga solo para saber cómo está.","Escucha sin juzgar.","Celebra los logros de tus amistades sin envidia.","Rodéate de personas que te acerquen a lo bueno."],
+    q:"¿Quién es esa amistad que te levanta cuando caes?" },
+  { k:"crianza", n:"la crianza de los hijos", re:/(criar|crianza|ser mama|ser papa|maternidad|paternidad|educar a mis hijos|mis hijos|mi hijo|mi hija)/,
+    refs:["Proverbios 22:6","Efesios 6:4"],
+    hoy:"La Biblia ve a los hijos como un regalo y pide criarlos con paciencia y enseñanza, sin provocarles ira ni humillarlos. Hoy eso se traduce en una crianza amorosa y con límites claros, donde los hijos aprenden más de lo que ven que de lo que se les dice.",
+    pasos:["Dedica un rato sin celular a cada hijo o hija.","Corrige sin humillar ni gritar.","Pide perdón cuando te equivoques: también enseña.","Reza por ellos con su nombre."],
+    q:"¿Qué quieres que tus hijos aprendan de Dios a través de ti?" },
+  { k:"envidia", n:"la envidia", re:/(envidia|celos|celosa|celoso|me da rabia que a otros)/,
+    refs:["Proverbios 14:30","Gálatas 5:26"],
+    hoy:"Proverbios dice que la envidia es carcoma de los huesos: desgasta por dentro. San Pablo invita a no provocarnos ni envidiarnos unos a otros. Hoy la envidia se alimenta mucho de lo que vemos en otros, y la medicina es la gratitud por lo propio y la alegría sincera por el bien ajeno.",
+    pasos:["Cuando sientas envidia, nombra tres cosas que agradeces de tu vida.","Bendice a esa persona en tu oración.","Pregúntate qué deseo hay detrás de esa envidia y llévaselo a Dios."],
+    q:"¿Qué te está mostrando la envidia sobre lo que tú deseas?" },
+  { k:"fracaso", n:"el éxito y el fracaso", re:/(fracas|no me salio|perdi el|meta|logro|exito|no lo logre|me rechazaron)/,
+    refs:["2 Corintios 12:9","Proverbios 16:3"],
+    hoy:"San Pablo descubrió que la fuerza de Dios se muestra justamente en la debilidad. Para la Biblia el valor de una persona no depende de sus logros. Encomendar a Dios los planes no garantiza que todo salga como queremos, pero sí que no caminamos solos y que hasta lo que no salió puede enseñarnos.",
+    pasos:["Separa lo que hiciste de lo que eres: fallar no te hace un fracaso.","Pregúntate qué aprendiste.","Pon tus próximos planes en manos de Dios.","Celebra los pasos pequeños."],
+    q:"¿Qué te enseñó eso que no salió como esperabas?" },
+  { k:"enojo", n:"el enojo", re:/(enojo|enojad|rabia|ira\b|bravo|brava|me enfurece|me enoja|me da mal genio)/,
+    refs:["Efesios 4:26","Santiago 1:19-20","Proverbios 15:1"],
+    hoy:"La Biblia no dice que enojarse sea pecado; dice «airaos, y no pequéis» y no dejes que el sol se ponga sobre tu enojo. El enojo es una emoción que avisa que algo nos importa. El problema es lo que hacemos con él. Santiago aconseja ser rápido para escuchar y lento para hablar.",
+    pasos:["Respira antes de responder.","Nombra lo que sientes y qué lo causó.","Habla cuando estés en calma, con respeto.","No te acuestes sin intentar soltarlo en oración."],
+    q:"¿Qué hay detrás de tu enojo: dolor, miedo, injusticia?" },
+  { k:"palabras", n:"el poder de las palabras", re:/(chisme|hablar mal|critic|insult|groser|mis palabras|lo que digo)/,
+    refs:["Efesios 4:29","Proverbios 18:21"],
+    hoy:"Proverbios dice que la muerte y la vida están en poder de la lengua. Hoy las palabras también se escriben: un comentario, un audio o un chat pueden herir o sanar. San Pablo invita a que lo que salga de nuestra boca sirva para edificar.",
+    pasos:["Antes de hablar de alguien, pregúntate si lo dirías frente a esa persona.","No reenvíes chismes.","Di hoy una palabra que anime a alguien."],
+    q:"¿Qué palabra buena podrías regalar hoy?" },
+  { k:"creacion", n:"el cuidado de la creación", re:/(naturaleza|planeta|medio ambiente|ecolog|animales|cuidar la tierra|cambio climatico)/,
+    refs:["Génesis 2:15","Salmos 24:1"],
+    hoy:"Dios puso al ser humano en el huerto para labrarlo y guardarlo: cuidar, no explotar. La tierra es del Señor, y la cuidamos como quien cuida un regalo. El papa Francisco llamó a esto cuidar la casa común.",
+    pasos:["Reduce lo que desechas.","Agradece a Dios por la naturaleza cuando salgas.","Cuida a los animales y las plantas cercanas.","Enseña con el ejemplo."],
+    q:"¿Qué gesto pequeño de cuidado puedes hacer esta semana?" },
+  { k:"justicia", n:"la justicia y los pobres", re:/(injusticia|los pobres|desigualdad|justicia social|explotacion|ayudar a los necesitados)/,
+    refs:["Miqueas 6:8","Mateo 25:35-40"],
+    hoy:"Para la Biblia la fe y la justicia van juntas. Miqueas resume lo que Dios pide: hacer justicia, amar la misericordia y caminar con humildad. Jesús se identifica con el hambriento, el forastero y el preso: lo que hacemos por ellos, lo hacemos por Él.",
+    pasos:["Mira a tu alrededor: ¿quién necesita ayuda cerca de ti?","Comparte tiempo, comida o escucha.","Trata con dignidad a quien te sirve.","Infórmate y apoya causas justas."],
+    q:"¿Dónde ves hoy a Jesús necesitando ayuda?" },
+  { k:"migracion", n:"los migrantes", re:/(migra|migrante|extranjer|desplazad|refugiad)/,
+    refs:["Levítico 19:34","Mateo 25:35"],
+    hoy:"Israel había sido extranjero en Egipto, y por eso Dios le pide amar al extranjero como a sí mismo. Jesús mismo fue refugiado de niño en Egipto. Hoy esto toca muy de cerca a Colombia, que recibe a tantas personas migrantes y tiene a tantos de los suyos fuera.",
+    pasos:["Trata a las personas migrantes con dignidad y sin prejuicios.","Evita los comentarios que generalizan.","Si puedes, ayuda con algo concreto."],
+    q:"¿Cómo te gustaría que trataran a alguien de tu familia en otro país?" },
+  { k:"saludmental", n:"la salud mental", re:/(salud mental|depresion|terapia|psicolog|psiquiatr|medicamento|ataques de panico)/,
+    refs:["1 Reyes 19:4-8","2 Corintios 1:3-4"],
+    hoy:"El profeta Elías llegó a desear la muerte de puro agotamiento. Lo primero que hizo Dios no fue regañarlo: lo dejó dormir y le dio de comer, dos veces. Dios cuida el cuerpo y la mente. Buscar a una psicóloga, un psiquiatra o un tratamiento no es falta de fe: es dejarse cuidar, y Dios también actúa a través de esas personas.",
+    pasos:["Duerme, come y muévete: el cuerpo también ora.","Habla con alguien de confianza.","Busca ayuda profesional si lo que sientes no se va o empeora.","Si piensas en hacerte daño, llama a la Línea 106 (24 horas)."],
+    q:"¿Qué cuidado necesita hoy tu mente?" },
+  { k:"prisa", n:"la prisa y el descanso", re:/(prisa|afan|no tengo tiempo|agenda|ocupadisim|productiv|corre corre|estres diario)/,
+    refs:["Marcos 6:31","Eclesiastés 3:1"],
+    hoy:"Jesús, en medio de mucha gente y mucho trabajo, les dijo a sus discípulos: vengan aparte a un lugar desierto y descansen un poco. Todo tiene su tiempo. Vivir a toda velocidad nos roba la paz, y el descanso también es parte del plan de Dios.",
+    pasos:["Haz una pausa de tres minutos a mitad del día para respirar y orar.","Quita una cosa no necesaria de tu agenda.","Separa un rato sin pantallas antes de dormir."],
+    q:"¿Qué podrías soltar esta semana para tener más paz?" },
+  { k:"servicio", n:"el servicio", re:/(servir|voluntari|ayudar a otros|hacer el bien|servicio social)/,
+    refs:["Gálatas 5:13","1 Pedro 4:10"],
+    hoy:"Jesús dijo que no vino a ser servido sino a servir. San Pedro invita a poner al servicio de los demás los dones que recibimos. Servir no es hacer cosas grandes: es estar atentos a lo que el otro necesita.",
+    pasos:["Descubre qué te gusta hacer y cómo podría ayudar a otros.","Ofrece una ayuda concreta esta semana.","Sirve sin buscar reconocimiento."],
+    q:"¿Qué don tuyo podrías poner hoy al servicio de alguien?" },
+  { k:"honestidad", n:"la honestidad", re:/(mentir|mentira|honest|enga[nñ]ar|ser sincer)/,
+    refs:["Efesios 4:25","Juan 8:32"],
+    hoy:"Jesús dijo que la verdad nos hace libres. Vivir en la verdad trae paz, aunque a veces cueste. La honestidad también es con uno mismo: reconocer lo que sentimos y lo que hacemos.",
+    pasos:["Si debes una verdad a alguien, busca el momento y dila con amor.","No exageres ni maquilles para quedar bien.","⟨Sé honesta|Sé honesto|Habla con honestidad⟩ con Dios en tu oración."],
+    q:"¿En qué parte de tu vida te gustaría vivir con más verdad?" },
+  { k:"proposito", n:"el propósito de la vida", re:/(proposito|vocacion|para que estoy|sentido de la vida|mi mision|llamado de dios|que quiere dios de mi)/,
+    refs:["Efesios 2:10","Miqueas 6:8"],
+    hoy:"San Pablo dice que somos hechura de Dios, creados para hacer el bien. El propósito no siempre es una gran revelación: se descubre viviendo con amor lo que tenemos en frente. Miqueas lo dice simple: hacer justicia, amar la misericordia y caminar humildemente con Dios.",
+    pasos:["Pregúntate qué te apasiona y qué necesita el mundo a tu alrededor.","Pide luz en la oración.","Da el siguiente paso pequeño, sin esperar tener todo claro."],
+    q:"¿Qué te hace sentir que tu vida tiene sentido?" },
+  { k:"adiccion", n:"las adicciones", re:/(adiccion|adicto|alcohol|drogas|apuestas|no puedo dejar de)/,
+    refs:["1 Corintios 10:13","2 Corintios 12:9"],
+    hoy:"La Biblia no ve a quien lucha como alguien malo, sino como alguien que necesita ayuda y gracia. Las adicciones no se vencen solo con fuerza de voluntad: se necesitan apoyo, acompañamiento profesional y comunidad. Pedir ayuda es un acto de valentía.",
+    pasos:["Habla con alguien de confianza hoy.","Busca ayuda profesional o un grupo de apoyo.","Puedes llamar a la Línea 106 para orientación.","Pídele a Dios fuerza para el día de hoy, solo hoy."],
+    q:"¿A quién podrías pedirle ayuda esta semana?" },
+  { k:"muerte", n:"la muerte y la vida eterna", re:/(vida eterna|que pasa cuando morimos|el cielo|resurreccion de los muertos|despues de la muerte|miedo a morir)/,
+    refs:["Juan 11:25-26","Juan 14:1-3"],
+    hoy:"Jesús le dijo a Marta, frente a la tumba de su hermano: yo soy la resurrección y la vida. La fe cristiana no niega el dolor de la muerte, pero cree que no tiene la última palabra. Jesús prometió prepararnos un lugar.",
+    pasos:["Si extrañas a alguien, recuérdalo en la oración.","Vive hoy con amor: es lo que queda.","Habla de tus miedos con alguien de confianza."],
+    q:"¿Qué te consuela de esta promesa?" },
+  { k:"orar", n:"cómo orar", re:/(como orar|como rezar|no se orar|no se rezar|para que orar|dios escucha|ensename a orar)/,
+    refs:["Mateo 6:6-8","Romanos 8:26"],
+    hoy:"Jesús enseñó que orar no es repetir muchas palabras, sino hablar con el Padre en lo secreto, con confianza. Y San Pablo dice que cuando no sabemos qué pedir, el Espíritu Santo ora en nosotros. Orar es simplemente estar con Dios y contarle la vida.",
+    pasos:["Busca un momento y un lugar fijos, aunque sean cinco minutos.","Empieza dando gracias.","Cuéntale a Dios lo que vives, con tus palabras.","Quédate un rato en silencio para escuchar.","Termina con un Padre nuestro."],
+    q:"¿Cuándo podrías regalarte cinco minutos diarios para orar?" }
+];
+
+/* ----- personajes y pasajes conocidos ----- */
+const PERSONAJES = [
+  { k:"abraham", re:/abraham|abram\b/, n:"Abraham", ref:"Génesis 12:1-4", x:"Abraham es el padre de la fe. Ya mayor, Dios le pidió dejar su tierra y su familia sin decirle a dónde iba, con la promesa de bendecirlo. Él confió y se puso en camino.", hoy:"La fe muchas veces es dar un paso sin ver todo el camino. ¿Qué paso te está pidiendo Dios a ti?" },
+  { k:"noe", re:/\bnoe\b|arca de noe|diluvio/, n:"Noé y el arca", ref:"Génesis 9:12-15", x:"Noé fue fiel en medio de un mundo violento. Después del diluvio, Dios hizo un pacto con él y con toda la creación, y puso el arcoíris como señal de que no la destruiría.", hoy:"Cada arcoíris recuerda que Dios es fiel a sus promesas, incluso después de las tormentas." },
+  { k:"moises", re:/moises|zarza|diez mandamientos|mar rojo|exodo/, n:"Moisés", ref:"Éxodo 3:1-12", x:"Moisés había huido de Egipto y cuidaba ovejas cuando Dios lo llamó desde una zarza que ardía sin consumirse. Él se sentía incapaz y hasta decía que no sabía hablar bien, pero Dios le prometió: yo estaré contigo. Así guió a su pueblo a la libertad.", hoy:"Dios no llama a los que se sienten capaces; acompaña a los que llama. Tus miedos no te descalifican." },
+  { k:"rut", re:/\brut\b/, n:"Rut", ref:"Rut 1:16-17", x:"Rut era una mujer extranjera que, al quedar viuda, decidió quedarse con su suegra Noemí: donde tú vayas, iré yo. Su lealtad la llevó a una nueva vida, y fue bisabuela del rey David.", hoy:"Rut nos enseña la lealtad, la valentía de las mujeres y que Dios abraza también al extranjero." },
+  { k:"david", re:/\bdavid\b|goliat/, n:"David", ref:"1 Samuel 16:7", x:"David era el menor de sus hermanos y cuidaba ovejas cuando Dios lo eligió como rey, porque Dios no mira las apariencias sino el corazón. Venció a Goliat, escribió muchos salmos, también pecó gravemente, y supo arrepentirse con humildad (Salmo 51).", hoy:"Dios mira tu corazón, no tu apariencia ni tu currículum. Y siempre hay camino de regreso después de una caída." },
+  { k:"ester", re:/\bester\b/, n:"Ester", ref:"Ester 4:14", x:"Ester era una joven judía que llegó a ser reina de Persia. Cuando su pueblo estaba en peligro, se arriesgó a presentarse ante el rey para defenderlo. Su primo le dijo: quién sabe si para esta hora has llegado al reino.", hoy:"Tal vez estás donde estás para algo. Ester enseña a usar el lugar que tenemos para defender a otros." },
+  { k:"job", re:/\bjob\b/, n:"Job", ref:"Job 19:25", x:"Job lo perdió casi todo y sufrió sin entender por qué. Le reclamó a Dios con honestidad, y sus amigos trataron de explicarle su dolor como castigo, pero estaban equivocados. Al final Dios le habló y lo restauró.", hoy:"El sufrimiento no siempre tiene explicación, y no es castigo. Puedes llevarle a Dios tus preguntas y tu dolor tal como son." },
+  { k:"elias", re:/elias/, n:"Elías", ref:"1 Reyes 19:4-8", x:"Elías fue un profeta valiente que, después de una gran batalla, quedó tan agotado y asustado que deseó morir. Dios no lo regañó: lo dejó dormir, le dio pan y agua, y después le habló en un susurro suave.", hoy:"Cuando estás sin fuerzas, Dios primero te cuida. Descansar y comer también son parte de su plan." },
+  { k:"jonas", re:/jonas|ballena/, n:"Jonás", ref:"Jonás 4:2", x:"Dios le pidió a Jonás ir a Nínive, una ciudad enemiga, y él huyó en dirección contraria. Después de pasar tres días dentro de un gran pez, fue, y la ciudad se convirtió. Jonás se enojó porque Dios fue misericordioso con ellos.", hoy:"La misericordia de Dios es más grande que nuestras ganas de que otros paguen. ¿Hay alguien a quien te cuesta desearle el bien?" },
+  { k:"maria", re:/virgen maria|maria madre|madre de jesus|^maria$|quien (era|fue) maria\b(?! magdalena)/, n:"María, la madre de Jesús", ref:"Lucas 1:46-49", x:"María era una joven de Nazaret cuando el ángel le anunció que sería la madre del Hijo de Dios. Preguntó, no entendió todo, y aun así dijo sí. Acompañó a Jesús toda su vida, hasta la cruz, y estuvo con los apóstoles en Pentecostés.", hoy:"María enseña a confiar sin tenerlo todo claro y a guardar las cosas en el corazón. También es madre que acompaña." },
+  { k:"jose", re:/san jose|\bjose\b el esposo|esposo de maria|quien (era|fue) jose/, n:"San José", ref:"Mateo 1:20-24", x:"José era carpintero y estaba comprometido con María. Cuando supo que ella esperaba un hijo, pensó en dejarla en secreto para no exponerla, pero en sueños Dios le pidió recibirla. Él obedeció y cuidó a Jesús como un padre.", hoy:"José es ejemplo de un amor silencioso, protector y obediente a Dios. No dice ni una palabra en los Evangelios, pero lo hace todo con amor." },
+  { k:"bautista", re:/juan el bautista|juan bautista/, n:"Juan el Bautista", ref:"Juan 1:29", x:"Juan preparó el camino de Jesús, invitando a la gente a cambiar de vida y bautizándola en el río Jordán. Cuando vio a Jesús dijo: he aquí el Cordero de Dios. Su lema fue: es necesario que él crezca y que yo mengüe.", hoy:"Juan enseña la humildad de señalar a Jesús y no a uno mismo." },
+  { k:"pedro", re:/\bpedro\b|san pedro/, n:"Pedro", ref:"Juan 21:15-17", x:"Pedro era un pescador impulsivo y generoso. Prometió no abandonar nunca a Jesús y luego lo negó tres veces. Después de la resurrección, Jesús le preguntó tres veces si lo amaba, sanando cada negación, y le confió cuidar a su Iglesia.", hoy:"Tus caídas no son el final de tu historia. Jesús restaura y vuelve a confiar." },
+  { k:"magdalena", re:/magdalena/, n:"María Magdalena", ref:"Juan 20:11-18", x:"María Magdalena siguió a Jesús desde Galilea y estuvo al pie de la cruz. El domingo fue al sepulcro llorando, y Jesús resucitado se le apareció y la llamó por su nombre. Fue la primera en anunciar la resurrección; por eso la llaman apóstol de los apóstoles.", hoy:"Jesús te llama por tu nombre en medio de tus lágrimas, y te envía a anunciar esperanza." },
+  { k:"zaqueo", re:/zaqueo/, n:"Zaqueo", ref:"Lucas 19:1-10", x:"Zaqueo era jefe de cobradores de impuestos, rico y mal visto. Era bajito y se subió a un árbol para ver a Jesús. Jesús lo miró y le dijo: hoy es necesario que me quede en tu casa. Ese encuentro le cambió la vida.", hoy:"Jesús te busca primero, antes de que cambies. Su mirada transforma." },
+  { k:"samaritano", re:/samaritano|quien es mi projimo/, n:"El buen samaritano", ref:"Lucas 10:30-37", x:"Jesús contó esta parábola para responder quién es nuestro prójimo. Un hombre herido quedó al borde del camino; pasaron un sacerdote y un levita y siguieron de largo. Un samaritano, de un pueblo despreciado, se detuvo, lo curó y pagó por su cuidado.", hoy:"El prójimo no es solo el que se parece a ti: es quien te necesita. ¿Ante quién estás pasando de largo?" },
+  { k:"prodigo", re:/hijo prodigo|padre misericordioso|hijo que se fue/, n:"El padre misericordioso (hijo pródigo)", ref:"Lucas 15:20-24", x:"Un hijo pidió su herencia, la malgastó y, en la miseria, decidió volver. El padre lo vio de lejos, corrió a abrazarlo y le hizo una fiesta. El hermano mayor no quiso entrar. Jesús la contó para mostrar cómo es el corazón de Dios.", hoy:"Dios no espera que llegues perfecto: corre a tu encuentro. Y te invita también a alegrarte cuando otros vuelven." },
+  { k:"pablo", re:/san pablo|\bpablo\b|saulo/, n:"San Pablo", ref:"Hechos 9:3-6", x:"Saulo perseguía a los cristianos hasta que, camino a Damasco, Jesús se le apareció. Se convirtió y llegó a ser el gran apóstol Pablo, que viajó por todo el Mediterráneo y escribió muchas de las cartas del Nuevo Testamento.", hoy:"Nadie está demasiado lejos para Dios. Una historia puede cambiar por completo." },
+  { k:"bienaventuranzas", re:/bienaventuranza|sermon del monte|dichosos los/, n:"Las bienaventuranzas", ref:"Mateo 5:3-10", x:"Al comienzo del sermón del monte, Jesús llamó dichosos a los pobres de espíritu, a los que lloran, a los mansos, a los misericordiosos, a los que trabajan por la paz. Es como el retrato de su corazón y el camino de la felicidad según Dios.", hoy:"La felicidad según Jesús no está en tener más, sino en un corazón humilde, misericordioso y que construye paz." },
+  { k:"jesus", re:/quien (es|era|fue) jesus|quien es cristo|por que vino jesus/, n:"Jesús", ref:"Lucas 4:18-19", x:"Jesús es el Hijo de Dios hecho hombre. Nació en Belén, creció en Nazaret, anunció el Reino de Dios, sanó, perdonó y acogió a los excluidos. Murió en la cruz y resucitó. En la sinagoga de Nazaret dijo para qué había venido.", hoy:"Jesús vino a dar buenas noticias a los pobres, sanar a los quebrantados y liberar. Esa sigue siendo su misión contigo." },
+  { k:"pentecostes", re:/pentecostes|venida del espiritu|espiritu santo descend/, n:"Pentecostés", ref:"Hechos 2:1-4", x:"Cincuenta días después de la Pascua, los apóstoles estaban reunidos con María cuando vino el Espíritu Santo como viento y lenguas de fuego. Llenos de valentía, salieron a anunciar a Jesús. Es el nacimiento de la Iglesia.", hoy:"El Espíritu Santo te da fuerza para lo que ⟨tú sola|tú solo|sin ayuda⟩ no puedes." },
+  { k:"creacion", re:/la creacion|genesis 1|como creo dios|adan y eva/, n:"La creación", ref:"Génesis 1:27-31", x:"El primer capítulo de la Biblia es un canto: Dios crea todo con su palabra y ve que es bueno. Al ser humano lo crea a su imagen, hombre y mujer, y al final ve que todo es bueno en gran manera.", hoy:"Eres imagen de Dios. Esa dignidad nadie te la puede quitar." },
+  { k:"ultimacena", re:/ultima cena|eucaristia|jueves santo/, n:"La Última Cena", ref:"Lucas 22:19-20", x:"La noche antes de morir, Jesús cenó con sus discípulos, tomó el pan y el vino, y los entregó como su cuerpo y su sangre. Ahí nace la Eucaristía, que la Iglesia celebra en cada misa.", hoy:"En cada misa Jesús se sigue entregando por amor. Es un encuentro, no una obligación." },
+  { k:"resurreccion", re:/resucito|la resurreccion de jesus|domingo de pascua|pascua/, n:"La resurrección", ref:"Lucas 24:5-6", x:"El domingo, unas mujeres fueron al sepulcro y lo encontraron vacío. Dos hombres con vestidos resplandecientes les dijeron: ¿por qué buscáis entre los muertos al que vive? No está aquí, sino que ha resucitado. Es el centro de la fe cristiana.", hoy:"La muerte, el dolor y el pecado no tienen la última palabra. Siempre hay vida nueva." }
+];
+
+/* ----- de qué trata cada libro ----- */
+const LIBROS_INFO = {
+  1:"Génesis cuenta los orígenes: la creación, el pecado, el diluvio y las historias de Abraham, Isaac, Jacob y José.",
+  2:"Éxodo narra cómo Dios liberó a su pueblo de la esclavitud en Egipto por medio de Moisés y le dio los mandamientos.",
+  3:"Levítico reúne las normas de culto y santidad del pueblo de Israel.",
+  4:"Números cuenta los cuarenta años del pueblo en el desierto, con sus quejas y la fidelidad de Dios.",
+  5:"Deuteronomio recoge los últimos discursos de Moisés antes de entrar a la tierra prometida.",
+  6:"Josué narra la entrada del pueblo a la tierra prometida.",
+  7:"Jueces cuenta los tiempos en que Dios levantaba líderes para salvar a su pueblo cuando se alejaba.",
+  8:"Rut es una historia corta de lealtad entre una suegra y su nuera extranjera.",
+  9:"1 Samuel cuenta el paso de los jueces a los reyes: Samuel, Saúl y el joven David.",
+  10:"2 Samuel narra el reinado de David, sus logros y sus caídas.",
+  11:"1 Reyes cuenta el reinado de Salomón, la división del reino y al profeta Elías.",
+  12:"2 Reyes narra la historia de los reyes hasta la caída de Jerusalén y el exilio.",
+  13:"1 Crónicas vuelve a contar la historia de David desde la mirada del templo.",
+  14:"2 Crónicas sigue con Salomón y los reyes de Judá.",
+  15:"Esdras cuenta el regreso del exilio y la reconstrucción del templo.",
+  16:"Nehemías narra la reconstrucción de las murallas de Jerusalén.",
+  17:"Ester cuenta cómo una joven reina salvó a su pueblo con valentía.",
+  18:"Job es un poema sobre el sufrimiento del inocente y la búsqueda de Dios.",
+  19:"Salmos es el libro de oración del pueblo de Dios: 150 cantos de alabanza, súplica, lágrimas y gratitud.",
+  20:"Proverbios reúne consejos de sabiduría práctica para la vida diaria.",
+  21:"Eclesiastés reflexiona sobre el sentido de la vida y el paso del tiempo.",
+  22:"El Cantar de los Cantares es un poema de amor entre dos enamorados, leído también como imagen del amor de Dios.",
+  23:"Isaías es un gran profeta que anuncia consuelo, esperanza y al Mesías que vendría.",
+  24:"Jeremías es el profeta que habló en tiempos difíciles, con lágrimas y con promesas de un nuevo pacto.",
+  25:"Lamentaciones son poemas de dolor por la destrucción de Jerusalén, con chispas de esperanza.",
+  26:"Ezequiel es un profeta del exilio que anuncia un corazón nuevo para el pueblo.",
+  27:"Daniel cuenta historias de fidelidad en el exilio y visiones sobre el futuro.",
+  28:"Oseas habla del amor fiel de Dios aunque su pueblo le sea infiel.",
+  29:"Joel invita a volver a Dios y anuncia el derramamiento del Espíritu.",
+  30:"Amós es el profeta de la justicia social y la defensa de los pobres.",
+  31:"Abdías es una profecía breve contra el orgullo.",
+  32:"Jonás cuenta la historia de un profeta que huyó y de la misericordia de Dios con todos.",
+  33:"Miqueas resume lo que Dios pide: hacer justicia, amar la misericordia y caminar humildemente.",
+  34:"Nahúm anuncia la caída de Nínive.",
+  35:"Habacuc es un diálogo sincero con Dios ante la injusticia.",
+  36:"Sofonías anuncia el día del Señor y la alegría de Dios por su pueblo.",
+  37:"Ageo anima a reconstruir el templo después del exilio.",
+  38:"Zacarías trae visiones de esperanza y anuncia al rey humilde que llega en un burrito.",
+  39:"Malaquías, el último libro del Antiguo Testamento, invita a volver a Dios.",
+  40:"Mateo presenta a Jesús como el Mesías prometido y recoge sus grandes enseñanzas, como el sermón del monte.",
+  41:"Marcos es el Evangelio más corto y ágil; muestra a Jesús en acción. Es muy bueno para empezar.",
+  42:"Lucas resalta la misericordia de Jesús con los pobres, las mujeres y los pecadores. Tiene las parábolas más tiernas.",
+  43:"Juan es el Evangelio más profundo y espiritual; muestra a Jesús como la Palabra hecha carne y el amor de Dios.",
+  44:"Hechos de los Apóstoles narra los comienzos de la Iglesia después de Pentecostés.",
+  45:"Romanos es la carta más completa de San Pablo sobre la gracia y la fe.",
+  46:"1 Corintios responde a problemas de una comunidad y tiene el famoso himno al amor.",
+  47:"2 Corintios es una carta muy personal de Pablo sobre la debilidad y la fuerza de Dios.",
+  48:"Gálatas defiende la libertad que nos da Cristo.",
+  49:"Efesios habla de la Iglesia como un solo cuerpo y del amor de Cristo.",
+  50:"Filipenses es la carta de la alegría, escrita por Pablo desde la cárcel.",
+  51:"Colosenses presenta a Cristo como el centro de todo.",
+  52:"1 Tesalonicenses es probablemente el escrito más antiguo del Nuevo Testamento, lleno de ánimo y esperanza.",
+  53:"2 Tesalonicenses anima a perseverar mientras esperamos al Señor.",
+  54:"1 Timoteo da consejos a un joven líder de la Iglesia.",
+  55:"2 Timoteo es como el testamento espiritual de Pablo.",
+  56:"Tito da orientaciones para organizar las comunidades.",
+  57:"Filemón es una carta breve en la que Pablo pide perdón y acogida para un esclavo.",
+  58:"Hebreos presenta a Jesús como el gran sacerdote y anima a no perder la fe.",
+  59:"Santiago es una carta muy práctica: la fe se demuestra con obras.",
+  60:"1 Pedro anima a los cristianos que sufren, con esperanza.",
+  61:"2 Pedro invita a crecer en la fe y estar atentos.",
+  62:"1 Juan es la carta que dice que Dios es amor.",
+  63:"2 Juan es una carta breve sobre el amor y la verdad.",
+  64:"3 Juan es una nota breve sobre la hospitalidad.",
+  65:"Judas es una carta corta que anima a mantenerse en la fe.",
+  66:"Apocalipsis es un libro de visiones lleno de símbolos, escrito para dar esperanza a cristianos perseguidos: al final, Dios hará nuevas todas las cosas."
+};
+const RE_PREGUNTA_BIBLIA = /(que dice la biblia|la biblia dice|que dice dios|que ensena la biblia|ensenanza|ensename sobre|segun la biblia|que opina dios|como cristian|que haria jesus|que dice jesus sobre|la biblia sobre|biblia y )/;
+const RE_EXPLICA = /(explica|explicame|que significa|que quiere decir|significado|como entiendo|contexto de|ayudame a entender)/;
+async function respEnsenanza(e){
+  const partes = ["**Lo que enseña la Biblia sobre " + e.n + "**"];
+  for (const r of e.refs){ let vs = null; try { vs = await textoRef(r); } catch(x){} if (vs) partes.push("> «" + unir(vs) + "» (" + r + ")"); }
+  partes.push("**Traído a hoy**\n" + G(e.hoy));
+  partes.push("**Para vivirlo**\n" + e.pasos.map((p, i) => (i + 1) + ". " + G(p)).join("\n"));
+  partes.push(G(e.q));
+  return { t: partes.join("\n\n"), k:"ensenanza-" + e.k };
+}
+async function respPersonaje(p){
+  let vs = null; try { vs = await textoRef(p.ref); } catch(x){}
+  const partes = ["**" + p.n + "**", G(p.x)];
+  if (vs) partes.push("> «" + unir(vs) + "» (" + p.ref + ")");
+  partes.push("**Para tu vida hoy**\n" + G(p.hoy));
+  partes.push("Si quieres leer la historia completa, escríbeme la cita, por ejemplo «" + p.ref.split(":")[0] + "».");
+  return { t: partes.join("\n\n"), k:"personaje-" + p.k };
+}
 
 /* ----- pedidos concretos: Biblia, rosario, oraciones, Evangelio ----- */
 const ALIAS_ORACION = {
@@ -1616,7 +1847,27 @@ async function pedidoConcreto(texto, t){
   if (dt) return { t: "El libro que buscas hace parte de la Biblia católica, pero su texto no viene en la traducción que trae Mi Refugio (la Reina-Valera 1909). Lo puedes leer completo en la Biblia oficial que publica la Santa Sede: " + VATICANO, k:"deutero" };
   // referencia bíblica (Juan 3:16, Salmo 23, Lucas 15…)
   const ref = detectarRef(t);
-  if (ref){ const txt = await pasajeTexto(ref); if (txt) return { t: txt + "\n\n¿Qué palabra o frase te tocó el corazón?", k:"biblia" }; }
+  if (ref){
+    const txt = await pasajeTexto(ref);
+    if (txt){
+      const libro = parseRef(ref).libro;
+      if (RE_EXPLICA.test(t)){
+        return { t: txt + "\n\n**Para entenderlo**\n" + LIBROS_INFO[libro] + "\n\n**Para meditarlo**\n1. ¿Qué dice el texto? Fíjate en quién habla, a quién y qué pasa.\n2. ¿Qué me dice a mí hoy? Busca la frase que más te toque.\n3. ¿Qué le respondo a Dios? Conviértelo en una oración corta.\n\nSi quieres, cuéntame qué frase te llamó la atención y la pensamos.", k:"explica" };
+      }
+      return { t: txt + "\n\n" + LIBROS_INFO[libro] + "\n\n¿Qué palabra o frase te tocó el corazón?", k:"biblia" };
+    }
+  }
+  // personajes e historias de la Biblia
+  const CUE = /(quien|historia|cuentame|cuenta|sobre|biblia|explica|significa|ensena|parabola|san |santo|santa |apostol|profeta|rey )/;
+  const DISTINTOS = ["abraham","noe","moises","zaqueo","samaritano","prodigo","bienaventuranzas","pentecostes","ultimacena","magdalena","jonas","creacion","resurreccion","bautista","jesus"];
+  const per = PERSONAJES.find(x => x.re.test(t) && (DISTINTOS.includes(x.k) || CUE.test(t)));
+  if (per) return await respPersonaje(per);
+  // enseñanzas de la Biblia para la vida de hoy
+  if (RE_PREGUNTA_BIBLIA.test(t)){
+    const e = ENSENANZAS.find(x => x.re.test(t));
+    if (e) return await respEnsenanza(e);
+    return { t: "Te puedo contar lo que enseña la Biblia sobre muchos temas de la vida de hoy. Pregúntame, por ejemplo, por: " + ENSENANZAS.map(x => x.n).join(", ") + ".\n\nTambién me puedes preguntar por personajes como Moisés, Rut, David, María, Pedro o Zaqueo, o pedirme que te explique un pasaje, por ejemplo «explícame Juan 3:16».", k:"ensenanza-lista" };
+  }
   // Evangelio de hoy
   if (/evangelio( de hoy| del dia)?|lecturas de hoy|liturgia/.test(t)){
     if (liturgia && liturgia.evangelio){
@@ -1658,6 +1909,10 @@ async function responderGuiado(texto){
   if (!crisis){ const c = await pedidoConcreto(texto, t); if (c) return c; }
   let tema = crisis || TEMAS_GUIA.find(x => reNorm(x.re).test(t));
   if (!tema){
+    const e = ENSENANZAS.find(x => x.re.test(t)); if (e) return await respEnsenanza(e);
+    const pr = PERSONAJES.find(x => x.re.test(t)); if (pr) return await respPersonaje(pr);
+  }
+  if (!tema){
     return { t: G("Gracias por contármelo. Quiero acompañarte bien: ¿con cuál de estas palabras se parece más lo que sientes? Puedes tocar uno de los temas de abajo o contarme un poquito más."), chips:true };
   }
   if (tema.k === "crisis" || tema.k === "violencia") $("#alerta-crisis").classList.remove("oculto");
@@ -1678,6 +1933,7 @@ function pintarChipsGuia(){
 }
 
 function contar(nombre){ if (MODO !== "web") return; try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: "evento/" + nombre, title: nombre, event: true }); } catch(e){} }
+try { window.MiRefugio = { textoRef, ENSENANZAS, PERSONAJES, get CONT(){ return CONT; } }; } catch(e){}
 /* ===================== WEB PÚBLICA ===================== */
 function icsTexto(hora){
   const [h, m] = hora.split(":").map(x => parseInt(x,10));
