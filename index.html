@@ -459,6 +459,12 @@ nav.abajo .rueda .disco svg{stroke:#fff;width:26px;height:26px}
     </ul>
     <div class="fila"><button class="btn chico" id="cerrar-alerta" type="button">Entendido</button></div>
   </div>
+  <section class="marco lav oculto" id="guia-info">
+    <span class="ojo">Cómo funciona este acompañamiento</span>
+    <p>Escríbeme con tus palabras cómo te sientes, o toca uno de los temas de abajo. Te respondo con la Palabra, una explicación sencilla, una oración y una pregunta para seguir.</p>
+    <p>No es una persona ni una inteligencia artificial. Son respuestas preparadas con cariño para cada tema, por eso funciona gratis y sin cuenta. Si no reconozco lo que escribes, te pediré que escojas un tema.</p>
+    <p>Lo que escribas se guarda solo en tu celular. Este espacio no reemplaza a una psicóloga, un médico ni a tu comunidad de fe. Si estás pasando por algo muy difícil, busca también a una persona; en la sección «Yo» están las líneas de ayuda.</p>
+  </section>
   <div class="aviso oculto" id="aviso-sin-claude">Para conversar necesitas entrar con una cuenta de Claude, que se crea gratis. Todo lo demás (el Evangelio, la ruleta, los salmos, la Biblia y las oraciones) lo puedes usar sin cuenta.</div>
   <div class="chat" id="chat" aria-live="polite"></div>
   <div class="chips" id="chips">
@@ -627,7 +633,7 @@ const PAS = {"1 Corintios 6:19":[[19,"¿O ignoráis que vuestro cuerpo es templo
 const IDX = [[1,"Génesis",50],[2,"Éxodo",40],[3,"Levítico",27],[4,"Números",36],[5,"Deuteronomio",34],[6,"Josué",24],[7,"Jueces",21],[8,"Rut",4],[9,"1 Samuel",31],[10,"2 Samuel",24],[11,"1 Reyes",22],[12,"2 Reyes",25],[13,"1 Crónicas",29],[14,"2 Crónicas",36],[15,"Esdras",10],[16,"Nehemías",13],[17,"Ester",10],[18,"Job",42],[19,"Salmos",150],[20,"Proverbios",31],[21,"Eclesiastés",12],[22,"Cantar de los Cantares",8],[23,"Isaías",66],[24,"Jeremías",52],[25,"Lamentaciones",5],[26,"Ezequiel",48],[27,"Daniel",12],[28,"Oseas",14],[29,"Joel",3],[30,"Amós",9],[31,"Abdías",1],[32,"Jonás",4],[33,"Miqueas",7],[34,"Nahúm",3],[35,"Habacuc",3],[36,"Sofonías",3],[37,"Ageo",2],[38,"Zacarías",14],[39,"Malaquías",4],[40,"Mateo",28],[41,"Marcos",16],[42,"Lucas",24],[43,"Juan",21],[44,"Hechos",28],[45,"Romanos",16],[46,"1 Corintios",16],[47,"2 Corintios",13],[48,"Gálatas",6],[49,"Efesios",6],[50,"Filipenses",4],[51,"Colosenses",4],[52,"1 Tesalonicenses",5],[53,"2 Tesalonicenses",3],[54,"1 Timoteo",6],[55,"2 Timoteo",4],[56,"Tito",3],[57,"Filemón",1],[58,"Hebreos",13],[59,"Santiago",5],[60,"1 Pedro",5],[61,"2 Pedro",3],[62,"1 Juan",5],[63,"2 Juan",1],[64,"3 Juan",1],[65,"Judas",1],[66,"Apocalipsis",22]];
 const HOY_SEMILLA = {"fecha":"2026-11-16","dia":"Lunes de la XXXIII semana del tiempo ordinario","primera":"Apocalipsis 1:1-4; 2:1-5","salmo":"Salmos 1:1-4,6","evangelio":"Lucas 18:35-43","reflexion":"Un ciego está sentado al borde del camino, pidiendo limosna. Todos le dicen que se calle, pero él grita más fuerte: Jesús, ten misericordia de mí. Y Jesús se detiene. No pasa de largo. Lo manda llamar y le hace una pregunta llena de respeto: ¿qué quieres que haga por ti? Jesús no da por hecho lo que necesitas; quiere escucharlo de tu boca. Hoy también se detiene por ti, aunque otros te digan que tu dolor no es para tanto.","pregunta":"Si Jesús se detuviera hoy frente a ti y te preguntara qué quieres que haga por ti, ¿qué le responderías?","oracion":"Jesús, Hijo de David, ten misericordia de mí. Abre mis ojos para verte en mi día. Amén.","fuente":"Calendario litúrgico (EWTN, dominicos.org)"};
 const MODO = "web";
-const FORM_URL = "";
+const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScKyNmY66UYpYB3ZLIpOXW0sKKrHadkuq2qizLqZMywXveNYA/viewform";
 const CLAUDE_URL = "https://claude.ai/artifact/WKUPRygFidLaBwgQ29tcRv";
 </script>
 <script>
@@ -1467,6 +1473,7 @@ async function responderGuiado(texto){
   return { t: partes.join("\n\n"), ir: tema.ir || null };
 }
 function pintarChipsGuia(){
+  $("#guia-info").classList.remove("oculto");
   const c = $("#chips"); c.innerHTML = "";
   CHIPS_GUIA.forEach((x, i) => { const b = document.createElement("button"); b.type = "button"; b.className = "chip" + (i % 2 ? " lav" : ""); b.textContent = x; c.append(b); });
 }
