@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mi Refugio</title>
+<meta name="description" content="Un lugar para descansar en Dios: el Evangelio del día, salmos, oraciones, la Biblia completa y una ruleta de la Palabra.">
+<meta name="theme-color" content="#FBF8FF">
+<meta property="og:title" content="Mi Refugio">
+<meta property="og:description" content="El Evangelio del día, salmos, oraciones y la Biblia completa para descansar en Dios.">
+<meta property="og:type" content="website">
+<link rel="icon" href="icono.png">
+<link rel="apple-touch-icon" href="icono.png">
+<link rel="manifest" href="manifest.json">
+<meta property="og:image" content="https://mariajoseangaritavega-collab.github.io/mi-refugio/portada.png">
+<meta property="og:url" content="https://mariajoseangaritavega-collab.github.io/mi-refugio/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Plan: app de una pantalla para el celular, mundo visual único y claro.
+   Blanco y perla de fondo, morado pastel en las superficies, oro en filetes y detalles.
+   Barra superior con el nombre, contenido que se desplaza y navegación inferior con la ruleta al centro. */
+:root{
+  --blanco:#FFFFFF;
+  --perla:#FBF8FF;
+  --lavanda:#F1EAFB;
+  --lila:#DCCEF2;
+  --malva:#9B83C8;
+  --morado:#5B4190;
+  --tinta:#2E2346;
+  --suave:#6E6386;
+  --oro:#B08627;
+  --oro2:#D7B259;
+  --oro3:#F4E7C2;
+  --filete:#E4D3A3;
+  --f-display:"Cormorant Garamond", "Cormorant", Garamond, Georgia, serif;
+  --f-cuerpo:"Jost", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  background:var(--perla);color:var(--tinta);font-family:var(--f-cuerpo);font-size:16.5px;line-height:1.55;
+  display:flex;flex-direction:column;
+  padding-top:env(safe-area-inset-top);padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);
+}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+a{color:var(--morado)}
+:focus-visible{outline:2px solid var(--oro);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.oculto{display:none!important}
+
+/* ---------- barra superior ---------- */
+.top{display:flex;align-items:center;gap:10px;padding:10px 16px 9px;background:var(--blanco);border-bottom:1px solid var(--filete);position:relative}
+.top::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:1px;background:var(--lavanda)}
+.marca{display:flex;align-items:center;gap:8px;flex:1;min-width:0;text-align:left;overflow:hidden}
+.marca svg{flex:none}
+.marca h1{margin:0;font-family:var(--f-display);font-weight:600;font-size:1.75rem;line-height:1;letter-spacing:.01em;
+  background:linear-gradient(100deg,#8C6714 0%,#C99A35 35%,#E8C977 55%,#B08627 80%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.marca small{display:block;white-space:nowrap;font-family:var(--f-cuerpo);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--malva);margin-top:3px}
+.top .ico{width:36px;height:36px;flex:none;display:grid;place-items:center;border-radius:50%;border:1px solid var(--filete);background:var(--blanco)}
+.top .ico svg{width:20px;height:20px}
+
+/* ---------- contenido ---------- */
+main{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.vista{display:none;padding:18px 16px 28px;max-width:720px;margin:0 auto;flex-direction:column;gap:18px}
+.vista.activa{display:flex}
+
+.saludo{display:flex;flex-direction:column;gap:2px;padding:4px 2px 0}
+.saludo .fecha{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--oro)}
+.saludo h2{font-family:var(--f-display);font-weight:600;font-size:2.05rem;line-height:1.05;margin:0;color:var(--tinta);text-wrap:balance}
+.saludo p{color:var(--suave);margin:4px 0 0}
+
+h2.sec{font-family:var(--f-display);font-weight:600;font-size:1.55rem;line-height:1.1;margin:0;color:var(--tinta);text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:600;font-size:1.25rem;line-height:1.15;margin:0;color:var(--morado)}
+p{margin:0}
+.nota{font-size:.88rem;color:var(--suave)}
+.ojo{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--oro);font-weight:500}
+
+.adorno{display:flex;align-items:center;gap:10px;color:var(--oro2)}
+.adorno::before,.adorno::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--filete),transparent)}
+.adorno span{font-size:.8rem;letter-spacing:.3em}
+
+/* marco elegante */
+.marco{background:var(--blanco);border:1px solid var(--filete);border-radius:4px;padding:18px;position:relative;display:flex;flex-direction:column;gap:10px}
+.marco::before{content:"";position:absolute;inset:5px;border:1px solid var(--oro3);border-radius:2px;pointer-events:none}
+.marco > *{position:relative}
+.marco.lav{background:var(--lavanda);border-color:var(--lila)}
+.marco.lav::before{border-color:rgba(255,255,255,.8)}
+
+/* arco: tarjeta principal con forma de ventana de capilla */
+.arco{background:linear-gradient(180deg,#FFFFFF 0%,var(--lavanda) 100%);border:1px solid var(--filete);border-radius:999px 999px 6px 6px;padding:46px 22px 22px;text-align:center;position:relative;display:flex;flex-direction:column;gap:10px;align-items:center;overflow:hidden}
+.arco::before{content:"";position:absolute;inset:7px;border:1px solid var(--oro3);border-radius:999px 999px 3px 3px;pointer-events:none}
+.arco > *{position:relative}
+.arco .estrella{color:var(--oro)}
+
+.verso{font-family:var(--f-display);font-style:italic;font-weight:500;font-size:1.32rem;line-height:1.38;color:var(--tinta);text-wrap:pretty}
+.verso.grande{font-size:1.5rem}
+.ref{font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--oro);font-weight:500}
+.texto-largo{font-family:var(--f-display);font-size:1.18rem;line-height:1.55;color:var(--tinta)}
+.texto-largo sup{font-family:var(--f-cuerpo);font-size:.62rem;color:var(--oro);font-weight:600;margin-right:3px;vertical-align:.45em}
+.oracion-texto{font-family:var(--f-display);font-size:1.2rem;line-height:1.5;white-space:pre-line;color:var(--tinta)}
+
+/* botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--oro);color:var(--tinta);background:var(--blanco);
+  padding:10px 16px;border-radius:999px;font-size:.88rem;font-weight:500;letter-spacing:.02em;transition:background .15s,color .15s}
+.btn:hover{background:var(--oro3)}
+.btn.oro{background:linear-gradient(100deg,#A47A1E,#D3AC52 50%,#B08627);color:#fff;border-color:#A47A1E}
+.btn.morado{background:var(--morado);border-color:var(--morado);color:#fff}
+.btn.chico{padding:6px 12px;font-size:.8rem}
+.btn[disabled]{opacity:.55;cursor:wait}
+.fila{display:flex;gap:8px;flex-wrap:wrap}
+.fila.centro{justify-content:center}
+
+/* tiles de inicio */
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media (min-width:560px){.tiles{grid-template-columns:repeat(3,1fr)}}
+.tile{background:var(--blanco);border:1px solid var(--filete);border-radius:4px;padding:14px 12px;text-align:left;display:flex;flex-direction:column;gap:6px;min-height:104px}
+.tile svg{width:26px;height:26px}
+.tile b{font-family:var(--f-display);font-weight:600;font-size:1.15rem;line-height:1.1;color:var(--tinta)}
+.tile span{font-size:.8rem;color:var(--suave);line-height:1.35}
+.tile:nth-child(3n+2){background:var(--lavanda);border-color:var(--lila)}
+
+.racha{display:flex;align-items:center;gap:14px}
+.racha .num{font-family:var(--f-display);font-weight:700;font-size:2.6rem;line-height:1;color:var(--oro);min-width:56px;text-align:center}
+.semana{display:flex;gap:6px;margin-top:6px}
+.semana i{width:22px;height:22px;border-radius:50%;border:1px solid var(--filete);display:grid;place-items:center;font-style:normal;font-size:.62rem;color:var(--suave)}
+.semana i.si{background:linear-gradient(135deg,#C99A35,#E8C977);border-color:var(--oro);color:#fff}
+
+/* evangelio */
+.liturgia-dia{font-size:.8rem;color:var(--morado);font-weight:500}
+.lect{display:flex;flex-direction:column;gap:4px;text-align:left;width:100%}
+.lect + .lect{border-top:1px solid var(--oro3);padding-top:10px}
+.pestanas{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.pestanas button{border:1px solid var(--filete);border-radius:999px;padding:5px 12px;font-size:.78rem;background:var(--blanco)}
+.pestanas button[aria-pressed="true"]{background:var(--morado);color:#fff;border-color:var(--morado)}
+
+/* ruleta */
+.ruleta-zona{display:flex;flex-direction:column;align-items:center;gap:14px}
+.ruleta-caja{position:relative;width:min(88vw,380px);aspect-ratio:1}
+.ruleta-caja canvas{width:100%;height:100%;display:block;transition:transform 5s cubic-bezier(.12,.72,.08,1)}
+.puntero{position:absolute;left:50%;top:-6px;transform:translateX(-50%);width:34px;height:44px;z-index:2;filter:drop-shadow(0 2px 2px rgba(46,35,70,.25))}
+.centro-ruleta{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:28%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#FFF6DA,#E3C26E 45%,#A9801F 100%);border:3px solid #fff;box-shadow:0 0 0 1px var(--oro);
+  display:grid;place-items:center;color:#fff;font-family:var(--f-display);font-weight:700;font-size:1.15rem;letter-spacing:.06em;z-index:2}
+.resultado{width:100%}
+
+/* respiración */
+.respira{display:flex;flex-direction:column;align-items:center;gap:12px;padding:6px 0}
+.burbuja{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fff,var(--lila));border:1px solid var(--filete);transform:scale(.7);transition:transform 4s ease-in-out}
+.burbuja.inhala{transform:scale(1)}
+.respira .frase{font-family:var(--f-display);font-style:italic;font-size:1.35rem;text-align:center;min-height:2em}
+
+/* listas */
+.lista{display:flex;flex-direction:column;gap:12px}
+.item-ref{display:flex;flex-direction:column;gap:6px;padding:14px 0;border-bottom:1px solid var(--oro3)}
+.item-ref:last-child{border-bottom:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--filete);background:var(--blanco);border-radius:999px;padding:7px 13px;font-size:.84rem;color:var(--tinta);text-align:left}
+.chip[aria-pressed="true"]{background:var(--morado);color:#fff;border-color:var(--morado)}
+.chip.lav{background:var(--lavanda);border-color:var(--lila)}
+
+.temas{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.temas::-webkit-scrollbar{display:none}
+.temas .chip{white-space:nowrap;flex:none}
+
+.rejilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px}
+.rejilla button{aspect-ratio:1;border:1px solid var(--filete);border-radius:4px;background:var(--blanco);font-family:var(--f-display);font-weight:600;font-size:1.05rem;color:var(--morado)}
+.rejilla button.fav{background:var(--lavanda)}
+
+.libros{display:flex;flex-direction:column}
+.libro{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 4px;border-bottom:1px solid var(--oro3);text-align:left;width:100%}
+.libro b{font-family:var(--f-display);font-weight:600;font-size:1.15rem}
+.libro span{font-size:.75rem;color:var(--suave)}
+.libro.deutero b{color:var(--morado)}
+.libro.deutero span{color:var(--oro)}
+
+.lector .versiculo{display:inline;cursor:pointer;border-radius:3px;transition:background .15s}
+.lector .versiculo.sel{background:var(--oro3)}
+.lector .versiculo.marcado{background:var(--lavanda)}
+.barra-sel{position:sticky;bottom:0;background:var(--blanco);border:1px solid var(--filete);border-radius:999px;padding:6px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+
+.nav-cap{display:flex;justify-content:space-between;align-items:center;gap:8px}
+
+/* oración: tarjeta y desplegable */
+.oracion-card .oracion-texto.corta{max-height:8.2em;overflow:hidden;-webkit-mask-image:linear-gradient(180deg,#000 60%,transparent);mask-image:linear-gradient(180deg,#000 60%,transparent)}
+.etq{display:inline-block;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--filete);border-radius:999px;padding:2px 8px;color:var(--oro)}
+.etq.maria{color:var(--morado);border-color:var(--lila);background:var(--lavanda)}
+
+/* chat */
+.chat{display:flex;flex-direction:column;gap:14px}
+.msg{max-width:92%;display:flex;flex-direction:column;gap:8px;padding:14px 16px}
+.msg.a{background:var(--blanco);border:1px solid var(--filete);border-radius:4px 18px 18px 18px;align-self:flex-start}
+.msg.u{background:var(--morado);color:#fff;border-radius:18px 4px 18px 18px;align-self:flex-end}
+.msg .quien{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--oro);font-weight:600}
+.msg.u .quien{color:var(--oro3)}
+.msg .cuerpo{display:flex;flex-direction:column;gap:9px;overflow-wrap:anywhere}
+.msg .cuerpo .cita{font-family:var(--f-display);font-style:italic;font-size:1.18rem;line-height:1.4;border-left:2px solid var(--oro2);padding:2px 0 2px 12px;color:var(--tinta)}
+.msg .acciones{display:flex;gap:6px;flex-wrap:wrap}
+.pensando{display:inline-flex;gap:5px}
+.pensando i{width:7px;height:7px;border-radius:50%;background:var(--oro2);animation:sube 1s infinite ease-in-out}
+.pensando i:nth-child(2){animation-delay:.15s}.pensando i:nth-child(3){animation-delay:.3s}
+@keyframes sube{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-4px);opacity:1}}
+.redactor{position:sticky;bottom:0;background:var(--perla);padding:10px 0 4px;display:flex;gap:8px;align-items:flex-end}
+.redactor textarea,.campo-texto{flex:1;min-height:50px;max-height:160px;resize:none;border:1px solid var(--filete);border-radius:22px;padding:13px 16px;background:var(--blanco)}
+.campo-texto{border-radius:6px;min-height:96px;max-height:none;resize:vertical;width:100%}
+.redondo{width:50px;height:50px;flex:none;border-radius:50%;display:grid;place-items:center;border:1px solid var(--filete);background:var(--blanco)}
+.redondo.enviar{background:linear-gradient(135deg,#A47A1E,#D3AC52);border-color:#A47A1E}
+.redondo.escuchando{background:var(--lila);animation:late 1.2s infinite}
+@keyframes late{50%{box-shadow:0 0 0 6px rgba(155,131,200,.3)}}
+.redondo svg{width:22px;height:22px}
+
+.alerta{background:var(--blanco);border:1px solid var(--morado);border-left:5px solid var(--morado);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.alerta ul{margin:0;padding-left:20px}
+.aviso{background:var(--oro3);border:1px solid var(--filete);border-radius:4px;padding:10px 12px;font-size:.9rem}
+
+/* diario */
+.entrada{display:flex;flex-direction:column;gap:8px}
+.entrada time{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--oro)}
+.entrada .txt{white-space:pre-wrap;overflow-wrap:anywhere;font-family:var(--f-display);font-size:1.12rem;line-height:1.45}
+.vacio{text-align:center;padding:22px 12px;border:1px dashed var(--filete);border-radius:4px;color:var(--suave)}
+
+.campo{display:flex;flex-direction:column;gap:6px}
+.campo label{font-family:var(--f-display);font-weight:600;font-size:1.1rem}
+.campo input,.campo select{border:1px solid var(--filete);border-radius:6px;padding:10px 12px;background:var(--blanco)}
+.linea{display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px solid var(--oro3);padding:9px 0;flex-wrap:wrap}
+.linea b{font-weight:500}
+.linea a{font-family:var(--f-display);font-weight:700;font-size:1.2rem;color:var(--morado);font-variant-numeric:tabular-nums;text-decoration:none}
+
+.paso{display:flex;gap:12px;align-items:flex-start}
+.paso .n{flex:none;width:32px;height:32px;border-radius:50%;border:1px solid var(--oro);display:grid;place-items:center;font-family:var(--f-display);font-weight:700;color:var(--oro)}
+.dia-ruta{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--oro3);text-align:left;width:100%}
+.dia-ruta .n{flex:none;width:34px;height:34px;border-radius:50%;border:1px solid var(--filete);display:grid;place-items:center;font-family:var(--f-display);font-weight:700;color:var(--morado)}
+.dia-ruta.hecho .n{background:linear-gradient(135deg,#C99A35,#E8C977);color:#fff;border-color:var(--oro)}
+.dia-ruta b{font-family:var(--f-display);font-size:1.12rem;font-weight:600;display:block}
+.dia-ruta span{font-size:.8rem;color:var(--suave)}
+
+/* navegación inferior */
+nav.abajo{display:grid;grid-template-columns:repeat(5,1fr);background:var(--blanco);border-top:1px solid var(--filete);padding-bottom:env(safe-area-inset-bottom);align-items:end}
+nav.abajo button{padding:9px 2px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.68rem;letter-spacing:.06em;color:var(--suave)}
+nav.abajo button svg{width:23px;height:23px}
+nav.abajo button[aria-selected="true"]{color:var(--morado);font-weight:600}
+nav.abajo button[aria-selected="true"] svg{stroke:var(--oro)}
+nav.abajo .rueda{position:relative}
+nav.abajo .rueda .disco{width:54px;height:54px;margin-top:-26px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,#FFF4D2,#DDBA62 50%,#A47A1E);border:3px solid #fff;box-shadow:0 0 0 1px var(--oro)}
+nav.abajo .rueda .disco svg{stroke:#fff;width:26px;height:26px}
+
+/* capa de enfoque (rezar despacio) */
+.capa{position:fixed;inset:0;background:rgba(251,248,255,.97);z-index:20;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top) + 18px) 22px calc(env(safe-area-inset-bottom) + 18px);overflow-y:auto}
+.capa .cerrar{align-self:flex-end}
+.capa .dentro{max-width:560px;margin:auto;display:flex;flex-direction:column;gap:16px;text-align:center;padding:20px 0}
+.capa .oracion-texto{font-size:1.45rem}
+
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--tinta);color:#fff;padding:10px 16px;border-radius:999px;font-size:.88rem;z-index:30;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90vw;text-align:center}
+.toast.ver{opacity:1}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <button class="marca" type="button" id="ir-inicio" aria-label="Ir al inicio">
+    <svg width="34" height="40" viewBox="0 0 34 40" fill="none" aria-hidden="true">
+      <path d="M3 39V17C3 9 9.3 2.5 17 2.5S31 9 31 17v22" stroke="#B08627" stroke-width="1.6"/>
+      <path d="M7 39V18c0-5.8 4.5-10.5 10-10.5S27 12.2 27 18v21" stroke="#D7B259" stroke-width="1"/>
+      <path d="M17 13v18M12 19h10" stroke="#5B4190" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+    <span><h1>Mi Refugio</h1><small>Palabra · Salmos · Oración</small></span>
+  </button>
+  <button class="ico" type="button" data-ir="biblia" aria-label="Biblia completa">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#5B4190" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11M12 7v5M10 9h4"/></svg>
+  </button>
+  <button class="ico" type="button" data-ir="diario" aria-label="Mi diario">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#5B4190" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+  </button>
+  <button class="ico" type="button" data-ir="ajustes" aria-label="Ajustes">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#5B4190" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1-3.6 3.8-5.5 7-5.5s6 1.9 7 5.5"/></svg>
+  </button>
+</header>
+
+<main id="main">
+
+<!-- ===================== INICIO ===================== -->
+<section class="vista activa" id="v-inicio" aria-label="Inicio">
+  <div class="saludo">
+    <span class="fecha" id="hoy-fecha"></span>
+    <h2 id="hoy-saludo">Paz y bien</h2>
+    <p id="hoy-sub">Este es tu lugar para descansar en Dios.</p>
+  </div>
+
+  <form class="marco lav oculto" id="bienvenida">
+    <span class="ojo">Te damos la bienvenida a tu refugio</span>
+    <h3>Este es un espacio para descansar en Dios</h3>
+    <p>Aquí puedes leer la Palabra, rezar, conversar y llevar tu diario. Lo que escribas es solo tuyo.</p>
+    <div class="campo"><label for="bv-nombre">¿Cómo te llamas?</label><input id="bv-nombre" type="text" autocomplete="given-name" placeholder="Tu nombre"></div>
+    <div class="campo"><label for="bv-gen">Soy</label>
+      <select id="bv-gen"><option value="m" selected>Mujer</option><option value="h">Hombre</option></select></div>
+    <div class="campo"><label for="bv-trad">Tu tradición</label>
+      <select id="bv-trad"><option value="catolica" selected>Católica</option><option value="evangelica">Cristiana evangélica</option><option value="cristiana">Cristiana, sin etiqueta</option><option value="buscando">Estoy buscando, todavía no sé</option></select></div>
+    <div class="fila"><button class="btn oro" type="submit">Entrar</button></div>
+  </form>
+
+  <article class="arco" id="evangelio">
+    <svg class="estrella" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 6.6L20 10l-6.2 1.4L12 18l-1.8-6.6L4 10l6.2-1.4z"/></svg>
+    <span class="ojo">Evangelio del día</span>
+    <span class="liturgia-dia" id="ev-dia">Cargando la liturgia de hoy…</span>
+    <div class="pestanas oculto" id="ev-pestanas" role="group" aria-label="Lecturas del día"></div>
+    <div id="ev-cuerpo" class="lect"></div>
+    <div class="fila centro" id="ev-acciones"></div>
+  </article>
+
+  <div class="adorno"><span>✦</span></div>
+
+  <section class="marco" aria-label="Sugerido para hoy">
+    <span class="ojo">Lo sugerido para hoy</span>
+    <h3>Un salmo para ti</h3>
+    <p class="verso" id="sug-salmo"></p>
+    <span class="ref" id="sug-salmo-ref"></span>
+    <div class="fila"><button class="btn chico" type="button" id="sug-salmo-leer">Leer el salmo completo</button><button class="btn chico" type="button" id="sug-salmo-fav">Guardar</button></div>
+  </section>
+
+  <section class="marco lav" aria-label="Devocional del día">
+    <span class="ojo">Devocional del día</span>
+    <h3 id="dev-t"></h3>
+    <p class="verso" id="dev-verso"></p>
+    <span class="ref" id="dev-ref"></span>
+    <p id="dev-x"></p>
+    <p><b>Para ti:</b> <span id="dev-p"></span></p>
+    <p class="oracion-texto" id="dev-o" style="font-size:1.12rem;font-style:italic"></p>
+    <div class="fila"><button class="btn chico" type="button" id="dev-hablar">Conversar sobre esto</button><button class="btn chico" type="button" id="dev-guardar">Guardar en mi diario</button><button class="btn chico" type="button" data-ir="devocionales">Ver todos</button></div>
+  </section>
+
+  <section class="marco" aria-label="Promesa del día">
+    <span class="ojo">Una promesa para llevar contigo</span>
+    <p class="verso" id="sug-prom"></p>
+    <span class="ref" id="sug-prom-ref"></span>
+  </section>
+
+  <section class="marco lav racha" aria-label="Tu cita con Dios">
+    <div class="num" id="racha-num">1</div>
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <h3>Tu cita con Dios</h3>
+      <p class="nota" id="racha-txt">Hoy viniste a tu refugio. Volver un ratico cada día cambia el corazón.</p>
+      <div class="semana" id="racha-semana"></div>
+      <p class="nota oculto" id="recordatorio-txt" style="margin-top:6px">Cada mañana te llega un recordatorio a tu celular con el Evangelio del día.</p>
+    </div>
+  </section>
+
+  <section class="marco oculto" id="recordar">
+    <span class="ojo">Recordatorio diario</span>
+    <h3>¿Quieres que te recuerde tu cita con Dios?</h3>
+    <p class="nota">Escoge la hora y se guarda en el calendario de tu celular como una alarma diaria con el enlace a Mi Refugio. Si después no la quieres, la borras del calendario.</p>
+    <div class="fila" style="align-items:center">
+      <label for="rec-hora" class="nota">Hora</label>
+      <input id="rec-hora" type="time" value="06:30" style="border:1px solid var(--filete);border-radius:999px;padding:8px 12px;background:#fff">
+      <button class="btn oro" type="button" id="rec-btn">Agregar a mi calendario</button>
+    </div>
+  </section>
+
+  <section class="marco lav oculto" id="opinion">
+    <span class="ojo">Tu opinión</span>
+    <h3>Cuéntame cómo te ha ido en tu refugio</h3>
+    <p class="nota">Me ayuda mucho saber qué te gusta y qué le falta. Es un formulario corto.</p>
+    <div class="fila"><a class="btn" id="form-link" href="#" target="_blank" rel="noopener">Responder el formulario</a></div>
+  </section>
+
+  <div class="tiles">
+    <button class="tile" type="button" data-ir="empezar"><svg viewBox="0 0 24 24" fill="none" stroke="#B08627" stroke-width="1.5" stroke-linecap="round"><path d="M4 19c4-1 6-6 8-14 2 8 4 13 8 14"/><circle cx="12" cy="5" r="1.5"/></svg><b>Cómo empezar a leer</b><span>Lectio divina y una ruta de 14 días</span></button>
+    <button class="tile" type="button" data-ir="devocionales"><svg viewBox="0 0 24 24" fill="none" stroke="#5B4190" stroke-width="1.5" stroke-linecap="round"><path d="M12 21c-4-3-8-6-8-11a8 8 0 0 1 16 0c0 5-4 8-8 11z"/><path d="M12 7v6M9 10h6"/></svg><b>Devocionales</b><span>Cortos y explicados</span></button>
+    <button class="tile" type="button" data-ir="biblia"><svg viewBox="0 0 24 24" fill="none" stroke="#B08627" stroke-width="1.5" stroke-linecap="round"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M12 7v5M10 9h4"/></svg><b>La Biblia completa</b><span>Antiguo y Nuevo Testamento</span></button>
+    <button class="tile" type="button" data-ir="salmos"><svg viewBox="0 0 24 24" fill="none" stroke="#5B4190" stroke-width="1.5" stroke-linecap="round"><path d="M9 18V6l10-2v12"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="16" r="2"/></svg><b>Salmos</b><span>Los 150 y para cada momento</span></button>
+    <button class="tile" type="button" data-ir="oraciones"><svg viewBox="0 0 24 24" fill="none" stroke="#B08627" stroke-width="1.5" stroke-linecap="round"><path d="M12 3c-1 3-4 5-4 9 0 3 2 5 4 6 2-1 4-3 4-6 0-4-3-6-4-9z"/><path d="M12 18v3"/></svg><b>Oraciones</b><span>Las más bellas de la tradición</span></button>
+    <button class="tile" type="button" data-ir="conversar"><svg viewBox="0 0 24 24" fill="none" stroke="#5B4190" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg><b>Conversar</b><span>Cuéntame cómo estás</span></button>
+  </div>
+</section>
+
+<!-- ===================== RULETA ===================== -->
+<section class="vista" id="v-ruleta" aria-label="Ruleta de la Palabra">
+  <div class="saludo">
+    <span class="fecha">Ruleta de la Palabra</span>
+    <h2>Gira y mira qué tiene Dios para ti hoy</h2>
+  </div>
+  <div class="ruleta-zona">
+    <div class="ruleta-caja">
+      <svg class="puntero" viewBox="0 0 34 44" aria-hidden="true"><path d="M17 43L3 12a14 14 0 1 1 28 0z" fill="#B08627"/><circle cx="17" cy="13" r="6" fill="#fff"/></svg>
+      <canvas id="rueda" width="760" height="760" aria-label="Ruleta con ocho opciones"></canvas>
+      <button class="centro-ruleta" id="girar" type="button" aria-label="Girar la ruleta">GIRAR</button>
+    </div>
+    <div class="resultado" id="resultado">
+      <article class="marco" style="text-align:center;align-items:center">
+        <span class="ojo">Así funciona</span>
+        <p class="verso">«Lámpara es a mis pies tu palabra, y lumbrera a mi camino.»</p>
+        <span class="ref">Salmos 119:105</span>
+        <p class="nota">Toca el centro dorado. Te puede salir un salmo, una promesa, una oración, un gesto de amor, una pregunta para tu corazón, una bendición, un momento para respirar o algo para agradecer.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SALMOS ===================== -->
+<section class="vista" id="v-salmos" aria-label="Salmos">
+  <div class="saludo">
+    <span class="fecha">El libro de los Salmos</span>
+    <h2>Oraciones para cada momento del alma</h2>
+    <p>Los salmos son los cantos que rezaba el pueblo de Israel, que rezó Jesús y que la Iglesia reza cada día. Aquí cabe todo: alegría, miedo, llanto, gratitud y descanso.</p>
+  </div>
+  <div class="temas" id="temas-salmos" role="group" aria-label="Momentos"></div>
+  <div class="marco" id="salmos-tema"></div>
+  <div class="adorno"><span>✦</span></div>
+  <div class="marco">
+    <span class="ojo">Los 150 salmos</span>
+    <p class="nota">Toca un número para leerlo. Los que tienen fondo lila son los que has guardado.</p>
+    <div class="rejilla" id="rejilla-salmos"></div>
+    <div class="fila"><button class="btn chico" type="button" id="salmo-azar">Un salmo al azar</button></div>
+  </div>
+</section>
+
+<!-- ===================== ORACIONES ===================== -->
+<section class="vista" id="v-oraciones" aria-label="Oraciones">
+  <div class="saludo">
+    <span class="fecha">Oraciones</span>
+    <h2>Las oraciones más bellas para rezar con calma</h2>
+  </div>
+  <section class="marco lav oculto" id="rosario">
+    <span class="ojo">El Santo Rosario de hoy</span>
+    <h3 id="ros-t"></h3>
+    <ol id="ros-lista" style="margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px;font-family:var(--f-display);font-size:1.15rem"></ol>
+    <p class="nota">Cómo rezarlo: empieza con la señal de la cruz, el Credo, un Padre nuestro, tres Ave Marías y un Gloria. En cada misterio lo anuncias, piensas un momento en esa escena de la vida de Jesús y de María, y rezas un Padre nuestro, diez Ave Marías y un Gloria. Al final, la Salve. Se reza sin afán, y si solo alcanzas un misterio, también vale.</p>
+    <div class="fila"><button class="btn chico oro" type="button" id="ros-hablar">Acompáñame a rezarlo</button><button class="btn chico" type="button" id="ros-salve">Ver la Salve</button></div>
+  </section>
+  <div class="temas" id="filtro-oraciones" role="group" aria-label="Tipo de oración">
+    <button class="chip" type="button" data-f="todas" aria-pressed="true">Todas</button>
+    <button class="chip" type="button" data-f="clasica" aria-pressed="false">De la tradición</button>
+    <button class="chip" type="button" data-f="maria" aria-pressed="false">A María</button>
+    <button class="chip" type="button" data-f="biblica" aria-pressed="false">De la Biblia</button>
+    <button class="chip" type="button" data-f="momento" aria-pressed="false">Para cada momento</button>
+  </div>
+  <div class="lista" id="lista-oraciones"></div>
+  <form class="marco lav" id="form-oracion">
+    <span class="ojo">Una oración solo para ti</span>
+    <label for="or-tema"><h3>¿Por qué o por quién quieres orar?</h3></label>
+    <textarea class="campo-texto" id="or-tema" placeholder="Por ejemplo: por mi nona, por un examen, para descansar, para dar gracias por mi trabajo…"></textarea>
+    <div class="fila"><button class="btn oro" type="submit" id="or-btn">Escribir mi oración</button></div>
+    <div id="or-resultado"></div>
+  </form>
+</section>
+
+<!-- ===================== CONVERSAR ===================== -->
+<section class="vista" id="v-conversar" aria-label="Conversar">
+  <div class="alerta oculto" id="alerta-crisis" role="alert">
+    <h3>No tienes que cargar esto sola</h3>
+    <p>Si estás pensando en hacerte daño o sientes que no puedes más, habla hoy con una persona. Atienden las 24 horas:</p>
+    <ul>
+      <li><b>Línea Nacional 106</b> (Minsalud)</li>
+      <li><b>Línea Espérame, Bucaramanga</b>: 322 964 3755</li>
+      <li><b>Emergencias</b>: 123</li>
+    </ul>
+    <div class="fila"><button class="btn chico" id="cerrar-alerta" type="button">Entendido</button></div>
+  </div>
+  <div class="aviso oculto" id="aviso-sin-claude">Para conversar necesitas entrar con una cuenta de Claude, que se crea gratis. Todo lo demás (el Evangelio, la ruleta, los salmos, la Biblia y las oraciones) lo puedes usar sin cuenta.</div>
+  <div class="chat" id="chat" aria-live="polite"></div>
+  <div class="chips" id="chips">
+    <button class="chip" type="button">Necesito descansar en Dios</button>
+    <button class="chip lav" type="button">Explícame el Evangelio de hoy</button>
+    <button class="chip" type="button">Dame un salmo para hoy</button>
+    <button class="chip lav" type="button">Tengo mucha ansiedad</button>
+    <button class="chip" type="button">Quiero empezar a leer la Biblia</button>
+    <button class="chip lav" type="button">Enséñame a rezar el rosario</button>
+    <button class="chip" type="button">Quiero dar gracias</button>
+    <button class="chip lav" type="button">Me cuesta perdonar</button>
+  </div>
+  <form class="redactor" id="form-chat">
+    <textarea id="entrada" rows="1" placeholder="Cuéntame cómo estás…" aria-label="Escribe tu mensaje"></textarea>
+    <button class="redondo oculto" id="mic" type="button" aria-label="Dictar con la voz">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#5B4190" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+    </button>
+    <button class="redondo enviar" id="enviar" type="submit" aria-label="Enviar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+    </button>
+  </form>
+</section>
+
+<!-- ===================== BIBLIA ===================== -->
+<section class="vista" id="v-biblia" aria-label="Biblia">
+  <div id="biblia-indice">
+    <div class="saludo" style="margin-bottom:14px">
+      <span class="fecha">La Sagrada Escritura</span>
+      <h2>La Biblia completa</h2>
+      <p>Texto de la Reina-Valera 1909, de dominio público, con ortografía actual y «el Señor» donde el original dice «Jehová», como se lee en las Biblias católicas.</p>
+    </div>
+    <div class="temas" role="group" aria-label="Testamento" style="margin-bottom:8px">
+      <button class="chip" type="button" data-t="at" aria-pressed="true">Antiguo Testamento</button>
+      <button class="chip" type="button" data-t="nt" aria-pressed="false">Nuevo Testamento</button>
+    </div>
+    <p class="nota" id="nota-deutero" style="margin-bottom:6px">Los libros en morado (Tobías, Judit, Macabeos, Sabiduría, Eclesiástico y Baruc) son parte de la Biblia católica. Se leen en la Biblia oficial de la Santa Sede, y aquí puedes conversar sobre ellos.</p>
+    <div class="libros" id="libros"></div>
+  </div>
+  <div id="biblia-caps" class="oculto" style="display:flex;flex-direction:column;gap:14px">
+    <div class="nav-cap"><button class="btn chico" type="button" id="volver-libros">‹ Libros</button><span class="ojo" id="caps-titulo"></span></div>
+    <div class="rejilla" id="rejilla-caps"></div>
+  </div>
+  <div id="biblia-lector" class="oculto" style="display:flex;flex-direction:column;gap:14px">
+    <div class="nav-cap">
+      <button class="btn chico" type="button" id="lector-volver">‹ Capítulos</button>
+      <span class="ojo" id="lector-titulo"></span>
+    </div>
+    <h2 class="sec" id="lector-h"></h2>
+    <p class="nota" id="lector-sub"></p>
+    <div class="texto-largo lector" id="lector-texto"></div>
+    <div class="barra-sel oculto" id="barra-sel">
+      <button class="btn chico oro" type="button" id="sel-guardar">Guardar</button>
+      <button class="btn chico" type="button" id="sel-hablar">Conversar</button>
+      <button class="btn chico" type="button" id="sel-copiar">Copiar</button>
+      <button class="btn chico" type="button" id="sel-quitar">Quitar selección</button>
+    </div>
+    <div class="nav-cap"><button class="btn chico" type="button" id="cap-ant">‹ Anterior</button><button class="btn chico" type="button" id="cap-hablar">Conversar sobre este capítulo</button><button class="btn chico" type="button" id="cap-sig">Siguiente ›</button></div>
+  </div>
+</section>
+
+<!-- ===================== DEVOCIONALES ===================== -->
+<section class="vista" id="v-devocionales" aria-label="Devocionales">
+  <div class="saludo">
+    <span class="fecha">Devocionales</span>
+    <h2>Pequeñas pausas con la Palabra</h2>
+    <p>Cada uno tiene un pasaje, su contexto explicado sencillo, una pregunta para ti y una oración. Cinco minutos bastan.</p>
+  </div>
+  <div class="lista" id="lista-dev"></div>
+</section>
+
+<!-- ===================== CÓMO EMPEZAR ===================== -->
+<section class="vista" id="v-empezar" aria-label="Cómo empezar a leer la Biblia">
+  <div class="saludo">
+    <span class="fecha">Cómo empezar</span>
+    <h2>Leer la Biblia como quien recibe una carta de amor</h2>
+    <p>No hace falta empezar por el Génesis ni leer mucho. La Iglesia recomienda empezar por los Evangelios, que nos muestran a Jesús, y leer poquito, despacio, cada día.</p>
+  </div>
+  <section class="marco">
+    <span class="ojo">Lectio divina</span>
+    <h3>La forma de leer que la Iglesia guarda desde hace siglos</h3>
+    <div class="paso"><span class="n">1</span><p><b>Lee.</b> Lee el pasaje despacio, dos veces. Fíjate en una palabra o frase que te llame la atención.</p></div>
+    <div class="paso"><span class="n">2</span><p><b>Medita.</b> Pregúntate qué te dice Dios con esa frase hoy, en tu vida concreta.</p></div>
+    <div class="paso"><span class="n">3</span><p><b>Ora.</b> Respóndele a Dios con tus palabras: agradece, pide, cuéntale.</p></div>
+    <div class="paso"><span class="n">4</span><p><b>Contempla.</b> Quédate un momento en silencio, descansando en su presencia, sin hacer nada.</p></div>
+    <div class="paso"><span class="n">5</span><p><b>Vive.</b> Escoge un gesto pequeño para llevar esa palabra a tu día.</p></div>
+    <div class="fila"><button class="btn chico" type="button" id="ver-or-leer">Oración antes de leer</button></div>
+  </section>
+  <section class="marco lav">
+    <span class="ojo">Ruta de 14 días</span>
+    <h3>Conocer a Jesús con san Lucas y algunos salmos</h3>
+    <p class="nota">Toca un día para leerlo. Cuando termines, márcalo y te acompaña tu progreso.</p>
+    <div id="ruta"></div>
+  </section>
+</section>
+
+<!-- ===================== DIARIO ===================== -->
+<section class="vista" id="v-diario" aria-label="Diario">
+  <div class="saludo">
+    <span class="fecha">Mi diario con Dios</span>
+    <h2>Lo que le cuentas y lo que te habló</h2>
+  </div>
+  <form class="marco" id="form-diario">
+    <label for="diario-txt"><h3>¿Qué le quieres contar hoy?</h3></label>
+    <textarea class="campo-texto" id="diario-txt" placeholder="Lo que agradezco, lo que me duele, lo que le pido, un versículo que me habló…"></textarea>
+    <div class="fila"><button class="btn oro" type="submit">Guardar</button><button class="btn oculto" type="button" id="mic-diario">Dictar</button></div>
+  </form>
+  <div class="temas" role="group" aria-label="Qué ver">
+    <button class="chip" type="button" data-d="diario" aria-pressed="true">Mis escritos</button>
+    <button class="chip" type="button" data-d="favs" aria-pressed="false">Versículos guardados</button>
+  </div>
+  <div class="lista" id="lista-diario"></div>
+</section>
+
+<!-- ===================== AJUSTES ===================== -->
+<section class="vista" id="v-ajustes" aria-label="Ajustes">
+  <div class="saludo"><span class="fecha">Tu espacio</span><h2>Ajustes</h2></div>
+  <section class="marco">
+    <div class="campo"><label for="aj-nombre">¿Cómo te llamo?</label><input id="aj-nombre" type="text" value="" autocomplete="given-name" placeholder="Tu nombre"></div>
+    <div class="campo"><label for="aj-gen">Soy</label>
+      <select id="aj-gen"><option value="m">Mujer</option><option value="h">Hombre</option></select></div>
+    <div class="campo"><label for="aj-trad">Tu tradición</label>
+      <select id="aj-trad">
+        <option value="catolica" selected>Católica</option>
+        <option value="evangelica">Cristiana evangélica</option>
+        <option value="cristiana">Cristiana, sin etiqueta</option>
+        <option value="buscando">Estoy buscando, todavía no sé</option>
+      </select></div>
+    <div class="fila"><button class="btn oro" id="aj-guardar" type="button">Guardar ajustes</button></div>
+  </section>
+  <section class="marco lav">
+    <span class="ojo">Si necesitas a alguien ya</span>
+    <div class="linea"><b>Línea Nacional 106 (Minsalud), 24 horas</b><a href="tel:106">106</a></div>
+    <div class="linea"><b>Línea Espérame, Bucaramanga, 24 horas</b><a href="tel:3229643755">322 964 3755</a></div>
+    <div class="linea"><b>Orientación a mujeres víctimas de violencia</b><a href="tel:155">155</a></div>
+    <div class="linea"><b>Emergencias</b><a href="tel:123">123</a></div>
+    <p class="nota">Si el número no marca desde aquí, cópialo y llama desde tu celular.</p>
+  </section>
+  <section class="marco">
+    <span class="ojo">Cómo funciona</span>
+    <p>Mi Refugio te acompaña desde la Biblia con amor, descanso y paz, sin miedo y sin culpa. Escucha primero y respeta tus dudas.</p>
+    <p>La Biblia que trae es la Reina-Valera 1909, de dominio público, con ortografía actual y «el Señor» en lugar de «Jehová». El Evangelio del día sigue el calendario litúrgico de la Iglesia católica.</p>
+    <p>No reemplaza a una psicóloga, a un médico, ni a tu sacerdote o tu comunidad. Es un apoyo para el camino.</p>
+    <p class="nota" id="donde-guarda">Tu conversación, tu diario y tus versículos guardados son privados: nadie más los ve, ni siquiera quien creó la app.</p>
+    <div class="fila"><button class="btn" id="aj-borrar" type="button">Borrar la conversación</button></div>
+  </section>
+</section>
+</main>
+
+<nav class="abajo" role="tablist" aria-label="Secciones">
+  <button role="tab" aria-selected="true" data-v="inicio" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="#6E6386" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V11a8 8 0 0 1 16 0v10z"/><path d="M12 9v6M9.5 11.5h5"/></svg>Inicio</button>
+  <button role="tab" aria-selected="false" data-v="salmos" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="#6E6386" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V6l10-2v12"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="16" r="2"/></svg>Salmos</button>
+  <button role="tab" aria-selected="false" data-v="ruleta" type="button" class="rueda"><span class="disco"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16M6.3 6.3l11.4 11.4M17.7 6.3L6.3 17.7"/></svg></span>Ruleta</button>
+  <button role="tab" aria-selected="false" data-v="oraciones" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="#6E6386" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-1 3-4 5-4 9 0 3 2 5 4 6 2-1 4-3 4-6 0-4-3-6-4-9z"/><path d="M12 18v3"/></svg>Oraciones</button>
+  <button role="tab" aria-selected="false" data-v="conversar" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="#6E6386" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Conversar</button>
+</nav>
+
+<div class="capa oculto" id="capa" role="dialog" aria-modal="true" aria-label="Momento de oración">
+  <button class="btn chico cerrar" type="button" id="capa-cerrar">Cerrar</button>
+  <div class="dentro" id="capa-dentro"></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const CONT_RAW = {"promesas":["Jeremías 29:11","Isaías 41:10","Isaías 43:1-2","Mateo 11:28-29","Juan 14:27","Romanos 8:28","Romanos 8:38-39","Filipenses 4:6-7","Filipenses 4:13","2 Corintios 12:9","Lamentaciones 3:22-23","Sofonías 3:17","1 Pedro 5:7","Josué 1:9","Isaías 40:31","Juan 16:33","1 Juan 4:18-19","Proverbios 3:5-6","Isaías 54:10","Juan 3:16","Mateo 6:34","Isaías 26:3","Juan 15:9","Deuteronomio 31:8","Isaías 49:16","Mateo 5:14","Jeremías 31:3","Mateo 28:20","Juan 10:10","Romanos 5:5"],"salmosPara":[{"tema":"Cuando tengo miedo","refs":["Salmos 27:1","Salmos 56:3","Salmos 91:1-2","Salmos 46:1"]},{"tema":"Cuando me gana la ansiedad","refs":["Salmos 94:19","Salmos 55:22","Salmos 46:10","Salmos 62:1-2"]},{"tema":"Cuando estoy triste","refs":["Salmos 34:18","Salmos 147:3","Salmos 42:11","Salmos 30:5","Salmos 126:5"]},{"tema":"Para descansar","refs":["Salmos 23:1-3","Salmos 116:7","Salmos 131:2","Salmos 4:8"]},{"tema":"Para dar gracias","refs":["Salmos 103:2-4","Salmos 118:24","Salmos 16:11","Salmos 150:6"]},{"tema":"Para empezar el día","refs":["Salmos 143:8","Salmos 63:1","Salmos 5:3","Salmos 90:14"]},{"tema":"Para la noche","refs":["Salmos 4:8","Salmos 121:3-4","Salmos 91:11","Salmos 63:6-7"]},{"tema":"Para sentirme ⟨amada|amado⟩","refs":["Salmos 139:13-14","Salmos 86:5","Salmos 145:18","Salmos 36:7"]},{"tema":"Cuando necesito guía","refs":["Salmos 32:8","Salmos 119:105","Salmos 37:4-5","Salmos 25:4-5"]},{"tema":"Para empezar de nuevo","refs":["Salmos 51:10","Salmos 40:1-3","Salmos 1:1-3","Salmos 30:11"]}],"bendiciones":["Números 6:24-26","Romanos 15:13","3 Juan 1:2","Salmos 20:4","Judas 1:24-25","Efesios 3:20","Efesios 3:16-19","Salmos 121:7-8","2 Tesalonicenses 3:16","Filipenses 1:6"],"respira":[["Estad quietos","y conoced que yo soy Dios","Salmos 46:10"],["El Señor es mi pastor","nada me faltará","Salmos 23:1"],["En el día que temo","yo en ti confío","Salmos 56:3"],["La paz os dejo","mi paz os doy","Juan 14:27"],["Bástate","mi gracia","2 Corintios 12:9"],["Nuevas son","cada mañana","Lamentaciones 3:23"],["Vuelve, oh alma mía","a tu reposo","Salmos 116:7"]],"gratitud":[["Nombra tres cosas pequeñas que hoy te hicieron bien. Dale gracias a Dios por cada una, con su nombre.","1 Tesalonicenses 5:16-18"],["Piensa en una persona que Dios puso en tu camino y que te quiere bien. Agradece por ella y, si puedes, díselo hoy.","Filipenses 1:3"],["Agradece por tu cuerpo: tus manos, tus pies, tu respiración. Te han acompañado todo el día.","Salmos 139:14"],["Recuerda un momento difícil que ya pasó. Agradece que no estuviste ⟨sola|solo⟩, aunque en su momento no lo sintieras.","Salmos 30:11"],["Este día también es regalo. Agradece una cosa de hoy, aunque haya sido un día pesado.","Salmos 118:24"],["Haz memoria de lo que Dios te ha dado y escribe una lista corta en tu diario.","Salmos 103:2"]],"gestos":[["Escríbele a alguien que hace rato no saludas y cuéntale algo que admiras de esa persona.","Efesios 4:32"],["Agradece de frente a alguien que te sirve sin que casi nadie lo note: quien hace el aseo, el conductor, la señora de la tienda.","Colosenses 3:12"],["Regálate diez minutos sin celular, en silencio, solo para estar con Dios.","Salmos 46:10"],["Perdónate una cosa por la que te has estado juzgando. Escríbela y entrégasela a Dios.","Salmos 103:12"],["Ora por una persona que te cuesta, pidiendo solo su bien.","Mateo 5:44"],["Llama a alguien de tu familia solo para preguntarle cómo está y escuchar.","Gálatas 6:2"],["Haz algo bueno por alguien sin contárselo a nadie.","Mateo 6:3-4"],["Cuida tu cuerpo hoy: toma agua, come a tiempo y descansa. Eso también es amor.","1 Corintios 6:19"],["Escucha a alguien hoy sin interrumpir y sin dar consejo.","Santiago 1:19"],["Comparte un versículo que te guste con alguien que lo necesite, sin sermón.","Proverbios 25:11"]],"preguntas":[["¿Dónde viste hoy, aunque fuera un poquito, el cuidado de Dios?",null],["¿Qué carga estás llevando ⟨sola|solo⟩ que podrías poner en manos de Dios?","1 Pedro 5:7"],["Si Dios te escribiera una carta hoy, ¿con qué palabra crees que empezaría?","Jeremías 31:3"],["¿Qué parte de ti necesita más ternura hoy?","Isaías 42:3"],["¿Qué te da miedo en este momento, y qué crees que Dios te diría sobre eso?","Isaías 41:10"],["¿Cuándo fue la última vez que descansaste de verdad?","Mateo 11:28"],["¿A quién puso Dios en tu camino para acompañarte en esta etapa?",null],["¿Qué sueño le quieres contar hoy a Dios?","Salmos 37:4"],["¿Qué te está costando perdonar, y qué necesitarías para dar el primer paso?","Efesios 4:32"],["¿Qué te gustaría que Jesús te preguntara, como al ciego de Jericó: qué quieres que haga por ti?","Lucas 18:41"]],"oraciones":[{"id":"padrenuestro","t":"Padre nuestro","a":"La oración que Jesús enseñó","g":"clasica","cat":false,"x":"Padre nuestro, que estás en el cielo,\nsantificado sea tu nombre;\nvenga a nosotros tu reino;\nhágase tu voluntad\nen la tierra como en el cielo.\nDanos hoy nuestro pan de cada día;\nperdona nuestras ofensas,\ncomo también nosotros perdonamos\na los que nos ofenden;\nno nos dejes caer en la tentación,\ny líbranos del mal.\nAmén.","n":"Jesús la enseñó a sus discípulos cuando le pidieron: Señor, enséñanos a orar (Lucas 11:1-4 y Mateo 6:9-13)."},{"id":"avemaria","t":"Ave María","a":"Tradición de la Iglesia","g":"clasica","cat":true,"x":"Dios te salve, María,\nllena eres de gracia,\nel Señor es contigo.\nBendita tú eres entre todas las mujeres,\ny bendito es el fruto de tu vientre, Jesús.\nSanta María, Madre de Dios,\nruega por nosotros, pecadores,\nahora y en la hora de nuestra muerte.\nAmén.","n":"La primera parte son las palabras del ángel Gabriel y de Isabel a María (Lucas 1:28 y 1:42)."},{"id":"gloria","t":"Gloria","a":"Tradición de la Iglesia","g":"clasica","cat":false,"x":"Gloria al Padre, y al Hijo, y al Espíritu Santo.\nComo era en el principio, ahora y siempre,\npor los siglos de los siglos.\nAmén."},{"id":"magnificat","t":"Magníficat","a":"El canto de María","g":"biblica","cat":false,"ref":"Lucas 1:46-55","n":"María lo canta al visitar a su prima Isabel. La Iglesia lo reza cada tarde en las Vísperas."},{"id":"angelus","t":"Ángelus","a":"Tradición de la Iglesia, al mediodía","g":"clasica","cat":true,"x":"El ángel del Señor anunció a María.\nY concibió por obra del Espíritu Santo.\nDios te salve, María…\n\nHe aquí la esclava del Señor.\nHágase en mí según tu palabra.\nDios te salve, María…\n\nY el Verbo se hizo carne.\nY habitó entre nosotros.\nDios te salve, María…\n\nRuega por nosotros, santa Madre de Dios.\nPara que seamos dignos de alcanzar las promesas de nuestro Señor Jesucristo.\n\nOremos. Derrama, Señor, tu gracia en nuestros corazones, para que, habiendo conocido por el anuncio del ángel la encarnación de tu Hijo Jesucristo, por su pasión y su cruz seamos llevados a la gloria de la resurrección. Por el mismo Jesucristo nuestro Señor.\nAmén.","n":"Se reza tradicionalmente a las 6 de la mañana, a las 12 del día y a las 6 de la tarde."},{"id":"salve","t":"Salve","a":"Tradición de la Iglesia","g":"clasica","cat":true,"x":"Dios te salve, Reina y Madre de misericordia,\nvida, dulzura y esperanza nuestra;\nDios te salve.\nA ti llamamos los desterrados hijos de Eva;\na ti suspiramos, gimiendo y llorando\nen este valle de lágrimas.\nEa, pues, Señora, abogada nuestra,\nvuelve a nosotros esos tus ojos misericordiosos;\ny después de este destierro muéstranos a Jesús,\nfruto bendito de tu vientre.\n¡Oh clementísima, oh piadosa, oh dulce Virgen María!\nRuega por nosotros, santa Madre de Dios,\npara que seamos dignos de alcanzar\nlas promesas de nuestro Señor Jesucristo.\nAmén."},{"id":"amparo","t":"Bajo tu amparo","a":"La oración a María más antigua que se conoce (siglo III)","g":"clasica","cat":true,"x":"Bajo tu amparo nos acogemos,\nsanta Madre de Dios;\nno deseches las súplicas\nque te dirigimos en nuestras necesidades,\nantes bien, líbranos de todo peligro,\n¡oh Virgen gloriosa y bendita!"},{"id":"espiritu","t":"Ven, Espíritu Santo","a":"Tradición de la Iglesia","g":"clasica","cat":false,"x":"Ven, Espíritu Santo,\nllena los corazones de tus fieles\ny enciende en ellos el fuego de tu amor.\nEnvía tu Espíritu y todo será creado,\ny renovarás la faz de la tierra.\nAmén."},{"id":"francisco","t":"Hazme instrumento de tu paz","a":"Atribuida a san Francisco de Asís (publicada en 1912)","g":"clasica","cat":false,"x":"Señor, hazme un instrumento de tu paz.\nDonde haya odio, que yo siembre amor;\ndonde haya ofensa, perdón;\ndonde haya duda, fe;\ndonde haya desesperación, esperanza;\ndonde haya tinieblas, luz;\ndonde haya tristeza, alegría.\n\nOh divino Maestro,\nque no busque yo tanto ser ⟨consolada|consolado⟩ como consolar;\nser ⟨comprendida|comprendido⟩, como comprender;\nser ⟨amada|amado⟩, como amar.\nPorque dando es como se recibe;\nperdonando es como se es perdonado;\ny muriendo es como se nace a la vida eterna.\nAmén."},{"id":"teresa","t":"Nada te turbe","a":"Santa Teresa de Jesús (siglo XVI)","g":"clasica","cat":false,"x":"Nada te turbe,\nnada te espante,\ntodo se pasa,\nDios no se muda;\nla paciencia\ntodo lo alcanza;\nquien a Dios tiene\nnada le falta:\nsolo Dios basta.","n":"La encontraron escrita en el breviario de santa Teresa después de su muerte. Es perfecta para repetirla despacio cuando hay angustia."},{"id":"agustin","t":"Nos hiciste para ti","a":"San Agustín, Confesiones (siglo IV)","g":"clasica","cat":false,"x":"Nos hiciste, Señor, para ti,\ny nuestro corazón está inquieto\nhasta que descanse en ti.\n\n¡Tarde te amé, hermosura tan antigua y tan nueva,\ntarde te amé!\nTú estabas dentro de mí y yo afuera,\ny afuera te buscaba."},{"id":"almacristo","t":"Alma de Cristo","a":"Oración del siglo XIV, muy querida por san Ignacio","g":"clasica","cat":true,"x":"Alma de Cristo, santifícame.\nCuerpo de Cristo, sálvame.\nSangre de Cristo, embriágame.\nAgua del costado de Cristo, lávame.\nPasión de Cristo, confórtame.\n¡Oh buen Jesús, óyeme!\nDentro de tus llagas, escóndeme.\nNo permitas que me aparte de ti.\nDel enemigo malo, defiéndeme.\nEn la hora de mi muerte, llámame,\ny mándame ir a ti,\npara que con tus santos te alabe\npor los siglos de los siglos.\nAmén."},{"id":"ignacio","t":"Tomad, Señor, y recibid","a":"San Ignacio de Loyola (siglo XVI)","g":"clasica","cat":false,"x":"Tomad, Señor, y recibid\ntoda mi libertad,\nmi memoria, mi entendimiento\ny toda mi voluntad;\ntodo mi haber y mi poseer.\nVos me lo disteis;\na vos, Señor, lo torno.\nTodo es vuestro:\ndisponed de ello según vuestra voluntad.\nDadme vuestro amor y gracia,\nque esta me basta."},{"id":"foucauld","t":"Padre, me pongo en tus manos","a":"San Carlos de Foucauld","g":"clasica","cat":false,"x":"Padre, me pongo en tus manos.\nHaz de mí lo que quieras.\nSea lo que sea, te doy las gracias.\nEstoy ⟨dispuesta|dispuesto⟩ a todo,\nlo acepto todo,\ncon tal que tu voluntad se cumpla en mí\ny en todas tus criaturas.\nNo deseo nada más, Padre.\nTe confío mi alma,\nte la doy con todo el amor de que soy capaz,\nporque te amo\ny necesito darme,\nponerme en tus manos sin medida,\ncon infinita confianza,\nporque tú eres mi Padre."},{"id":"patricio","t":"Cristo conmigo","a":"De la Coraza de san Patricio (siglo V)","g":"clasica","cat":false,"x":"Cristo conmigo, Cristo delante de mí,\nCristo detrás de mí, Cristo en mí,\nCristo debajo de mí, Cristo sobre mí,\nCristo a mi derecha, Cristo a mi izquierda,\nCristo cuando me acuesto,\nCristo cuando me siento,\nCristo cuando me levanto,\nCristo en el corazón de quien piense en mí,\nCristo en la boca de quien hable de mí,\nCristo en los ojos que me miren,\nCristo en los oídos que me escuchen."},{"id":"teresita","t":"Mi vocación es el amor","a":"Santa Teresita del Niño Jesús, Historia de un alma","g":"clasica","cat":false,"x":"¡Jesús, amor mío!\nPor fin he hallado mi vocación:\n¡mi vocación es el amor!\nEn el corazón de la Iglesia, mi Madre,\nyo seré el amor."},{"id":"jesus","t":"Oración del corazón","a":"Tradición de los primeros monjes cristianos","g":"clasica","cat":false,"x":"Señor Jesucristo, Hijo de Dios,\nten misericordia de mí.","n":"Se repite despacio, al ritmo de la respiración: en la primera línea tomas aire, en la segunda lo sueltas. Nace del grito del ciego de Jericó (Lucas 18:38)."},{"id":"angel","t":"Ángel de mi guarda","a":"Oración tradicional","g":"clasica","cat":true,"x":"Ángel de mi guarda,\ndulce compañía,\nno me desampares\nni de noche ni de día.\nNo me dejes ⟨sola|solo⟩,\nque me perdería."},{"id":"aaron","t":"La bendición más antigua","a":"La bendición que Dios le dio a Aarón","g":"biblica","cat":false,"ref":"Números 6:24-26","n":"Tiene más de tres mil años. Puedes rezarla por alguien a quien quieres, poniendo su nombre."},{"id":"pablo","t":"Que estés arraigada en el amor","a":"La oración de san Pablo por los cristianos de Éfeso","g":"biblica","cat":false,"ref":"Efesios 3:16-19"},{"id":"salmo23","t":"El Señor es mi pastor","a":"Salmo 23, para rezarlo despacio","g":"biblica","cat":false,"ref":"Salmos 23"},{"id":"manana","t":"Oración para empezar el día","a":"Escrita para Mi Refugio","g":"momento","cat":false,"x":"Buenos días, Señor.\nGracias por despertarme y por este día que todavía no conozco.\nTe entrego lo que tengo que hacer, la gente que voy a ver\ny lo que me preocupa desde que abrí los ojos.\nCamina delante de mí.\nQue hoy pueda ver tu cariño en las cosas pequeñas\ny ser un poquito de ese cariño para alguien más.\nAmén."},{"id":"noche","t":"Oración para la noche","a":"Escrita para Mi Refugio","g":"momento","cat":false,"x":"Señor, el día ya se acaba.\nTe doy gracias por lo bueno, aunque haya sido poquito,\ny te entrego lo que me salió mal y lo que me dolió.\nNo quiero llevarme a la cama lo que no puedo resolver hoy.\nCuídame mientras duermo, cuida a los que quiero,\ny déjame despertar con el corazón en paz.\nEn paz me acostaré y asimismo dormiré, porque tú me cuidas.\nAmén."},{"id":"ansiedad","t":"Cuando me gana la ansiedad","a":"Escrita para Mi Refugio","g":"momento","cat":false,"x":"Jesús, ahora mismo mi mente va muy rápido\ny mi pecho está apretado.\nNo te pido entenderlo todo; te pido que estés aquí.\nRespiro despacio y te entrego lo que no puedo controlar.\nTú dijiste: mi paz os doy.\nRecíbeme así, como estoy,\ny ayúdame a dar solo el siguiente paso.\nAmén."},{"id":"triste","t":"Cuando estoy triste","a":"Escrita para Mi Refugio","g":"momento","cat":false,"x":"Señor, hoy estoy triste y no tengo muchas palabras.\nTú estás cerca de los que tienen el corazón roto,\nasí que me quedo aquí contigo, sin fingir que estoy bien.\nAbrázame por dentro.\nMándame a alguien que me acompañe\ny dame fuerza para pedir ayuda si la necesito.\nAmén."},{"id":"gracias","t":"Oración de gratitud","a":"Escrita para Mi Refugio","g":"momento","cat":false,"x":"Gracias, Dios mío,\npor la vida, por mi gente, por mi historia,\npor lo que he aprendido incluso en lo difícil.\nGracias por las veces que me sostuviste sin que yo me diera cuenta.\nQue nunca se me olvide que todo lo bueno viene de ti.\nAmén."},{"id":"familia","t":"Por mi familia","a":"Escrita para Mi Refugio","g":"momento","cat":false,"x":"Señor, pongo en tus manos a mi familia,\na los que están cerca y a los que están lejos,\na los que ya partieron y descansan en ti.\nSana lo que esté herido entre nosotros,\ndanos paciencia, ternura y ganas de perdonarnos.\nQue en nuestra casa haya paz.\nAmén."},{"id":"perdonar","t":"Para perdonar","a":"Escrita para Mi Refugio","g":"momento","cat":false,"x":"Señor, me duele lo que pasó\ny no sé todavía cómo perdonar.\nNo te pido que haga como si no me hubiera dolido;\nte pido que no deje que el rencor se quede a vivir en mí.\nAyúdame a soltar poco a poco,\na cuidarme y a ponerme a salvo si lo necesito,\ny a dejar la justicia en tus manos.\nAmén."},{"id":"leer","t":"Antes de leer la Biblia","a":"Escrita para Mi Refugio","g":"momento","cat":false,"x":"Espíritu Santo, abre mi corazón\npara escuchar lo que Dios me quiere decir hoy.\nQue no lea con prisa ni por cumplir,\nsino como quien recibe una carta de alguien que ⟨la|lo⟩ ama.\nAmén."},{"id":"descanso","t":"Para descansar en Dios","a":"Escrita para Mi Refugio","g":"momento","cat":false,"x":"Jesús, estoy ⟨cansada|cansado⟩.\nTú dijiste: vengan a mí los que están cargados, que yo los haré descansar.\nAquí vengo.\nNo tengo que demostrar nada ni hacer nada más ahora.\nSolo quiero quedarme un rato contigo.\nAmén."}],"devocionales":[{"t":"Descanso para el alma cansada","tema":"Descanso","ref":"Mateo 11:28-29","x":"Jesús le habla a gente agotada: trabajadores, enfermos, personas cargadas con reglas religiosas que las hacían sentir que nunca eran suficientes. El yugo era la pieza de madera que unía a dos bueyes para que compartieran el peso. Jesús no promete una vida sin cargas; promete cargarlas contigo, y con un corazón manso y humilde.","p":"¿Qué estás cargando ⟨sola|solo⟩ que podrías compartir con Él hoy?","o":"Jesús, aquí vengo ⟨cansada|cansado⟩. Enséñame a descansar en ti. Amén."},{"t":"Una paz que no depende de que todo esté bien","tema":"Paz","ref":"Juan 14:27","x":"Jesús dice estas palabras en la Última Cena, la noche antes de su pasión. Sabe lo que viene y aun así les deja paz a sus amigos. Su paz no es que los problemas desaparezcan; es su presencia en medio de ellos.","p":"¿En qué parte de tu vida necesitas esa paz que no depende de que todo salga bien?","o":"Señor, dame tu paz, la que el mundo no puede dar ni quitar. Amén."},{"t":"Eres obra amada","tema":"Amor","ref":"Salmos 139:13-14","x":"Este salmo es una de las oraciones más íntimas de la Biblia. Quien lo reza descubre que Dios lo conoce desde antes de nacer, que lo formó con cuidado, como un artesano. No fuiste un accidente ni un error: fuiste ⟨pensada y querida|pensado y querido⟩.","p":"¿Qué cambiaría si hoy te miraras como Dios te mira?","o":"Gracias, Señor, porque me formaste con amor. Ayúdame a tratarme con la ternura con la que tú me tratas. Amén."},{"t":"Dios cerca del corazón roto","tema":"Consuelo","ref":"Salmos 34:18","x":"La tradición une este salmo a un momento muy duro en la vida de David, cuando huía y tuvo que fingirse loco para salvarse. Desde ahí escribe que Dios está cerca de los que tienen el corazón partido. No dice que Dios se aleja del dolor; dice que se acerca.","p":"¿Le puedes contar a Dios, sin adornos, lo que hoy te duele?","o":"Señor, tú estás cerca cuando tengo el corazón roto. Quédate conmigo. Amén."},{"t":"Nuevas cada mañana","tema":"Esperanza","ref":"Lamentaciones 3:22-23","x":"Lamentaciones se escribió entre las ruinas de Jerusalén, después de perderlo casi todo. En medio de ese llanto aparece esta frase luminosa: la misericordia de Dios no se acaba, se renueva cada mañana. La esperanza bíblica no niega la pérdida; nace dentro de ella.","p":"¿Qué te gustaría empezar de nuevo mañana con la misericordia de Dios?","o":"Gracias, Señor, porque tu misericordia no se agota. Mañana también estarás. Amén."},{"t":"Te llamé por tu nombre","tema":"Confianza","ref":"Isaías 43:1-2","x":"Dios le habla a un pueblo en el exilio, lejos de casa y con miedo. No les promete que no habrá aguas ni fuego; les promete que no los van a ahogar ni a quemar, porque Él va con ellos. Y antes de todo les dice algo muy tierno: eres mía, te llamé por tu nombre.","p":"Escucha tu nombre en esa frase. ¿Qué sientes al leerla así?","o":"Señor, gracias por llamarme por mi nombre. Contigo atravieso lo que venga. Amén."},{"t":"El Pastor que cuida","tema":"Descanso","ref":"Salmos 23:1-4","x":"En Israel el pastor caminaba delante de sus ovejas, les buscaba agua tranquila y pasto, y se quedaba con ellas de noche. Por eso David se compara con una oveja: no tiene que tenerlo todo resuelto, porque alguien la cuida. Incluso en el valle oscuro no está sola.","p":"¿Dónde necesitas hoy dejarte guiar en vez de controlarlo todo?","o":"Señor, tú eres mi pastor. Llévame a descansar junto a aguas tranquilas. Amén."},{"t":"El abrazo del Padre","tema":"Misericordia","ref":"Lucas 15:20-24","x":"En tiempos de Jesús, un hombre mayor no corría en público; era mal visto. Pero en esta parábola el padre ve a su hijo de lejos y sale corriendo a abrazarlo antes de que termine su discurso de disculpa. Así describe Jesús a Dios: no espera que llegues perfecta, sale a tu encuentro.","p":"¿Qué te impide volver a los brazos de Dios? Él ya está corriendo hacia ti.","o":"Padre, aquí estoy. Gracias por salir a mi encuentro con un abrazo. Amén."},{"t":"Sentarse a los pies de Jesús","tema":"Descanso","ref":"Lucas 10:38-42","x":"Marta trabaja y se afana; María se sienta a escuchar a Jesús. Jesús no regaña a Marta por servir, la invita con cariño a no vivir ansiosa y preocupada por tantas cosas. A veces lo más importante que podemos hacer es simplemente estar con Él.","p":"¿Cuándo podrías regalarte hoy un rato de estar, sin hacer?","o":"Jesús, quiero escoger la mejor parte: quedarme un rato contigo. Amén."},{"t":"Hágase en mí","tema":"Confianza","ref":"Lucas 1:38","x":"María es muy joven cuando recibe un anuncio que le cambia la vida. Pregunta, no entiende todo, y aun así dice sí. Su respuesta no es resignación sino confianza: se pone en manos de un Dios que la ama. Ella nos enseña a decir sí sin tenerlo todo claro.","p":"¿Qué te está pidiendo Dios que confíes, aunque no veas todo el camino?","o":"María, enséñame a decir sí con tu confianza. Señor, hágase en mí según tu palabra. Amén."},{"t":"El amor que echa fuera el miedo","tema":"Amor","ref":"1 Juan 4:18-19","x":"San Juan escribe ya anciano, después de una vida entera conociendo a Jesús, y su conclusión es sencilla: Dios es amor. Una fe vivida desde el miedo todavía no ha conocido del todo ese amor. No amamos a Dios para que nos quiera; lo amamos porque Él nos amó primero.","p":"¿Hay algún miedo en tu forma de relacionarte con Dios que quieras soltar?","o":"Dios mío, gracias por amarme primero. Que tu amor eche fuera mis miedos. Amén."},{"t":"Dios canta sobre ti","tema":"Alegría","ref":"Sofonías 3:17","x":"Es uno de los versículos más tiernos del Antiguo Testamento. El profeta describe a Dios como alguien que se alegra por su pueblo, que calla de amor y que canta de gozo. No es un Dios distante que te vigila: es un Dios que se alegra de ti.","p":"¿Te has imaginado alguna vez a Dios alegrándose por ti? Quédate un momento con esa imagen.","o":"Señor, gracias por alegrarte por mí. Enséñame a alegrarme en ti. Amén."},{"t":"Cuando la ansiedad aprieta","tema":"Paz","ref":"Filipenses 4:6-7","x":"Pablo escribe esta carta desde la cárcel, sin saber si lo van a liberar o a condenar. Aun así invita a no vivir afanados y a contarle todo a Dios con gratitud. La promesa no es que todo salga como queremos, sino que la paz de Dios va a cuidar el corazón y la mente.","p":"Hazle a Dios una lista sencilla de lo que te preocupa, y al lado, una cosa que agradeces.","o":"Señor, te entrego mis preocupaciones. Cuida mi corazón y mi mente con tu paz. Amén."},{"t":"Quédate en mi amor","tema":"Amor","ref":"Juan 15:9","x":"Jesús se compara con una vid y a nosotros con las ramas. Una rama no tiene que esforzarse para dar fruto; solo tiene que estar unida a la vid. Lo único que pide es eso: quédense en mi amor.","p":"¿Qué te ayuda a sentirte unida a Jesús en lo cotidiano?","o":"Jesús, quiero quedarme en tu amor hoy, en lo pequeño y en lo grande. Amén."}],"ruta":[["Lucas 1:26-38","La Anunciación","Fíjate en cómo María pregunta y aun así confía."],["Lucas 2:1-20","El nacimiento de Jesús","Dios llega pobre, en un pesebre, y los primeros en saberlo son unos pastores."],["Lucas 4:16-21","Jesús dice para qué vino","Lee despacio la lista de personas a las que Jesús viene a liberar."],["Lucas 5:1-11","La pesca milagrosa","Pedro está cansado y sin pescar nada; aun así le hace caso a Jesús."],["Lucas 7:36-50","La mujer que amó mucho","Mira cómo Jesús defiende a la mujer que todos juzgaban."],["Lucas 8:22-25","La tormenta calmada","Jesús duerme en la barca; nunca los dejó solos."],["Salmos 23","Un salmo para descansar","Léelo como una oración, en voz baja."],["Lucas 10:38-42","Marta y María","¿Con cuál de las dos te identificas hoy?"],["Lucas 11:1-13","Enséñanos a orar","Jesús enseña el Padre nuestro y nos invita a pedir con confianza."],["Lucas 15:11-32","El Padre misericordioso","La parábola más bella sobre el amor de Dios."],["Lucas 18:35-43","El ciego de Jericó","Jesús le pregunta: ¿qué quieres que haga por ti?"],["Lucas 19:1-10","Zaqueo","Jesús lo busca a él primero, antes de que cambie."],["Lucas 24:13-35","Los discípulos de Emaús","Jesús camina con ellos aunque no lo reconocen."],["Salmos 139:1-18","⟨Conocida y amada|Conocido y amado⟩","Termina tu ruta sabiendo que Dios te conoce y te ama."]]};
+const PAS = {"1 Corintios 6:19":[[19,"¿O ignoráis que vuestro cuerpo es templo del Espíritu Santo, el cual está en vosotros, el cual tenéis de Dios, y que no sois vuestros?"]],"1 Juan 4:18-19":[[18,"En amor no hay temor; mas el perfecto amor echa fuera el temor: porque el temor tiene pena. De donde el que teme, no está perfecto en el amor."],[19,"Nosotros le amamos a él, porque él nos amó primero."]],"1 Pedro 5:7":[[7,"Echando toda vuestra solicitud en él, porque él tiene cuidado de vosotros."]],"1 Tesalonicenses 5:16-18":[[16,"Estad siempre gozosos."],[17,"Orad sin cesar."],[18,"Dad gracias en todo; porque esta es la voluntad de Dios para con vosotros en Cristo Jesús."]],"2 Corintios 12:9":[[9,"Y me ha dicho: Bástate mi gracia; porque mi potencia en la flaqueza se perfecciona. Por tanto, de buena gana me gloriaré más bien en mis flaquezas, porque habite en mí la potencia de Cristo."]],"2 Tesalonicenses 3:16":[[16,"Y el mismo Señor de paz os dé siempre paz en toda manera. El Señor sea con todos vosotros."]],"3 Juan 1:2":[[2,"Amado, yo deseo que tú seas prosperado en todas cosas, y que tengas salud, así como tu alma está en prosperidad."]],"Colosenses 3:12":[[12,"Vestíos pues, como escogidos de Dios, santos y amados, de entrañas de misericordia, de benignidad, de humildad, de mansedumbre, de tolerancia;"]],"Deuteronomio 31:8":[[8,"Y el Señor es el que va delante de ti; él será contigo, no te dejará, ni te desamparará; no temas, ni te intimides."]],"Efesios 3:16-19":[[16,"Que os dé, conforme a las riquezas de su gloria, el ser corroborados con potencia en el hombre interior por su Espíritu."],[17,"Que habite Cristo por la fe en vuestros corazones; para que, arraigados y fundados en amor,"],[18,"Podáis bien comprender con todos los santos cuál sea la anchura y la longura y la profundidad y la altura,"],[19,"Y conocer el amor de Cristo, que excede a todo conocimiento, para que seáis llenos de toda la plenitud de Dios."]],"Efesios 3:20":[[20,"Y a Aquel que es poderoso para hacer todas las cosas mucho más abundantemente de lo que pedimos o entendemos, por la potencia que obra en nosotros,"]],"Efesios 4:32":[[32,"Antes sed los unos con los otros benignos, misericordiosos, perdonándoos los unos a los otros, como también Dios os perdonó en Cristo."]],"Filipenses 1:3":[[3,"Doy gracias a mi Dios en toda memoria de vosotros,"]],"Filipenses 1:6":[[6,"Estando confiado de esto, que el que comenzó en vosotros la buena obra, la perfeccionará hasta el día de Jesucristo;"]],"Filipenses 4:13":[[13,"Todo lo puedo en Cristo que me fortalece."]],"Filipenses 4:6-7":[[6,"Por nada estéis afanosos; sino sean notorias vuestras peticiones delante de Dios en toda oración y ruego, con hacimiento de gracias."],[7,"Y la paz de Dios, que sobrepuja todo entendimiento, guardará vuestros corazones y vuestros entendimientos en Cristo Jesús."]],"Gálatas 6:2":[[2,"Sobrellevad los unos las cargas de los otros; y cumplid así la ley de Cristo."]],"Isaías 26:3":[[3,"Tú le guardarás en completa paz, cuyo pensamiento en ti persevera; porque en ti se ha confiado."]],"Isaías 40:31":[[31,"Mas los que esperan al Señor tendrán nuevas fuerzas; levantarán las alas como águilas; correrán, y no se cansarán; caminarán, y no se fatigarán."]],"Isaías 41:10":[[10,"No temas, que yo soy contigo; no desmayes, que yo soy tu Dios que te esfuerzo: siempre te ayudaré, siempre te sustentaré con la diestra de mi justicia."]],"Isaías 42:3":[[3,"No quebrará la caña cascada, ni apagará el pábilo que humeare: sacará el juicio a verdad."]],"Isaías 43:1-2":[[1,"Y ahora, así dice el Señor Criador tuyo, oh Jacob, y Formador tuyo, oh Israel: No temas, porque yo te redimí; te puse nombre, mío eres tú."],[2,"Cuando pasares por las aguas, yo seré contigo; y por los ríos, no te anegarán. Cuando pasares por el fuego, no te quemarás, ni la llama arderá en ti."]],"Isaías 49:16":[[16,"He aquí que en las palmas te tengo esculpida: delante de mí están siempre tus muros."]],"Isaías 54:10":[[10,"Porque los montes se moverán, y los collados temblarán; mas no se apartará de ti mi misericordia, ni el pacto de mi paz vacilará, dijo el Señor, el que tiene misericordia de ti."]],"Jeremías 29:11":[[11,"Porque yo sé los pensamientos que tengo acerca de vosotros, dice el Señor, pensamientos de paz, y no de mal, para daros el fin que esperáis."]],"Jeremías 31:3":[[3,"El Señor se manifestó a mí ya mucho tiempo há, diciendo: Con amor eterno te he amado; por tanto te soporté con misericordia."]],"Josué 1:9":[[9,"Mira que te mando que te esfuerces y seas valiente: no temas ni desmayes, porque el Señor tu Dios será contigo en donde quiera que fueres."]],"Juan 10:10":[[10,"El ladrón no viene sino para hurtar, y matar, y destruir: yo he venido para que tengan vida, y para que la tengan en abundancia."]],"Juan 14:27":[[27,"La paz os dejo, mi paz os doy: no como el mundo la da, yo os la doy. No se turbe vuestro corazón, ni tenga miedo."]],"Juan 15:9":[[9,"Como el Padre me amó, también yo os he amado: estad en mi amor."]],"Juan 16:33":[[33,"Estas cosas os he hablado, para que en mí tengáis paz. En el mundo tendréis aflicción: mas confiad, yo he vencido al mundo."]],"Juan 3:16":[[16,"Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna."]],"Judas 1:24-25":[[24,"A aquel, pues, que es poderoso para guardaros sin caída, y presentaros delante de su gloria irreprensibles, con grande alegría,"],[25,"Al Dios solo sabio, nuestro Salvador, sea gloria y magnificencia, imperio y potencia, ahora y en todos los siglos. Amén."]],"Lamentaciones 3:22-23":[[22,"Es por la misericordia del Señor que no somos consumidos, porque nunca decayeron sus misericordias."],[23,"Nuevas son cada mañana; grande es tu fidelidad."]],"Lamentaciones 3:23":[[23,"Nuevas son cada mañana; grande es tu fidelidad."]],"Lucas 10:38-42":[[38,"Y aconteció que yendo, entró él en una aldea: y una mujer llamada Marta, le recibió en su casa."],[39,"Y ésta tenía una hermana que se llamaba María, la cual sentándose a los pies de Jesús, oía su palabra."],[40,"Empero Marta se distraía en muchos servicios; y sobreviniendo, dice: Señor, ¿no tienes cuidado que mi hermana me deja servir sola? Dile pues, que me ayude."],[41,"Pero respondiendo Jesús, le dijo: Marta, Marta, cuidadosa estás, y con las muchas cosas estás turbada:"],[42,"Empero una cosa es necesaria; y María escogió la buena parte, la cual no le será quitada."]],"Lucas 11:1-13":[[1,"Y aconteció que estando él orando en un lugar, como acabó, uno de sus discípulos le dijo: Señor, enséñanos a orar, como también Juan enseñó a sus discípulos."],[2,"Y les dijo: Cuando orareis, decid: Padre nuestro que estás en los cielos; sea tu nombre santificado. Venga tu reino. Sea hecha tu voluntad, como en el cielo, así también en la tierra."],[3,"El pan nuestro de cada día, dános lo hoy."],[4,"Y perdónanos nuestros pecados, porque también nosotros perdonamos a todos los que nos deben. Y no nos metas en tentación, mas líbranos del malo."],[5,"Díjoles también: ¿Quién de vosotros tendrá un amigo, e irá a él a media noche, y le dirá: Amigo, préstame tres panes,"],[6,"Porque un amigo mío ha venido a mí de camino, y no tengo qué ponerle delante;"],[7,"Y el de dentro respondiendo, dijere: No me seas molesto; la puerta está ya cerrada, y mis niños están conmigo en cama; no puedo levantarme, y darte?"],[8,"Os digo, que aunque no se levante a darle por ser su amigo, cierto por su importunidad se levantará, y le dará todo lo que habrá menester."],[9,"Y yo os digo: Pedid, y se os dará; buscad, y hallaréis; llamad, y os será abierto."],[10,"Porque todo aquel que pide, recibe; y el que busca, halla; y al que llama, se abre."],[11,"¿Y cuál padre de vosotros, si su hijo le pidiere pan, le dará una piedra? o, si pescado, ¿en lugar de pescado, le dará una serpiente?"],[12,"O, si le pidiere un huevo, ¿le dará un escorpión?"],[13,"Pues si vosotros, siendo malos, sabéis dar buenas dádivas a vuestros hijos, ¿cuánto más vuestro Padre celestial dará el Espíritu Santo a los que lo pidieren de él?"]],"Lucas 15:11-32":[[11,"Y dijo: Un hombre tenía dos hijos;"],[12,"Y el menor de ellos dijo a su padre: Padre, dame la parte de la hacienda que me pertenece: y les repartió la hacienda."],[13,"Y no muchos días después, juntándolo todo el hijo menor, partió lejos a una provincia apartada; y allí desperdició su hacienda viviendo perdidamente."],[14,"Y cuando todo lo hubo malgastado, vino una grande hambre en aquella provincia, y comenzóle a faltar."],[15,"Y fue y se llegó a uno de los ciudadanos de aquella tierra, el cual le envió a su hacienda para que apacentase los puercos."],[16,"Y deseaba henchir su vientre de las algarrobas que comían los puercos; mas nadie se las daba."],[17,"Y volviendo en sí, dijo: ¡Cuántos jornaleros en casa de mi padre tienen abundancia de pan, y yo aquí perezco de hambre!"],[18,"Me levantaré, e iré a mi padre, y le diré: Padre, he pecado contra el cielo, y contra ti;"],[19,"Ya no soy digno de ser llamado tu hijo; hazme como a uno de tus jornaleros."],[20,"Y levantándose, vino a su padre. Y como aun estuviese lejos, viólo su padre, y fue movido a misericordia, y corrió, y echóse sobre su cuello, y besóle."],[21,"Y el hijo le dijo: Padre, he pecado contra el cielo, y contra ti, y ya no soy digno de ser llamado tu hijo."],[22,"Mas el padre dijo a sus siervos: Sacad el principal vestido, y vestidle; y poned un anillo en su mano, y zapatos en sus pies."],[23,"Y traed el becerro grueso, y matadlo, y comamos, y hagamos fiesta:"],[24,"Porque este mi hijo muerto era, y ha revivido; habíase perdido, y es hallado. Y comenzaron a regocijarse."],[25,"Y su hijo el mayor estaba en el campo; el cual como vino, y llegó cerca de casa, oyó la sinfonía y las danzas;"],[26,"Y llamando a uno de los criados, preguntóle qué era aquello."],[27,"Y él le dijo: Tu hermano ha venido; y tu padre ha muerto el becerro grueso, por haberle recibido salvo."],[28,"Entonces se enojó, y no quería entrar. Salió por tanto su padre, y le rogaba que entrase."],[29,"Mas él respondiendo, dijo al padre: He aquí tantos años te sirvo, no habiendo traspasado jamás tu mandamiento, y nunca me has dado un cabrito para gozarme con mis amigos:"],[30,"Mas cuando vino éste tu hijo, que ha consumido tu hacienda con rameras, has matado para él el becerro grueso."],[31,"El entonces le dijo: Hijo, tú siempre estás conmigo, y todas mis cosas son tuyas."],[32,"Mas era menester hacer fiesta y holgar nos, porque este tu hermano muerto era, y ha revivido; habíase perdido, y es hallado."]],"Lucas 15:20-24":[[20,"Y levantándose, vino a su padre. Y como aun estuviese lejos, viólo su padre, y fue movido a misericordia, y corrió, y echóse sobre su cuello, y besóle."],[21,"Y el hijo le dijo: Padre, he pecado contra el cielo, y contra ti, y ya no soy digno de ser llamado tu hijo."],[22,"Mas el padre dijo a sus siervos: Sacad el principal vestido, y vestidle; y poned un anillo en su mano, y zapatos en sus pies."],[23,"Y traed el becerro grueso, y matadlo, y comamos, y hagamos fiesta:"],[24,"Porque este mi hijo muerto era, y ha revivido; habíase perdido, y es hallado. Y comenzaron a regocijarse."]],"Lucas 18:35-43":[[35,"Y aconteció que acercándose él a Jericó, un ciego estaba sentado junto al camino mendigando;"],[36,"El cual como oyó la gente que pasaba, preguntó qué era aquello."],[37,"Y dijéronle que pasaba Jesús Nazareno."],[38,"Entonces dio voces, diciendo: Jesús, Hijo de David, ten misericordia de mí."],[39,"Y los que iban delante, le reñían que callase; mas él clamaba mucho más: Hijo de David, ten misericordia de mí."],[40,"Jesús entonces parándose, mandó traerle a sí: y como él llegó, le preguntó,"],[41,"Diciendo: ¿Qué quieres que te haga? Y él dijo: Señor, que vea."],[42,"Y Jesús le dijo: Ve, tu fe te ha hecho salvo."],[43,"Y luego vio, y le seguía, glorificando a Dios: y todo el pueblo como lo vio, dio a Dios alabanza."]],"Lucas 18:41":[[41,"Diciendo: ¿Qué quieres que te haga? Y él dijo: Señor, que vea."]],"Lucas 19:1-10":[[1,"Y habiendo entrado Jesús, iba pasando por Jericó;"],[2,"Y he aquí un varón llamado Zaqueo, el cual era el principal de los publicanos, y era rico;"],[3,"Y procuraba ver a Jesús quién fuese; mas no podía a causa de la multitud, porque era pequeño de estatura."],[4,"Y corriendo delante, subióse a un árbol sicómoro para verle; porque había de pasar por allí."],[5,"Y como vino a aquel lugar Jesús, mirando, le vio, y díjole: Zaqueo, date priesa, desciende, porque hoy es necesario que pose en tu casa."],[6,"Entonces él descendió apriesa, y le recibió gozoso."],[7,"Y viendo esto, todos murmuraban, diciendo que había entrado a posar con un hombre pecador."],[8,"Entonces Zaqueo, puesto en pie, dijo al Señor: He aquí, Señor, la mitad de mis bienes doy a los pobres; y si en algo he defraudado a alguno, lo vuelvo con el cuatro tanto."],[9,"Y Jesús le dijo: Hoy ha venido la salvación a esta casa; por cuanto él también es hijo de Abraham."],[10,"Porque el Hijo del hombre vino a buscar y a salvar lo que se había perdido."]],"Lucas 1:26-38":[[26,"Y al sexto mes, el ángel Gabriel fue enviado de Dios a una ciudad de Galilea, llamada Nazaret,"],[27,"A una virgen desposada con un varón que se llamaba José, de la casa de David: y el nombre de la virgen era María."],[28,"Y entrando el ángel a donde estaba, dijo, ¡Salve, muy favorecida! el Señor es contigo: bendita tú entre las mujeres."],[29,"Mas ella, cuando le vio, se turbó de sus palabras, y pensaba qué salutación fuese ésta."],[30,"Entonces el ángel le dijo: María, no temas, porque has hallado gracia cerca de Dios."],[31,"Y he aquí, concebirás en tu seno, y parirás un hijo, y llamarás su nombre Jesús."],[32,"Este será grande, y será llamado Hijo del Altísimo: y le dará el Señor Dios el trono de David su padre:"],[33,"Y reinará en la casa de Jacob por siempre; y de su reino no habrá fin."],[34,"Entonces María dijo al ángel: ¿Cómo será esto? porque no conozco varón."],[35,"Y respondiendo el ángel le dijo: El Espíritu Santo vendrá sobre ti, y la virtud del Altísimo te hará sombra; por lo cual también lo Santo que nacerá, será llamado Hijo de Dios."],[36,"Y he aquí, Elisabet tu parienta, también ella ha concebido hijo en su vejez; y este es el sexto mes a ella que es llamada la estéril:"],[37,"Porque ninguna cosa es imposible para Dios."],[38,"Entonces María dijo: He aquí la sierva del Señor; hágase a mí conforme a tu palabra. Y el ángel partió de ella."]],"Lucas 1:38":[[38,"Entonces María dijo: He aquí la sierva del Señor; hágase a mí conforme a tu palabra. Y el ángel partió de ella."]],"Lucas 1:46-55":[[46,"Entonces María dijo: engrandece mi alma al Señor;"],[47,"Y mi espíritu se alegró en Dios mi Salvador."],[48,"Porque ha mirado a la bajeza de su criada; porque he aquí, desde ahora me dirán bienaventurada todas las generaciones."],[49,"Porque me ha hecho grandes cosas el Poderoso; y santo es su nombre."],[50,"Y su misericordia de generación a generación a los que le temen."],[51,"Hizo valentía con su brazo: esparció los soberbios del pensamiento de su corazón."],[52,"Quitó los poderosos de los tronos, y levantó a los humildes."],[53,"A los hambrientos hinchió de bienes; y a los ricos envió vacíos."],[54,"Recibió a Israel su siervo, acordándose de la misericordia,"],[55,"Como habló a nuestros padres a Abraham y a su simiente para siempre."]],"Lucas 24:13-35":[[13,"Y he aquí, dos de ellos iban el mismo día a una aldea que estaba de Jerusalem sesenta estadios, llamada Emmaús."],[14,"E iban hablando entre sí de todas aquellas cosas que habían acaecido."],[15,"Y aconteció que yendo hablando entre sí, y preguntándose el uno al otro, el mismo Jesús se llegó, e iba con ellos juntamente."],[16,"Mas los ojos de ellos estaban embargados, para que no le conociesen."],[17,"Y díjoles: ¿Qué pláticas son estas que tratáis entre vosotros andando, y estáis tristes?"],[18,"Y respondiendo el uno, que se llamaba Cleofas, le dijo: ¿Tú sólo peregrino eres en Jerusalem, y no has sabido las cosas que en ella han acontecido estos días?"],[19,"Entonces él les dijo: ¿Qué cosas? Y ellos le dijeron: De Jesús Nazareno, el cual fue varón profeta, poderoso en obra y en palabra delante de Dios y de todo el pueblo;"],[20,"Y cómo le entregaron los príncipes de los sacerdotes y nuestros príncipes a condenación de muerte, y le crucificaron."],[21,"Mas nosotros esperábamos que él era el que había de redimir a Israel: y ahora sobre todo esto, hoy es el tercer día que esto ha acontecido."],[22,"Aunque también unas mujeres de los nuestros nos han espantado, las cuales antes del día fueron al sepulcro:"],[23,"Y no hallando su cuerpo, vinieron diciendo que también habían visto visión de ángeles, los cuales dijeron que él vive."],[24,"Y fueron algunos de los nuestros al sepulcro, y hallaron así como las mujeres habían dicho; mas a él no le vieron."],[25,"Entonces él les dijo: ¡Oh insensatos, y tardos de corazón para creer todo lo que los profetas han dicho!"],[26,"¿No era necesario que el Cristo padeciera estas cosas, y que entrara en su gloria?"],[27,"Y comenzando desde Moisés, y de todos los profetas, declarábales en todas las Escrituras lo que de él decían."],[28,"Y llegaron a la aldea a donde iban: y él hizo como que iba más lejos."],[29,"Mas ellos le detuvieron por fuerza, diciendo: Quédate con nosotros, porque se hace tarde, y el día ya ha declinado. Entró pues a estarse con ellos."],[30,"Y aconteció, que estando sentado con ellos a la mesa, tomando el pan, bendijo, y partió, y dióles."],[31,"Entonces fueron abiertos los ojos de ellos, y le conocieron; mas él se desapareció de los ojos de ellos."],[32,"Y decían el uno al otro: ¿No ardía nuestro corazón en nosotros, mientras nos hablaba en el camino, y cuando nos abría las Escrituras?"],[33,"Y levantándose en la misma hora, tornáronse a Jerusalem, y hallaron a los once reunidos, y a los que estaban con ellos."],[34,"Que decían: Ha resucitado el Señor verdaderamente, y ha aparecido a Simón."],[35,"Entonces ellos contaban las cosas que les habían acontecido en el camino, y cómo había sido conocido de ellos al partir el pan."]],"Lucas 2:1-20":[[1,"Y aconteció en aquellos días que salió edicto de parte de Augusto César, que toda la tierra fuese empadronada."],[2,"Este empadronamiento primero fue hecho siendo Cirenio gobernador de la Siria."],[3,"E iban todos para ser empadronados, cada uno a su ciudad."],[4,"Y subió José de Galilea, de la ciudad de Nazaret, a Judea, a la ciudad de David, que se llama Bethlehem, por cuanto era de la casa y familia de David;"],[5,"Para ser empadronado con María su mujer, desposada con él, la cual estaba en cinta."],[6,"Y aconteció que estando ellos allí, se cumplieron los días en que ella había de parir."],[7,"Y parió a su hijo primogénito, y le envolvió en pañales, y acostóle en un pesebre, porque no había lugar para ellos en el mesón."],[8,"Y había pastores en la misma tierra, que velaban y guardaban las vigilias de la noche sobre su ganado."],[9,"Y he aquí el ángel del Señor vino sobre ellos, y la claridad de Dios los cercó de resplandor; y tuvieron gran temor."],[10,"Mas el ángel les dijo: No temáis; porque he aquí os doy nuevas de gran gozo, que será para todo el pueblo:"],[11,"Que os ha nacido hoy, en la ciudad de David, un Salvador, que es Cristo el Señor."],[12,"Y esto os será por señal: hallaréis al niño envuelto en pañales, echado en un pesebre."],[13,"Y repentinamente fue con el ángel una multitud de los ejércitos celestiales, que alababan a Dios, y decían:"],[14,"Gloria en las alturas a Dios, y en la tierra paz, buena voluntad para con los hombres."],[15,"Y aconteció que como los ángeles se fueron de ellos al cielo, los pastores dijeron los unos a los otros: Pasemos pues hasta Bethlehem, y veamos esto que ha sucedido, que el Señor nos ha manifestado."],[16,"Y vinieron apriesa, y hallaron a María, y a José, y al niño acostado en el pesebre."],[17,"Y viéndolo, hicieron notorio lo que les había sido dicho del niño."],[18,"Y todos los que oyeron, se maravillaron de lo que los pastores les decían."],[19,"Mas María guardaba todas estas cosas, confiriéndolas en su corazón."],[20,"Y se volvieron los pastores glorificando y alabando a Dios de todas las cosas que habían oído y visto, como les había sido dicho."]],"Lucas 4:16-21":[[16,"Y vino a Nazaret, donde había sido criado; y entró, conforme a su costumbre, el día del sábado en la sinagoga, y se levantó a leer."],[17,"Y fuéle dado el libro del profeta Isaías; y como abrió el libro, halló el lugar donde estaba escrito:"],[18,"El Espíritu del Señor es sobre mí, por cuanto me ha ungido para dar buenas nuevas a los pobres: me ha enviado para sanar a los quebrantados de corazón; para pregonar a los cautivos libertad, y a los ciegos vista; para poner en libertad a los quebrantados:"],[19,"Para predicar el año agradable del Señor."],[20,"Y rollando el libro, lo dio al ministro, y sentóse: y los ojos de todos en la sinagoga estaban fijos en él."],[21,"Y comenzó a decirles: Hoy se ha cumplido esta Escritura en vuestros oídos."]],"Lucas 5:1-11":[[1,"Y aconteció, que estando él junto al lago de Genezaret, las gentes se agolpaban sobre él para oir la palabra de Dios."],[2,"Y vio dos barcos que estaban cerca de la orilla del lago: y los pescadores, habiendo descendido de ellos, lavaban sus redes."],[3,"Y entrado en uno de estos barcos, el cual era de Simón, le rogó que lo desviase de tierra un poco; y sentándose, enseñaba desde el barco a las gentes."],[4,"Y como cesó de hablar, dijo a Simón: Tira a alta mar, y echad vuestras redes para pescar."],[5,"Y respondiendo Simón, le dijo: Maestro, habiendo trabajado toda la noche, nada hemos tomado; mas en tu palabra echaré la red."],[6,"Y habiéndolo hecho, encerraron gran multitud de pescado, que su red se rompía."],[7,"E hicieron señas a los compañeros que estaban en el otro barco, que viniesen a ayudarles; y vinieron, y llenaron ambos barcos, de tal manera que se anegaban."],[8,"Lo cual viendo Simón Pedro, se derribó de rodillas a Jesús, diciendo: Apártate de mí, Señor, porque soy hombre pecador."],[9,"Porque temor le había rodeado, y a todos los que estaban con él, de la presa de los peces que habían tomado;"],[10,"Y asimismo a Jacobo y a Juan, hijos de Zebedeo, que eran compañeros de Simón. Y Jesús dijo a Simón: No temas: desde ahora pescarás hombres."],[11,"Y como llegaron a tierra los barcos, dejándolo todo, le siguieron."]],"Lucas 7:36-50":[[36,"Y le rogó uno de los Fariseos, que comiese con él. Y entrado en casa del Fariseo, sentóse a la mesa."],[37,"Y he aquí una mujer que había sido pecadora en la ciudad, como entendió que estaba a la mesa en casa de aquel Fariseo, trajo un alabastro de ungüento,"],[38,"Y estando detrás a sus pies, comenzó llorando a regar con lágrimas sus pies, y los limpiaba con los cabellos de su cabeza; y besaba sus pies, y los ungía con el ungüento."],[39,"Y como vio esto el Fariseo que le había convidado, habló entre sí, diciendo: Este, si fuera profeta, conocería quién y cuál es la mujer que le toca, que es pecadora."],[40,"Entonces respondiendo Jesús, le dijo: Simón, una cosa tengo que decirte. Y él dice: Di, Maestro."],[41,"Un acreedor tenía dos deudores: el uno le debía quinientos denarios, y el otro cincuenta;"],[42,"Y no teniendo ellos de qué pagar, perdonó a ambos. Di, pues, ¿cuál de éstos le amará más?"],[43,"Y respondiendo Simón, dijo: Pienso que aquél al cual perdonó más. Y él le dijo: Rectamente has juzgado."],[44,"Y vuelto a la mujer, dijo a Simón: ¿Ves esta mujer? Entré en tu casa, no diste agua para mis pies; mas ésta ha regado mis pies con lágrimas, y los ha limpiado con los cabellos."],[45,"No me diste beso, mas ésta, desde que entré, no ha cesado de besar mis pies."],[46,"No ungiste mi cabeza con óleo; mas ésta ha ungido con ungüento mis pies."],[47,"Por lo cual te digo que sus muchos pecados son perdonados, porque amó mucho; mas al que se perdona poco, poco ama."],[48,"Y a ella dijo: Los pecados te son perdonados."],[49,"Y los que estaban juntamente sentados a la mesa, comenzaron a decir entre sí: ¿Quién es éste, que también perdona pecados?"],[50,"Y dijo a la mujer: Tu fe te ha salvado, ve en paz."]],"Lucas 8:22-25":[[22,"Y aconteció un día que él entró en un barco con sus discípulos, y les dijo: Pasemos a la otra parte del lago. Y partieron."],[23,"Pero mientras ellos navegaban, él se durmió. Y sobrevino una tempestad de viento en el lago; y henchían de agua, y peligraban."],[24,"Y llegándose a él, le despertaron, diciendo: ¡Maestro, Maestro, que perecemos! Y despertado él, increpó al viento y a la tempestad del agua; y cesaron, y fue hecha bonanza."],[25,"Y les dijo: ¿Qué es de vuestra fe? Y atemorizados, se maravillaban, diciendo los unos a los otros: ¿Quién es éste, que aun a los vientos y al agua manda, y le obedecen?"]],"Mateo 11:28":[[28,"Venid a mí todos los que estáis trabajados y cargados, que yo os haré descansar."]],"Mateo 11:28-29":[[28,"Venid a mí todos los que estáis trabajados y cargados, que yo os haré descansar."],[29,"Llevad mi yugo sobre vosotros, y aprended de mí, que soy manso y humilde de corazón; y hallaréis descanso para vuestras almas."]],"Mateo 28:20":[[20,"Enseñándoles que guarden todas las cosas que os he mandado: y he aquí, yo estoy con vosotros todos los días, hasta el fin del mundo. Amén."]],"Mateo 5:14":[[14,"Vosotros sois la luz del mundo: una ciudad asentada sobre un monte no se puede esconder."]],"Mateo 5:44":[[44,"Mas yo os digo: Amad a vuestros enemigos, bendecid a los que os maldicen, haced bien a los que os aborrecen, y orad por los que os ultrajan y os persiguen;"]],"Mateo 6:3-4":[[3,"Mas cuando tú haces limosna, no sepa tu izquierda lo que hace tu derecha;"],[4,"Para que sea tu limosna en secreto: y tu Padre que ve en secreto, él te recompensará en público."]],"Mateo 6:34":[[34,"Así que, no os congojéis por el día de mañana; que el día de mañana traerá su fatiga: basta al día su afán."]],"Números 6:24-26":[[24,"El Señor te bendiga, y te guarde:"],[25,"Haga resplandecer el Señor su rostro sobre ti, y haya de ti misericordia:"],[26,"El Señor alce a ti su rostro, y ponga en ti paz."]],"Proverbios 25:11":[[11,"Manzana de oro con figuras de plata es la palabra dicha como conviene."]],"Proverbios 3:5-6":[[5,"Fíate del Señor de todo tu corazón, y no estribes en tu prudencia."],[6,"Reconócelo en todos tus caminos, y él enderezará tus veredas."]],"Romanos 15:13":[[13,"Y el Dios de esperanza os llene de todo gozo y paz creyendo, para que abundéis en esperanza por la virtud del Espíritu Santo."]],"Romanos 5:5":[[5,"Y la esperanza no avergüenza; porque el amor de Dios está derramado en nuestros corazones por el Espíritu Santo que nos es dado."]],"Romanos 8:28":[[28,"Y sabemos que a los que a Dios aman, todas las cosas les ayudan a bien, es a saber, a los que conforme al propósito son llamados."]],"Romanos 8:38-39":[[38,"Por lo cual estoy cierto que ni la muerte, ni la vida, ni ángeles, ni principados, ni potestades, ni lo presente, ni lo por venir,"],[39,"Ni lo alto, ni lo bajo, ni ninguna criatura nos podrá apartar del amor de Dios, que es en Cristo Jesús Señor nuestro."]],"Salmos 103:12":[[12,"Cuanto está lejos el oriente del occidente, hizo alejar de nosotros nuestras rebeliones."]],"Salmos 103:2":[[2,"Bendice, alma mía al Señor, y no olvides ninguno de sus beneficios."]],"Salmos 103:2-4":[[2,"Bendice, alma mía al Señor, y no olvides ninguno de sus beneficios."],[3,"El es quien perdona todas tus iniquidades, el que sana todas tus dolencias;"],[4,"El que rescata del hoyo tu vida, el que te corona de favores y misericordias;"]],"Salmos 116:7":[[7,"Vuelve, oh alma mía, a tu reposo; porque el Señor te ha hecho bien."]],"Salmos 118:24":[[24,"Este es el día que hizo el Señor: nos gozaremos y alegraremos en él."]],"Salmos 119:105":[[105,"Lámpara es a mis pies tu palabra, y lumbrera a mi camino."]],"Salmos 121:3-4":[[3,"No dará tu pie al resbaladero; ni se dormirá el que te guarda."],[4,"He aquí, no se adormecerá ni dormirá el que guarda a Israel."]],"Salmos 121:7-8":[[7,"El Señor te guardará de todo mal: él guardará tu alma."],[8,"El Señor guardará tu salida y tu entrada, desde ahora y para siempre."]],"Salmos 126:5":[[5,"Los que sembraron con lágrimas, con regocijo segarán."]],"Salmos 131:2":[[2,"En verdad que me he comportado y he acallado mi alma, como un niño destetado de su madre: como un niño destetado está mi alma."]],"Salmos 139:1-18":[[1,"Oh Señor, tú me has examinado y conocido."],[2,"Tú has conocido mi sentarme y mi levantarme, has entendido desde lejos mis pensamientos."],[3,"Mi senda y mi acostarme has rodeado, y estás impuesto en todos mis caminos."],[4,"Pues aun no está la palabra en mi lengua, y he aquí, oh Señor, tú la sabes toda."],[5,"Detrás y delante me guarneciste, y sobre mí pusiste tu mano."],[6,"Más maravillosa es la ciencia que mi capacidad; alta es, no puedo comprenderla."],[7,"¿Adónde me iré de tu espíritu? ¿y adónde huiré de tu presencia?"],[8,"Si subiere a los cielos, allí estás tú: y si en abismo hiciere mi estrado, he aquí allí tú estás."],[9,"Si tomare las alas del alba, y habitare en el extremo de la mar,"],[10,"Aun allí me guiará tu mano, y me asirá tu diestra."],[11,"Si dijere: Ciertamente las tinieblas me encubrirán; aun la noche resplandecerá tocante a mí."],[12,"Aun las tinieblas no encubren de ti, y la noche resplandece como el día: lo mismo te son las tinieblas que la luz."],[13,"Porque tú poseiste mis riñones; cubrísteme en el vientre de mi madre."],[14,"Te alabaré; porque formidables, maravillosas son tus obras: estoy maravillado, y mi alma lo conoce mucho."],[15,"No fue encubierto de ti mi cuerpo, bien que en oculto fui formado, y compaginado en lo más bajo de la tierra."],[16,"Mi embrión vieron tus ojos, y en tu libro estaban escritas todas aquellas cosas que fueron luego formadas, sin faltar una de ellas."],[17,"Así que ¡cuán preciosos me son, oh Dios, tus pensamientos! ¡cuán multiplicadas son sus cuentas!"],[18,"Si los cuento, multiplícanse más que la arena: despierto, y aun estoy contigo."]],"Salmos 139:13-14":[[13,"Porque tú poseiste mis riñones; cubrísteme en el vientre de mi madre."],[14,"Te alabaré; porque formidables, maravillosas son tus obras: estoy maravillado, y mi alma lo conoce mucho."]],"Salmos 139:14":[[14,"Te alabaré; porque formidables, maravillosas son tus obras: estoy maravillado, y mi alma lo conoce mucho."]],"Salmos 143:8":[[8,"Hazme oir por la mañana tu misericordia, porque en ti he confiado: hazme saber el camino por donde ande, porque a ti he alzado mi alma."]],"Salmos 145:18":[[18,"Cercano está el Señor a todos los que le invocan, a todos los que le invocan de veras."]],"Salmos 147:3":[[3,"El sana a los quebrantados de corazón, y liga sus heridas."]],"Salmos 150:6":[[6,"Todo lo que respira alabe al Señor. Aleluya."]],"Salmos 16:11":[[11,"Me mostrarás la senda de la vida: hartura de alegrías hay con tu rostro; deleites en tu diestra para siempre."]],"Salmos 1:1-3":[[1,"Bienaventurado el varón que no anduvo en consejo de malos, ni estuvo en camino de pecadores, ni en silla de escarnecedores se ha sentado;"],[2,"Antes en la ley del Señor está su delicia, y en su ley medita de día y de noche."],[3,"Y será como el árbol plantado junto a arroyos de aguas, que da su fruto en su tiempo, y su hoja no cae; y todo lo que hace, prosperará."]],"Salmos 20:4":[[4,"Déte conforme a tu corazón, y cumpla todo tu consejo."]],"Salmos 23":[[1,"El Señor es mi pastor; nada me faltará."],[2,"En lugares de delicados pastos me hará yacer: junto a aguas de reposo me pastoreará."],[3,"Confortará mi alma; guiaráme por sendas de justicia por amor de su nombre."],[4,"Aunque ande en valle de sombra de muerte, no temeré mal alguno; porque tú estarás conmigo: tu vara y tu cayado me infundirán aliento."],[5,"Aderezarás mesa delante de mí, en presencia de mis angustiadores: ungiste mi cabeza con aceite: mi copa está rebosando."],[6,"Ciertamente el bien y la misericordia me seguirán todos los días de mi vida: y en la casa del Señor moraré por largos días."]],"Salmos 23:1":[[1,"El Señor es mi pastor; nada me faltará."]],"Salmos 23:1-3":[[1,"El Señor es mi pastor; nada me faltará."],[2,"En lugares de delicados pastos me hará yacer: junto a aguas de reposo me pastoreará."],[3,"Confortará mi alma; guiaráme por sendas de justicia por amor de su nombre."]],"Salmos 23:1-4":[[1,"El Señor es mi pastor; nada me faltará."],[2,"En lugares de delicados pastos me hará yacer: junto a aguas de reposo me pastoreará."],[3,"Confortará mi alma; guiaráme por sendas de justicia por amor de su nombre."],[4,"Aunque ande en valle de sombra de muerte, no temeré mal alguno; porque tú estarás conmigo: tu vara y tu cayado me infundirán aliento."]],"Salmos 25:4-5":[[4,"Muéstrame, oh Señor, tus caminos; enséñame tus sendas."],[5,"Encamíname en tu verdad, y enséñame; porque tú eres el Dios de mi salud: en ti he esperado todo el día."]],"Salmos 27:1":[[1,"El Señor es mi luz y mi salvación: ¿de quién temeré? El Señor es la fortaleza de mi vida: ¿de quién he de atemorizarme?"]],"Salmos 30:11":[[11,"Has tornado mi endecha en baile; desataste mi saco, y ceñísteme de alegría."]],"Salmos 30:5":[[5,"Porque un momento será su furor; mas en su voluntad está la vida: por la tarde durará el lloro, y a la mañana vendrá la alegría."]],"Salmos 32:8":[[8,"Te haré entender, y te enseñaré el camino en que debes andar: sobre ti fijaré mis ojos."]],"Salmos 34:18":[[18,"Cercano está el Señor a los quebrantados de corazón; y salvará a los contritos de espíritu."]],"Salmos 36:7":[[7,"¡Cuán ilustre, oh Dios, es tu misericordia! Por eso los hijos de los hombres se amparan bajo la sombra de tus alas."]],"Salmos 37:4":[[4,"Pon asimismo tu delicia en el Señor, y él te dará las peticiones de tu corazón."]],"Salmos 37:4-5":[[4,"Pon asimismo tu delicia en el Señor, y él te dará las peticiones de tu corazón."],[5,"Encomienda al Señor tu camino, y espera en él; y él hará."]],"Salmos 40:1-3":[[1,"Resignadamente esperé al Señor, e inclinóse a mí, y oyó mi clamor."],[2,"E hízome sacar de un lago de miseria, del lodo cenagoso; y puso mis pies sobre peña, y enderezó mis pasos."],[3,"Puso luego en mi boca canción nueva, alabanza a nuestro Dios. Verán esto muchos, y temerán, y esperarán en el Señor."]],"Salmos 42:11":[[11,"¿Por qué te abates, oh alma mía, y por qué te conturbas en mí? Espera a Dios; porque aun le tengo de alabar; es él salvamento delante de mí, y el Dios mío."]],"Salmos 46:1":[[1,"Dios es nuestro amparo y fortaleza, nuestro pronto auxilio en las tribulaciones."]],"Salmos 46:10":[[10,"Estad quietos, y conoced que yo soy Dios: ensalzado he de ser entre las gentes, ensalzado seré en la tierra."]],"Salmos 4:8":[[8,"En paz me acostaré, y asimismo dormiré; porque solo tú, Señor, me harás estar confiado."]],"Salmos 51:10":[[10,"Crea en mí, oh Dios, un corazón limpio; y renueva un espíritu recto dentro de mí."]],"Salmos 55:22":[[22,"Echa sobre el Señor tu carga, y él te sustentará; no dejará para siempre caído al justo."]],"Salmos 56:3":[[3,"En el día que temo, yo en ti confío."]],"Salmos 5:3":[[3,"Oh Señor, de mañana oirás mi voz; de mañana me presentaré a ti, y esperaré."]],"Salmos 62:1-2":[[1,"En Dios solamente está acallada mi alma: de él viene mi salud."],[2,"El solamente es mi fuerte, y mi salud; es mi refugio, no resbalaré mucho."]],"Salmos 62:2":[[2,"El solamente es mi fuerte, y mi salud; es mi refugio, no resbalaré mucho."]],"Salmos 63:1":[[1,"Dios, Dios mío eres tú: levantaréme a ti de mañana: mi alma tiene sed de ti, mi carne te desea, en tierra de sequedad y transida sin aguas;"]],"Salmos 63:6-7":[[6,"Cuando me acordaré de ti en mi lecho, cuando meditaré de ti en las velas de la noche."],[7,"Porque has sido mi socorro; y así en la sombra de tus alas me regocijaré."]],"Salmos 86:5":[[5,"Porque tú, Señor, eres bueno y perdonador, y grande en misericordia para con todos los que te invocan."]],"Salmos 90:14":[[14,"Sácianos presto de tu misericordia: y cantaremos y nos alegraremos todos nuestros días."]],"Salmos 91:1-2":[[1,"El que habita al abrigo del Altísimo, morará bajo la sombra del Omnipotente."],[2,"Diré yo al Señor: Esperanza mía, y castillo mío; mi Dios, en él confiaré."]],"Salmos 91:11":[[11,"Pues que a sus ángeles mandará acerca de ti, que te guarden en todos tus caminos."]],"Salmos 94:19":[[19,"En la multitud de mis pensamientos dentro de mí, tus consolaciones alegraban mi alma."]],"Santiago 1:19":[[19,"Por esto, mis amados hermanos, todo hombre sea pronto para oir, tardío para hablar, tardío para airarse:"]],"Sofonías 3:17":[[17,"El Señor en medio de ti, poderoso, él salvará; gozaráse sobre ti con alegría, callará de amor, se regocijará sobre ti con cantar."]]};
+const IDX = [[1,"Génesis",50],[2,"Éxodo",40],[3,"Levítico",27],[4,"Números",36],[5,"Deuteronomio",34],[6,"Josué",24],[7,"Jueces",21],[8,"Rut",4],[9,"1 Samuel",31],[10,"2 Samuel",24],[11,"1 Reyes",22],[12,"2 Reyes",25],[13,"1 Crónicas",29],[14,"2 Crónicas",36],[15,"Esdras",10],[16,"Nehemías",13],[17,"Ester",10],[18,"Job",42],[19,"Salmos",150],[20,"Proverbios",31],[21,"Eclesiastés",12],[22,"Cantar de los Cantares",8],[23,"Isaías",66],[24,"Jeremías",52],[25,"Lamentaciones",5],[26,"Ezequiel",48],[27,"Daniel",12],[28,"Oseas",14],[29,"Joel",3],[30,"Amós",9],[31,"Abdías",1],[32,"Jonás",4],[33,"Miqueas",7],[34,"Nahúm",3],[35,"Habacuc",3],[36,"Sofonías",3],[37,"Ageo",2],[38,"Zacarías",14],[39,"Malaquías",4],[40,"Mateo",28],[41,"Marcos",16],[42,"Lucas",24],[43,"Juan",21],[44,"Hechos",28],[45,"Romanos",16],[46,"1 Corintios",16],[47,"2 Corintios",13],[48,"Gálatas",6],[49,"Efesios",6],[50,"Filipenses",4],[51,"Colosenses",4],[52,"1 Tesalonicenses",5],[53,"2 Tesalonicenses",3],[54,"1 Timoteo",6],[55,"2 Timoteo",4],[56,"Tito",3],[57,"Filemón",1],[58,"Hebreos",13],[59,"Santiago",5],[60,"1 Pedro",5],[61,"2 Pedro",3],[62,"1 Juan",5],[63,"2 Juan",1],[64,"3 Juan",1],[65,"Judas",1],[66,"Apocalipsis",22]];
+const HOY_SEMILLA = {"fecha":"2026-11-16","dia":"Lunes de la XXXIII semana del tiempo ordinario","primera":"Apocalipsis 1:1-4; 2:1-5","salmo":"Salmos 1:1-4,6","evangelio":"Lucas 18:35-43","reflexion":"Un ciego está sentado al borde del camino, pidiendo limosna. Todos le dicen que se calle, pero él grita más fuerte: Jesús, ten misericordia de mí. Y Jesús se detiene. No pasa de largo. Lo manda llamar y le hace una pregunta llena de respeto: ¿qué quieres que haga por ti? Jesús no da por hecho lo que necesitas; quiere escucharlo de tu boca. Hoy también se detiene por ti, aunque otros te digan que tu dolor no es para tanto.","pregunta":"Si Jesús se detuviera hoy frente a ti y te preguntara qué quieres que haga por ti, ¿qué le responderías?","oracion":"Jesús, Hijo de David, ten misericordia de mí. Abre mis ojos para verte en mi día. Amén.","fuente":"Calendario litúrgico (EWTN, dominicos.org)"};
+const MODO = "web";
+const FORM_URL = "";
+const CLAUDE_URL = "https://claude.ai/artifact/WKUPRygFidLaBwgQ29tcRv";
+</script>
+<script>
+(function(){
+"use strict";
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+/* ---------- género ---------- */
+function G(t){ return String(t).replace(/⟨([^|⟩]*)\|([^⟩]*)⟩/g, (_, f, m) => (estado && estado.genero === "h") ? m : f); }
+function aplicarGenero(o){ if (typeof o === "string") return G(o); if (Array.isArray(o)) return o.map(aplicarGenero); if (o && typeof o === "object"){ const r = {}; for (const k in o) r[k] = aplicarGenero(o[k]); return r; } return o; }
+let CONT = CONT_RAW;
+function recalcular(){ CONT = aplicarGenero(CONT_RAW); pintarInicio(); pintarTemas(); pintarOraciones(); pintarDevocionales(); pintarRuta(); pintarAjustes(); pintarChat(); }
+
+/* ---------- libros ---------- */
+const DEUTERO = [
+  ["Tobías", 16, 3], ["Judit", 16, 3], ["1 Macabeos", 16, 4], ["2 Macabeos", 16, 4], ["Sabiduría", 21, 5], ["Eclesiástico", 21, 5], ["Baruc", 24, 6]
+];
+/* posición católica: después del libro con ese índice (1 = Génesis) */
+const DEUTERO_DESPUES = { "Tobías":16, "Judit":16, "1 Macabeos":17, "2 Macabeos":17, "Sabiduría":22, "Eclesiástico":22, "Baruc":25 };
+const DEUTERO_CAPS = { "Tobías":14, "Judit":16, "1 Macabeos":16, "2 Macabeos":15, "Sabiduría":19, "Eclesiástico":51, "Baruc":6 };
+const VATICANO = "https://www.vatican.va/content/bibbia/es.html";
+function norm(s){ return String(s).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/\s+/g," ").trim(); }
+const LIBRO_POR_NOMBRE = {};
+IDX.forEach(([n, nombre]) => { LIBRO_POR_NOMBRE[norm(nombre)] = n; });
+LIBRO_POR_NOMBRE["salmo"] = 19; LIBRO_POR_NOMBRE["sal"] = 19; LIBRO_POR_NOMBRE["cantar"] = 22; LIBRO_POR_NOMBRE["cantares"] = 22;
+LIBRO_POR_NOMBRE["mt"] = 40; LIBRO_POR_NOMBRE["mc"] = 41; LIBRO_POR_NOMBRE["lc"] = 42; LIBRO_POR_NOMBRE["jn"] = 43; LIBRO_POR_NOMBRE["apocalipsis de juan"] = 66; LIBRO_POR_NOMBRE["ap"] = 66;
+const nombreLibro = (n) => IDX[n-1][1];
+
+const cacheLibros = {};
+function cargarLibro(n){
+  if (!cacheLibros[n]) cacheLibros[n] = fetch("biblia/" + n + ".json").then(r => { if (!r.ok) throw new Error("libro"); return r.json(); }).catch(e => { delete cacheLibros[n]; throw e; });
+  return cacheLibros[n];
+}
+
+/* "Lucas 18:35-43", "Apocalipsis 1:1-4; 2:1-5", "Salmos 1:1-4,6", "Salmos 23" */
+function parseRef(ref){
+  const s = String(ref || "").replace(/\s+/g," ").trim();
+  const m = s.match(/^((?:[123]\s)?[A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]+?)\s+(\d[\d:,.\-–;\s]*)$/);
+  if (!m) return null;
+  const libro = LIBRO_POR_NOMBRE[norm(m[1])];
+  if (!libro) return { deutero: m[1].trim() };
+  const tramos = [];
+  let capActual = null;
+  m[2].split(";").map(x => x.trim()).filter(Boolean).forEach(seg => {
+    seg = seg.replace(/–/g,"-").replace(/\./g,",");
+    let cap, vers = seg;
+    if (seg.includes(":")){ [cap, vers] = seg.split(":"); cap = parseInt(cap,10); capActual = cap; }
+    else if (capActual === null || !/,|-/.test(seg) && tramos.length === 0){ cap = parseInt(seg,10); vers = null; capActual = cap; }
+    else cap = capActual;
+    const lista = [];
+    if (vers){
+      vers.split(",").forEach(p => {
+        p = p.trim().replace(/[a-z]$/,"");
+        if (!p) return;
+        if (p.includes("-")){ const [a,b] = p.split("-").map(x => parseInt(x,10)); for (let i=a;i<=b;i++) lista.push(i); }
+        else lista.push(parseInt(p,10));
+      });
+    }
+    tramos.push({ cap, vers: vers ? lista : null });
+  });
+  return { libro, tramos };
+}
+async function textoRef(ref){
+  if (PAS[ref]) return PAS[ref].map(([n,t]) => ({ n, t, c: null }));
+  const p = parseRef(ref);
+  if (!p || !p.libro) return null;
+  const data = await cargarLibro(p.libro);
+  const out = [];
+  p.tramos.forEach(tr => {
+    const cap = data.c[tr.cap-1]; if (!cap) return;
+    (tr.vers || cap.map((_,i) => i+1)).forEach(v => { if (cap[v-1]) out.push({ n:v, t:cap[v-1], c:tr.cap }); });
+  });
+  return out.length ? out : null;
+}
+const unir = (vs) => (vs || []).map(v => Array.isArray(v) ? v[1] : v.t).join(" ");
+
+/* ---------- utilidades ---------- */
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c])); }
+function hoyStr(d){ d = d || new Date(); return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
+function diaIndice(){ const d = new Date(); const base = new Date(2026,0,1); return Math.floor((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - base) / 86400000); }
+function fechaLarga(d){ try { return (d || new Date()).toLocaleDateString("es-CO",{ weekday:"long", day:"numeric", month:"long" }); } catch(e){ return ""; } }
+function fechaCorta(ts){ try { return new Date(ts).toLocaleDateString("es-CO",{ day:"numeric", month:"long", year:"numeric" }); } catch(e){ return ""; } }
+const azar = (arr) => arr[Math.floor(Math.random() * arr.length)];
+let toastT = null;
+function toast(msg){ const t = $("#toast"); t.textContent = msg; t.classList.add("ver"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("ver"), 2600); }
+function copiar(txt){ try { navigator.clipboard.writeText(txt).then(() => toast("Copiado"), () => toast("No se pudo copiar")); } catch(e){ toast("No se pudo copiar"); } }
+const limpio = (o) => JSON.parse(JSON.stringify(o));
+function btn(txt, cls, fn){ const b = document.createElement("button"); b.type = "button"; b.className = "btn chico" + (cls ? " " + cls : ""); b.textContent = txt; b.onclick = fn; return b; }
+function quitarComillas(t){ return String(t).replace(/^[«"]|[»"]$/g,""); }
+
+/* ---------- estado ---------- */
+let estado = { nombre:"", tradicion:"catolica", chat:[], dias:[], favs:[], ruta:[] };
+let diario = [];
+let db = null, uid = null, sample = null, dict = null;
+let colaE = Promise.resolve(), colaD = Promise.resolve();
+function guardarLocal(){ try { localStorage.setItem("refugio-estado", JSON.stringify(estado)); localStorage.setItem("refugio-diario", JSON.stringify(diario)); } catch(e){} }
+function guardarEstado(){
+  guardarLocal(); if (!db || !uid) return;
+  const datos = limpio(estado);
+  colaE = colaE.then(() => db.doc("data/users/" + uid + "/estado").set(datos)).catch(e => { console.warn(e); if (e && e.code === "quota_exceeded") toast("Se llenó el espacio. Borra la conversación en Ajustes."); else if (e && e.code === "invalid_argument") soloLocal(); });
+}
+function guardarDiario(){
+  guardarLocal(); if (!db || !uid) return;
+  const datos = { entradas: limpio(diario) };
+  colaD = colaD.then(() => db.doc("data/users/" + uid + "/diario").set(datos)).catch(e => { console.warn(e); if (e && e.code === "invalid_argument") soloLocal(); else toast("No se pudo guardar el diario. Intenta de nuevo."); });
+}
+let esDuena = false;
+function soloLocal(){
+  db = null;
+  $("#donde-guarda").textContent = "Tu diario, tus versículos y tu conversación se guardan en este celular, en este navegador. Nadie más los ve. Si borras los datos del navegador o cambias de celular, se pierden.";
+}
+const conTiempo = (p, ms) => Promise.race([p, new Promise((_, r) => setTimeout(() => r({ code:"timeout" }), ms))]);
+
+function agregarDiario(texto, origen){
+  diario.unshift({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), ts: Date.now(), t: String(texto).slice(0, 6000), o: origen || "yo" });
+  if (diario.length > 400) diario = diario.slice(0, 400);
+  pintarDiario(); guardarDiario();
+}
+function guardarFav(ref, t){
+  if (estado.favs.some(f => f.ref === ref)){ toast("Ya lo tenías guardado"); return; }
+  estado.favs.unshift({ ref, t: String(t).slice(0, 3000), ts: Date.now() });
+  if (estado.favs.length > 300) estado.favs = estado.favs.slice(0, 300);
+  guardarEstado(); toast("Guardado en tus versículos"); pintarDiario(); pintarRejillaSalmos();
+}
+
+/* ---------- navegación ---------- */
+const PRINCIPALES = ["inicio","salmos","ruleta","oraciones","conversar"];
+function ir(v){
+  $$(".vista").forEach(s => s.classList.toggle("activa", s.id === "v-" + v));
+  $$("nav.abajo button").forEach(b => b.setAttribute("aria-selected", b.dataset.v === v ? "true" : "false"));
+  if (v === "conversar") alFinal(); else $("#main").scrollTop = 0;
+  if (v === "ruleta") dibujarRueda();
+}
+$$("nav.abajo button").forEach(b => b.onclick = () => ir(b.dataset.v));
+document.addEventListener("click", (ev) => { const b = ev.target.closest("[data-ir]"); if (b) ir(b.dataset.ir); });
+$("#ir-inicio").onclick = () => ir("inicio");
+
+/* ---------- capa de oración ---------- */
+function abrirCapa(html){ $("#capa-dentro").innerHTML = ""; if (typeof html === "string") $("#capa-dentro").innerHTML = html; else $("#capa-dentro").append(html); $("#capa").classList.remove("oculto"); $("#capa").scrollTop = 0; }
+$("#capa-cerrar").onclick = () => $("#capa").classList.add("oculto");
+
+/* ===================== INICIO ===================== */
+const di = diaIndice();
+const SALMOS_SUG = CONT.salmosPara.flatMap(s => s.refs);
+function pintarInicio(){
+  const h = new Date().getHours();
+  const nombre = estado.nombre || "";
+  $("#hoy-fecha").textContent = fechaLarga();
+  $("#hoy-saludo").textContent = (h < 12 ? "Buenos días" : h < 19 ? "Buenas tardes" : "Buenas noches") + (nombre ? ", " + nombre : "");
+  $("#hoy-sub").textContent = h < 12 ? "Empieza el día en sus manos." : h < 19 ? "Haz una pausa y respira en Dios." : "Descansa: Él cuida tu noche.";
+  const sref = SALMOS_SUG[di % SALMOS_SUG.length];
+  $("#sug-salmo").textContent = "«" + unir(PAS[sref]) + "»"; $("#sug-salmo-ref").textContent = sref;
+  $("#sug-salmo-leer").onclick = () => { const p = parseRef(sref); abrirCapitulo(19, p.tramos[0].cap, PAS[sref].map(v => v[0])); };
+  $("#sug-salmo-fav").onclick = () => guardarFav(sref, unir(PAS[sref]));
+  const pref = CONT.promesas[(di * 7) % CONT.promesas.length];
+  $("#sug-prom").textContent = "«" + unir(PAS[pref]) + "»"; $("#sug-prom-ref").textContent = pref;
+  const d = CONT.devocionales[di % CONT.devocionales.length];
+  $("#dev-t").textContent = d.t; $("#dev-verso").textContent = "«" + unir(PAS[d.ref]) + "»"; $("#dev-ref").textContent = d.ref;
+  $("#dev-x").textContent = d.x; $("#dev-p").textContent = d.p; $("#dev-o").textContent = d.o;
+  $("#dev-hablar").onclick = () => { ir("conversar"); enviar("Quiero conversar sobre el devocional de hoy, «" + d.t + "», con " + d.ref + ". " + d.p); };
+  $("#dev-guardar").onclick = () => { agregarDiario(d.t + "\n«" + unir(PAS[d.ref]) + "» (" + d.ref + ")\n\n" + d.x + "\n\n" + d.o, "devocional"); toast("Guardado en tu diario"); };
+  pintarRacha(); pintarBienvenida();
+}
+function pintarBienvenida(){ $("#bienvenida").classList.toggle("oculto", !!estado.nombre); }
+$("#bienvenida").addEventListener("submit", (ev) => {
+  ev.preventDefault();
+  const n = $("#bv-nombre").value.trim().slice(0, 40);
+  if (!n){ toast("Escribe tu nombre para saludarte"); return; }
+  estado.nombre = n; estado.tradicion = TRAD[$("#bv-trad").value] ? $("#bv-trad").value : "catolica";
+  estado.genero = $("#bv-gen").value === "h" ? "h" : "m";
+  guardarEstado(); recalcular(); toast(G("⟨Bienvenida|Bienvenido⟩") + ", " + n);
+});
+function pintarRacha(){
+  const set = new Set(estado.dias || []);
+  let n = 0; const d = new Date();
+  while (set.has(hoyStr(d))){ n++; d.setDate(d.getDate()-1); }
+  $("#racha-num").textContent = n || 1;
+  $("#racha-txt").textContent = n > 1 ? "Llevas " + n + " días seguidos viniendo a tu refugio. Qué lindo." : "Hoy viniste a tu refugio. Volver un ratico cada día cambia el corazón.";
+  const sem = $("#racha-semana"); sem.innerHTML = "";
+  const letras = ["D","L","M","M","J","V","S"];
+  for (let i = 6; i >= 0; i--){ const x = new Date(); x.setDate(x.getDate()-i); const el = document.createElement("i"); el.textContent = letras[x.getDay()]; if (set.has(hoyStr(x))) el.className = "si"; sem.append(el); }
+}
+
+/* ----- Evangelio del día ----- */
+let liturgia = null;
+async function pintarEvangelio(){
+  const L = liturgia;
+  const cuerpo = $("#ev-cuerpo"), acc = $("#ev-acciones"), pest = $("#ev-pestanas");
+  acc.innerHTML = ""; pest.innerHTML = "";
+  if (!L || !L.evangelio){
+    $("#ev-dia").textContent = fechaLarga();
+    cuerpo.innerHTML = '<p class="nota" style="text-align:center">Todavía no ha llegado la liturgia de hoy a tu refugio. Mientras tanto la puedes leer en la página oficial de lecturas o pedirme que te la explique.</p>';
+    const a = document.createElement("a"); a.className = "btn chico"; a.href = "https://www.ewtn.com/es/catolicismo/lecturas/" + hoyStr(); a.textContent = "Ver lecturas de hoy"; a.target = "_blank"; a.rel = "noopener";
+    acc.append(a, btn("Explícame el Evangelio de hoy", "oro", () => { ir("conversar"); enviar("Explícame el Evangelio de hoy, " + fechaLarga() + ", con una reflexión sencilla."); }));
+    return;
+  }
+  $("#ev-dia").textContent = (L.dia || fechaLarga()) + (L.santo ? " · " + L.santo : "");
+  const lecturas = [["Evangelio", L.evangelio], ["Primera lectura", L.primera], ["Salmo", L.salmo], ["Segunda lectura", L.segunda]].filter(x => x[1]);
+  let actual = 0;
+  const mostrar = async (i) => {
+    actual = i;
+    $$("#ev-pestanas button").forEach((b, j) => b.setAttribute("aria-pressed", j === i ? "true" : "false"));
+    const [nom, ref] = lecturas[i];
+    cuerpo.innerHTML = '<p class="nota" style="text-align:center">Cargando…</p>';
+    let vs = null; try { vs = await textoRef(ref); } catch(e){}
+    if (i !== actual) return;
+    cuerpo.innerHTML = "";
+    const r = document.createElement("span"); r.className = "ref"; r.style.textAlign = "center"; r.textContent = nom + " · " + ref;
+    cuerpo.append(r);
+    const t = document.createElement("div"); t.className = "texto-largo"; t.style.textAlign = "left";
+    if (vs){ t.innerHTML = vs.map(v => "<sup>" + v.n + "</sup>" + esc(v.t)).join(" "); }
+    else { t.innerHTML = '<p class="nota">Este pasaje es de un libro de la Biblia católica que se lee en la Biblia de la Santa Sede.</p>'; }
+    cuerpo.append(t);
+    if (i === 0 && L.reflexion){
+      const ref2 = document.createElement("div"); ref2.className = "lect";
+      ref2.innerHTML = '<span class="ojo" style="text-align:center">Reflexión</span><p></p>' + (L.pregunta ? '<p><b>Para ti:</b> <span></span></p>' : "") + (L.oracion ? '<p class="oracion-texto" style="font-size:1.12rem;font-style:italic"></p>' : "");
+      ref2.querySelector("p").textContent = L.reflexion;
+      if (L.pregunta) ref2.querySelector("span").textContent = L.pregunta;
+      if (L.oracion) ref2.querySelector(".oracion-texto").textContent = L.oracion;
+      cuerpo.append(ref2);
+    }
+  };
+  if (lecturas.length > 1){
+    pest.classList.remove("oculto");
+    lecturas.forEach(([nom], i) => { const b = document.createElement("button"); b.type = "button"; b.textContent = nom; b.onclick = () => mostrar(i); pest.append(b); });
+  }
+  acc.append(
+    btn("Conversar sobre el Evangelio", "oro", () => { ir("conversar"); enviar("Acompáñame con el Evangelio de hoy, " + L.evangelio + ". Explícamelo sencillo y dime qué me puede decir a mí."); }),
+    btn("Guardar en mi diario", "", async () => { let vs = null; try { vs = await textoRef(L.evangelio); } catch(e){} agregarDiario("Evangelio del " + fechaLarga() + " (" + L.evangelio + ")\n\n" + (vs ? unir(vs) : "") + (L.reflexion ? "\n\n" + L.reflexion : ""), "evangelio"); toast("Guardado en tu diario"); })
+  );
+  mostrar(0);
+}
+
+/* ===================== RULETA ===================== */
+const SEG = [
+  { k:"salmo", t:"Un salmo", c:"#FFFFFF" },
+  { k:"promesa", t:"Una promesa", c:"#EEE6FA" },
+  { k:"oracion", t:"Una oración", c:"#FBF3DC" },
+  { k:"gesto", t:"Un gesto de amor", c:"#E2D6F4" },
+  { k:"pregunta", t:"Para tu corazón", c:"#FFFFFF" },
+  { k:"bendicion", t:"Una bendición", c:"#EEE6FA" },
+  { k:"respira", t:"Respira", c:"#FBF3DC" },
+  { k:"gracias", t:"Para agradecer", c:"#E2D6F4" }
+];
+let rot = 0, girando = false, dibujada = false;
+function dibujarRueda(){
+  if (dibujada) return; dibujada = true;
+  const cv = $("#rueda"), ctx = cv.getContext("2d"), W = cv.width, R = W/2;
+  ctx.clearRect(0,0,W,W);
+  const n = SEG.length, ang = Math.PI*2/n;
+  ctx.save(); ctx.translate(R,R);
+  // aro dorado
+  const g = ctx.createLinearGradient(-R,-R,R,R); g.addColorStop(0,"#9C741C"); g.addColorStop(.45,"#E6C673"); g.addColorStop(1,"#A47A1E");
+  ctx.beginPath(); ctx.arc(0,0,R-4,0,Math.PI*2); ctx.fillStyle = g; ctx.fill();
+  for (let i = 0; i < n; i++){
+    const a0 = -Math.PI/2 + i*ang, a1 = a0 + ang;
+    ctx.beginPath(); ctx.moveTo(0,0); ctx.arc(0,0,R-26,a0,a1); ctx.closePath();
+    ctx.fillStyle = SEG[i].c; ctx.fill();
+    ctx.strokeStyle = "#D7B259"; ctx.lineWidth = 3; ctx.stroke();
+    // texto
+    ctx.save(); ctx.rotate(a0 + ang/2);
+    ctx.fillStyle = "#3B2D5C"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    ctx.font = "600 33px 'Cormorant Garamond', Georgia, serif";
+    const palabras = SEG[i].t.split(" ");
+    const lineas = SEG[i].t.length > 10 ? [palabras.slice(0, Math.ceil(palabras.length/2)).join(" "), palabras.slice(Math.ceil(palabras.length/2)).join(" ")] : [SEG[i].t];
+    lineas.forEach((l, j) => ctx.fillText(l, R-52, (j - (lineas.length-1)/2) * 36));
+    ctx.restore();
+    // perla en el aro
+    ctx.save(); ctx.rotate(a0); ctx.beginPath(); ctx.arc(R-15,0,6,0,Math.PI*2); ctx.fillStyle = "#FFFFFF"; ctx.fill(); ctx.restore();
+  }
+  ctx.beginPath(); ctx.arc(0,0,R-26,0,Math.PI*2); ctx.strokeStyle = "#FFFFFF"; ctx.lineWidth = 4; ctx.stroke();
+  ctx.restore();
+}
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (dibujada){ dibujada = false; dibujarRueda(); } });
+$("#girar").onclick = () => {
+  if (girando) return; girando = true;
+  dibujarRueda();
+  const n = SEG.length, paso = 360/n;
+  const k = Math.floor(Math.random()*n);
+  const objetivo = (360 - (k*paso + paso/2 + (Math.random()*paso*0.6 - paso*0.3))) % 360;
+  const actualMod = ((rot % 360) + 360) % 360;
+  rot += 360*5 + ((objetivo - actualMod + 360) % 360);
+  const cv = $("#rueda");
+  const reducido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  cv.style.transition = reducido ? "none" : "";
+  cv.style.transform = "rotate(" + rot + "deg)";
+  setTimeout(() => { girando = false; mostrarResultado(SEG[k].k); }, reducido ? 50 : 5100);
+};
+async function mostrarResultado(k){
+  const box = $("#resultado"); box.innerHTML = "";
+  const m = document.createElement("article"); m.className = "marco"; m.style.textAlign = "center"; m.style.alignItems = "center";
+  const seg = SEG.find(s => s.k === k);
+  const ojo = document.createElement("span"); ojo.className = "ojo"; ojo.textContent = "Te salió: " + seg.t; m.append(ojo);
+  const v = (txt, ref) => { const p = document.createElement("p"); p.className = "verso"; p.textContent = "«" + txt + "»"; const r = document.createElement("span"); r.className = "ref"; r.textContent = ref; m.append(p, r); };
+  const acciones = document.createElement("div"); acciones.className = "fila centro";
+  let paraChat = "", paraDiario = "";
+  if (k === "salmo"){ const r = azar(SALMOS_SUG); v(unir(PAS[r]), r); paraChat = "Me salió en la ruleta " + r + ". ¿Qué me dice este salmo hoy?"; paraDiario = "«" + unir(PAS[r]) + "» (" + r + ")"; acciones.append(btn("Guardar", "", () => guardarFav(r, unir(PAS[r])))); }
+  else if (k === "promesa"){ const r = azar(CONT.promesas); v(unir(PAS[r]), r); paraChat = "Me salió esta promesa en la ruleta: " + r + ". Ayúdame a creérmela."; paraDiario = "«" + unir(PAS[r]) + "» (" + r + ")"; acciones.append(btn("Guardar", "", () => guardarFav(r, unir(PAS[r])))); }
+  else if (k === "bendicion"){ const r = azar(CONT.bendiciones); v(unir(PAS[r]), r); const n = document.createElement("p"); n.className = "nota"; n.textContent = "Recíbela como dicha para ti. También la puedes regalar a alguien poniendo su nombre."; m.append(n); paraChat = "Me salió esta bendición: " + r + ". ¿Me ayudas a convertirla en oración por alguien que quiero?"; paraDiario = "Bendición: «" + unir(PAS[r]) + "» (" + r + ")"; }
+  else if (k === "oracion"){ const o = azar(oracionesVisibles()); const h = document.createElement("h3"); h.textContent = o.t; const a = document.createElement("span"); a.className = "nota"; a.textContent = o.a; const tx = document.createElement("p"); tx.className = "oracion-texto"; tx.textContent = o.ref ? unir(PAS[o.ref]) : o.x; m.append(h, a, tx); paraChat = "Me salió la oración «" + o.t + "». Cuéntame su historia y cómo rezarla mejor."; paraDiario = o.t + "\n\n" + (o.ref ? unir(PAS[o.ref]) : o.x); }
+  else if (k === "gesto"){ const [t, r] = azar(CONT.gestos); const p = document.createElement("p"); p.className = "texto-largo"; p.textContent = t; m.append(p); if (PAS[r]) v(unir(PAS[r]), r); paraChat = "Mi gesto de amor de hoy es: " + t + " Ayúdame a hacerlo con el corazón."; paraDiario = "Gesto de amor de hoy: " + t; }
+  else if (k === "pregunta"){ const [t, r] = azar(CONT.preguntas); const p = document.createElement("p"); p.className = "verso grande"; p.textContent = t; m.append(p); if (r && PAS[r]){ const s = document.createElement("span"); s.className = "ref"; s.textContent = "Para acompañarla: " + r; m.append(s); const q = document.createElement("p"); q.className = "nota"; q.textContent = "«" + unir(PAS[r]) + "»"; m.append(q); } paraChat = "Me salió esta pregunta: " + t + " Quiero pensarla contigo."; paraDiario = "Pregunta para mi corazón: " + t + "\n\nMi respuesta: "; }
+  else if (k === "gracias"){ const [t, r] = azar(CONT.gratitud); const p = document.createElement("p"); p.className = "texto-largo"; p.textContent = t; m.append(p); if (PAS[r]) v(unir(PAS[r]), r); paraChat = "Hoy quiero dar gracias. " + t; paraDiario = "Hoy agradezco: "; }
+  else if (k === "respira"){ const [a, b, r] = azar(CONT.respira); m.append(respiracion(a, b, r)); paraChat = "Hice una pausa para respirar con " + r + ". Quiero seguir un ratico en calma contigo."; paraDiario = "Respiré con la Palabra: «" + a + " " + b + "» (" + r + ")"; }
+  acciones.append(
+    btn("Conversar sobre esto", "oro", () => { ir("conversar"); enviar(paraChat); }),
+    btn("A mi diario", "", () => { if (k === "pregunta" || k === "gracias"){ ir("diario"); $("#diario-txt").value = paraDiario; $("#diario-txt").focus(); } else { agregarDiario(paraDiario, "ruleta"); toast("Guardado en tu diario"); } }),
+    btn("Girar otra vez", "", () => { $("#main").scrollTop = 0; $("#girar").click(); })
+  );
+  m.append(acciones); box.append(m);
+  setTimeout(() => box.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
+}
+function respiracion(a, b, r){
+  const w = document.createElement("div"); w.className = "respira";
+  w.innerHTML = '<div class="burbuja"></div><p class="frase"></p><span class="ref"></span><p class="nota">Inhala mientras lees la primera parte y exhala con la segunda. Tres veces, sin afán.</p>';
+  w.querySelector(".ref").textContent = r;
+  const bur = w.querySelector(".burbuja"), fr = w.querySelector(".frase");
+  const b2 = btn("Empezar", "morado", () => {
+    b2.disabled = true; let i = 0;
+    const ciclo = () => {
+      if (i >= 3){ fr.textContent = "Amén."; bur.classList.remove("inhala"); b2.disabled = false; b2.textContent = "Otra vez"; return; }
+      bur.classList.add("inhala"); fr.textContent = a + "…";
+      setTimeout(() => { bur.classList.remove("inhala"); fr.textContent = "…" + b; setTimeout(() => { i++; ciclo(); }, 5000); }, 4000);
+    };
+    ciclo();
+  });
+  fr.textContent = a + " · " + b;
+  w.append(b2); return w;
+}
+
+/* ===================== SALMOS ===================== */
+let temaActual = 0;
+function pintarTemas(){
+  const t = $("#temas-salmos"); t.innerHTML = "";
+  CONT.salmosPara.forEach((s, i) => { const b = document.createElement("button"); b.type = "button"; b.className = "chip"; b.textContent = s.tema; b.setAttribute("aria-pressed", i === temaActual ? "true" : "false"); b.onclick = () => { temaActual = i; pintarTemas(); }; t.append(b); });
+  const box = $("#salmos-tema"); box.innerHTML = "";
+  const s = CONT.salmosPara[temaActual];
+  const h = document.createElement("h3"); h.textContent = s.tema; box.append(h);
+  s.refs.forEach(r => {
+    const it = document.createElement("div"); it.className = "item-ref";
+    const p = document.createElement("p"); p.className = "verso"; p.textContent = "«" + unir(PAS[r]) + "»";
+    const rr = document.createElement("span"); rr.className = "ref"; rr.textContent = r;
+    const f = document.createElement("div"); f.className = "fila";
+    const cap = parseRef(r).tramos[0].cap;
+    f.append(btn("Leer el salmo " + cap, "", () => abrirCapitulo(19, cap, PAS[r].map(v => v[0]))), btn("Guardar", "", () => guardarFav(r, unir(PAS[r]))), btn("Conversar", "", () => { ir("conversar"); enviar("Quiero rezar con " + r + ": «" + unir(PAS[r]) + "». Acompáñame."); }));
+    it.append(p, rr, f); box.append(it);
+  });
+}
+function pintarRejillaSalmos(){
+  const g = $("#rejilla-salmos"); g.innerHTML = "";
+  const favCaps = new Set(estado.favs.map(f => { const p = parseRef(f.ref); return p && p.libro === 19 ? p.tramos[0].cap : null; }).filter(Boolean));
+  for (let i = 1; i <= 150; i++){ const b = document.createElement("button"); b.type = "button"; b.textContent = i; if (favCaps.has(i)) b.className = "fav"; b.setAttribute("aria-label", "Salmo " + i); b.onclick = () => abrirCapitulo(19, i); g.append(b); }
+}
+$("#salmo-azar").onclick = () => abrirCapitulo(19, 1 + Math.floor(Math.random()*150));
+
+/* ===================== BIBLIA ===================== */
+let testamento = "at";
+function pintarLibros(){
+  const l = $("#libros"); l.innerHTML = "";
+  const filas = [];
+  IDX.forEach(([n, nombre, caps]) => {
+    if ((testamento === "at") !== (n <= 39)) return;
+    filas.push({ n, nombre, caps });
+    Object.keys(DEUTERO_DESPUES).forEach(d => { if (DEUTERO_DESPUES[d] === n && testamento === "at") filas.push({ deutero:true, nombre:d, caps: DEUTERO_CAPS[d] }); });
+  });
+  filas.forEach(f => {
+    const b = document.createElement("button"); b.type = "button"; b.className = "libro" + (f.deutero ? " deutero" : "");
+    b.innerHTML = "<b>" + esc(f.nombre) + "</b><span>" + (f.deutero ? "Biblia católica" : f.caps + (f.caps === 1 ? " capítulo" : " capítulos")) + "</span>";
+    b.onclick = () => f.deutero ? abrirDeutero(f.nombre) : abrirCaps(f.n);
+    l.append(b);
+  });
+  $("#nota-deutero").classList.toggle("oculto", testamento !== "at");
+}
+$$("#biblia-indice [data-t]").forEach(b => b.onclick = () => { testamento = b.dataset.t; $$("#biblia-indice [data-t]").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false")); pintarLibros(); });
+function abrirDeutero(nombre){
+  const d = document.createElement("div"); d.style.display = "flex"; d.style.flexDirection = "column"; d.style.gap = "14px";
+  d.innerHTML = '<span class="ojo">Biblia católica</span><h2 class="sec"></h2><p>Este libro forma parte de la Biblia que lee la Iglesia católica. Su texto no viene en la Reina-Valera, así que lo puedes leer completo en la Biblia oficial publicada por la Santa Sede, y aquí conversar sobre él.</p>';
+  d.querySelector("h2").textContent = nombre;
+  const f = document.createElement("div"); f.className = "fila centro";
+  const a = document.createElement("a"); a.className = "btn oro"; a.href = VATICANO; a.target = "_blank"; a.rel = "noopener"; a.textContent = "Leer en la Biblia de la Santa Sede";
+  f.append(a, btn("Cuéntame de este libro", "", () => { $("#capa").classList.add("oculto"); ir("conversar"); enviar("Cuéntame del libro de " + nombre + ": de qué trata, su contexto y un pasaje bonito para empezar."); }));
+  d.append(f); abrirCapa(d);
+}
+let libroActual = 1, capActual = 1;
+function mostrarParte(p){ ["#biblia-indice","#biblia-caps","#biblia-lector"].forEach(s => $(s).classList.toggle("oculto", s !== p)); }
+function abrirCaps(n){
+  ir("biblia"); libroActual = n; mostrarParte("#biblia-caps");
+  $("#caps-titulo").textContent = nombreLibro(n);
+  const g = $("#rejilla-caps"); g.innerHTML = "";
+  for (let i = 1; i <= IDX[n-1][2]; i++){ const b = document.createElement("button"); b.type = "button"; b.textContent = i; b.onclick = () => abrirCapitulo(n, i); g.append(b); }
+}
+$("#volver-libros").onclick = () => mostrarParte("#biblia-indice");
+$("#lector-volver").onclick = () => abrirCaps(libroActual);
+let seleccion = new Set();
+async function abrirCapitulo(n, c, resaltar){
+  ir("biblia"); libroActual = n; capActual = c; seleccion = new Set();
+  mostrarParte("#biblia-lector"); $("#barra-sel").classList.add("oculto");
+  const nombre = nombreLibro(n);
+  $("#lector-titulo").textContent = nombre;
+  $("#lector-h").textContent = (n === 19 ? "Salmo " : nombre + " ") + c;
+  $("#lector-sub").textContent = "";
+  const t = $("#lector-texto"); t.innerHTML = '<p class="nota">Cargando…</p>';
+  let data; try { data = await cargarLibro(n); } catch(e){ t.innerHTML = '<p class="nota">No pude cargar este libro. Revisa tu conexión e intenta otra vez.</p>'; return; }
+  if (libroActual !== n || capActual !== c) return;
+  if (data.t && data.t[c-1]) $("#lector-sub").textContent = data.t[c-1];
+  const favs = new Set(estado.favs.map(f => f.ref));
+  t.innerHTML = "";
+  data.c[c-1].forEach((txt, i) => {
+    const s = document.createElement("span"); s.className = "versiculo"; s.dataset.v = i+1;
+    s.innerHTML = "<sup>" + (i+1) + "</sup>" + esc(txt) + " ";
+    const refV = (n === 19 ? "Salmos" : nombre) + " " + c + ":" + (i+1);
+    if (favs.has(refV) || (resaltar && resaltar.includes(i+1))) s.classList.add("marcado");
+    s.onclick = () => { const v = i+1; if (seleccion.has(v)){ seleccion.delete(v); s.classList.remove("sel"); } else { seleccion.add(v); s.classList.add("sel"); } $("#barra-sel").classList.toggle("oculto", seleccion.size === 0); };
+    t.append(s);
+  });
+  $("#cap-ant").disabled = (n === 1 && c === 1);
+  $("#cap-sig").disabled = (n === 66 && c === IDX[65][2]);
+  if (resaltar && resaltar.length){ const el = t.querySelector('[data-v="' + resaltar[0] + '"]'); if (el) setTimeout(() => el.scrollIntoView({ block:"center" }), 80); }
+}
+function refSeleccion(){
+  const vs = Array.from(seleccion).sort((a,b) => a-b);
+  const nombre = libroActual === 19 ? "Salmos" : nombreLibro(libroActual);
+  let partes = [], ini = vs[0], prev = vs[0];
+  for (let i = 1; i <= vs.length; i++){ if (vs[i] === prev + 1){ prev = vs[i]; continue; } partes.push(ini === prev ? "" + ini : ini + "-" + prev); ini = prev = vs[i]; }
+  return { ref: nombre + " " + capActual + ":" + partes.join(","), vs };
+}
+async function textoSel(){ const data = await cargarLibro(libroActual); const { ref, vs } = refSeleccion(); return { ref, t: vs.map(v => data.c[capActual-1][v-1]).join(" ") }; }
+$("#sel-guardar").onclick = async () => { const s = await textoSel(); guardarFav(s.ref, s.t); };
+$("#sel-copiar").onclick = async () => { const s = await textoSel(); copiar("«" + s.t + "» (" + s.ref + ")"); };
+$("#sel-hablar").onclick = async () => { const s = await textoSel(); ir("conversar"); enviar("Quiero conversar sobre " + s.ref + ": «" + s.t + "»"); };
+$("#sel-quitar").onclick = () => { seleccion.clear(); $$("#lector-texto .sel").forEach(x => x.classList.remove("sel")); $("#barra-sel").classList.add("oculto"); };
+$("#cap-ant").onclick = () => { if (capActual > 1) abrirCapitulo(libroActual, capActual-1); else if (libroActual > 1) abrirCapitulo(libroActual-1, IDX[libroActual-2][2]); };
+$("#cap-sig").onclick = () => { if (capActual < IDX[libroActual-1][2]) abrirCapitulo(libroActual, capActual+1); else if (libroActual < 66) abrirCapitulo(libroActual+1, 1); };
+$("#cap-hablar").onclick = () => { ir("conversar"); enviar("Acompáñame a entender " + (libroActual === 19 ? "el Salmo " + capActual : nombreLibro(libroActual) + " " + capActual) + ": su contexto, lo esencial y qué me puede decir hoy."); };
+
+/* ===================== ORACIONES ===================== */
+let filtroOr = "todas";
+const esMaria = (o) => ["avemaria","salve","amparo","angelus","magnificat"].includes(o.id);
+function oracionesVisibles(){ return CONT.oraciones.filter(o => estado.tradicion === "catolica" || estado.tradicion === "buscando" || !o.cat); }
+function textoOracion(o){ return o.ref ? unir(PAS[o.ref]) : o.x; }
+function pintarOraciones(){
+  pintarRosario();
+  const l = $("#lista-oraciones"); l.innerHTML = "";
+  $$("#filtro-oraciones .chip").forEach(c => { c.setAttribute("aria-pressed", c.dataset.f === filtroOr ? "true" : "false"); if (c.dataset.f === "maria") c.classList.toggle("oculto", !(estado.tradicion === "catolica" || estado.tradicion === "buscando")); });
+  oracionesVisibles().filter(o => filtroOr === "todas" || (filtroOr === "maria" ? esMaria(o) : o.g === filtroOr)).forEach(o => {
+    const c = document.createElement("article"); c.className = "marco oracion-card" + (o.g === "momento" ? " lav" : "");
+    const etq = o.g === "biblica" ? "De la Biblia" : o.g === "momento" ? "Para cada momento" : "De la tradición";
+    c.innerHTML = '<div class="fila"><span class="etq">' + etq + "</span>" + (esMaria(o) ? '<span class="etq maria">A María</span>' : "") + '</div><h3></h3><span class="nota"></span><p class="oracion-texto corta"></p>';
+    c.querySelector("h3").textContent = o.t; c.querySelector(".nota").textContent = o.a + (o.ref ? " · " + o.ref : "");
+    const tx = c.querySelector(".oracion-texto"); tx.textContent = textoOracion(o);
+    const lineas = textoOracion(o).split("\n").length;
+    if (lineas <= 5 && textoOracion(o).length < 260) tx.classList.remove("corta");
+    const f = document.createElement("div"); f.className = "fila";
+    if (tx.classList.contains("corta")){ const bt = btn("Leer completa", "", () => { tx.classList.toggle("corta"); bt.textContent = tx.classList.contains("corta") ? "Leer completa" : "Ver menos"; }); f.append(bt); }
+    f.append(btn("Rezar despacio", "oro", () => rezar(o)), btn("Guardar", "", () => { agregarDiario(o.t + "\n\n" + textoOracion(o), "oracion"); toast("Guardada en tu diario"); }), btn("Copiar", "", () => copiar(o.t + "\n\n" + textoOracion(o))));
+    if (o.n){ const nn = document.createElement("p"); nn.className = "nota"; nn.textContent = o.n; c.append(nn); }
+    c.append(f); l.append(c);
+  });
+}
+function rezar(o){
+  const d = document.createElement("div"); d.style.display = "flex"; d.style.flexDirection = "column"; d.style.gap = "16px";
+  d.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="#B08627" style="align-self:center"><path d="M12 2l1.8 6.6L20 10l-6.2 1.4L12 18l-1.8-6.6L4 10l6.2-1.4z"/></svg><h2 class="sec"></h2><span class="nota"></span><p class="oracion-texto"></p><div class="adorno"><span>✦</span></div><p class="nota">Lee despacio. Si una frase te toca el corazón, quédate ahí.</p>';
+  d.querySelector("h2").textContent = o.t; d.querySelector(".nota").textContent = o.a; d.querySelector(".oracion-texto").textContent = textoOracion(o);
+  abrirCapa(d);
+}
+const MISTERIOS = {
+  gozosos: ["Misterios gozosos", ["La anunciación del ángel a María","La visita de María a su prima Isabel","El nacimiento de Jesús en Belén","La presentación de Jesús en el templo","El Niño Jesús perdido y hallado en el templo"]],
+  dolorosos: ["Misterios dolorosos", ["La oración de Jesús en el huerto","La flagelación del Señor","La coronación de espinas","Jesús con la cruz a cuestas camino del Calvario","La crucifixión y muerte de Jesús"]],
+  gloriosos: ["Misterios gloriosos", ["La resurrección del Señor","La ascensión del Señor al cielo","La venida del Espíritu Santo","La asunción de María al cielo","La coronación de María como Reina del cielo y de la tierra"]],
+  luminosos: ["Misterios luminosos", ["El bautismo de Jesús en el Jordán","Jesús se revela en las bodas de Caná","El anuncio del Reino de Dios y la invitación a la conversión","La transfiguración del Señor","La institución de la Eucaristía"]]
+};
+function pintarRosario(){
+  const visible = estado.tradicion === "catolica" || estado.tradicion === "buscando";
+  $("#rosario").classList.toggle("oculto", !visible); if (!visible) return;
+  const dia = new Date().getDay();
+  const k = [ "gloriosos","gozosos","dolorosos","gloriosos","luminosos","dolorosos","gozosos" ][dia];
+  const nombres = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+  $("#ros-t").textContent = MISTERIOS[k][0] + ", que se rezan el " + nombres[dia];
+  const l = $("#ros-lista"); l.innerHTML = ""; MISTERIOS[k][1].forEach(m => { const li = document.createElement("li"); li.textContent = m; l.append(li); });
+  $("#ros-hablar").onclick = () => { ir("conversar"); enviar("Acompáñame a rezar el rosario de hoy, los " + MISTERIOS[k][0].toLowerCase() + ". Ve misterio por misterio, con una frase sencilla para meditar cada uno."); };
+  $("#ros-salve").onclick = () => rezar(CONT.oraciones.find(o => o.id === "salve"));
+}
+$$("#filtro-oraciones .chip").forEach(c => c.onclick = () => { filtroOr = c.dataset.f; pintarOraciones(); });
+$("#ver-or-leer").onclick = () => rezar(CONT.oraciones.find(o => o.id === "leer"));
+
+$("#form-oracion").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const tema = $("#or-tema").value.trim();
+  if (!tema){ toast("Cuéntame primero por qué quieres orar"); return; }
+  if (!sample){ toast("Para escribir tu oración necesitas entrar con una cuenta de Claude"); return; }
+  const b = $("#or-btn"); b.disabled = true; b.textContent = "Escribiendo tu oración…";
+  const out = $("#or-resultado"); out.innerHTML = '<span class="pensando"><i></i><i></i><i></i></span>';
+  const prompt = instrucciones() + "\n\nTAREA: escribe una oración personal para " + (estado.nombre || "esta persona") + " sobre esto que cuenta: «" + tema + "».\nQue sea bella, sencilla y cálida, en primera persona, entre 90 y 140 palabras, en versos cortos separados por saltos de línea. Puedes inspirarte en un salmo u otro pasaje y, si lo haces, pon al final la referencia en una línea aparte. Nada de culpa ni miedo. Termina con «Amén». Escribe solo la oración.";
+  try {
+    const r = await sample(prompt, { cache:false, onText: ({ text }) => { if (text && text !== "Thinking...") { out.innerHTML = ""; const p = document.createElement("p"); p.className = "oracion-texto"; p.textContent = text; out.append(p); } } });
+    const txt = (r && r.text || "").trim();
+    out.innerHTML = ""; const p = document.createElement("p"); p.className = "oracion-texto"; p.textContent = txt; out.append(p);
+    const f = document.createElement("div"); f.className = "fila";
+    f.append(btn("Rezar despacio", "oro", () => rezar({ t:"Tu oración", a:"Escrita para ti", x: txt })), btn("Guardar en mi diario", "", () => { agregarDiario("Mi oración: " + tema + "\n\n" + txt, "oracion"); toast("Guardada"); }), btn("Copiar", "", () => copiar(txt)));
+    out.append(f);
+  } catch(e){ console.warn(e); out.innerHTML = '<p class="nota">No pude escribirla ahora. Intenta de nuevo en un momento.</p>'; }
+  b.disabled = false; b.textContent = "Escribir mi oración";
+});
+
+/* ===================== DEVOCIONALES ===================== */
+function pintarDevocionales(){
+  const l = $("#lista-dev"); l.innerHTML = "";
+  CONT.devocionales.forEach((d, i) => {
+    const c = document.createElement("article"); c.className = "marco" + (i % 2 ? " lav" : "");
+    c.innerHTML = '<span class="ojo"></span><h3></h3><p class="verso"></p><span class="ref"></span><p class="x"></p><p><b>Para ti:</b> <span class="pp"></span></p><p class="oracion-texto" style="font-size:1.12rem;font-style:italic"></p>';
+    c.querySelector(".ojo").textContent = d.tema; c.querySelector("h3").textContent = d.t;
+    c.querySelector(".verso").textContent = "«" + unir(PAS[d.ref]) + "»"; c.querySelector(".ref").textContent = d.ref;
+    c.querySelector(".x").textContent = d.x; c.querySelector(".pp").textContent = d.p; c.querySelector(".oracion-texto").textContent = d.o;
+    const f = document.createElement("div"); f.className = "fila";
+    f.append(btn("Conversar sobre esto", "oro", () => { ir("conversar"); enviar("Quiero conversar sobre el devocional «" + d.t + "», con " + d.ref + ". " + d.p); }), btn("Guardar", "", () => { agregarDiario(d.t + "\n«" + unir(PAS[d.ref]) + "» (" + d.ref + ")\n\n" + d.x + "\n\n" + d.o, "devocional"); toast("Guardado en tu diario"); }));
+    c.append(f); l.append(c);
+  });
+}
+
+/* ===================== RUTA ===================== */
+function pintarRuta(){
+  const r = $("#ruta"); r.innerHTML = "";
+  const hechos = new Set(estado.ruta || []);
+  CONT.ruta.forEach(([ref, t, nota], i) => {
+    const b = document.createElement("div");
+    b.className = "dia-ruta" + (hechos.has(i) ? " hecho" : "");
+    b.innerHTML = '<span class="n">' + (i+1) + '</span><div style="flex:1;min-width:0"><b></b><span></span></div>';
+    b.querySelector("b").textContent = t + " · " + ref; b.querySelector("span:last-child").textContent = nota;
+    const f = document.createElement("div"); f.className = "fila"; f.style.flex = "none";
+    const leer = btn("Leer", "", async () => {
+      const p = parseRef(ref);
+      const vs = PAS[ref] ? PAS[ref].map(v => v[0]) : null;
+      abrirCapitulo(p.libro, p.tramos[0].cap, vs);
+    });
+    const marcar = btn(hechos.has(i) ? "Hecho" : "Marcar", hechos.has(i) ? "oro" : "", () => {
+      const s = new Set(estado.ruta || []); if (s.has(i)) s.delete(i); else s.add(i);
+      estado.ruta = Array.from(s); guardarEstado(); pintarRuta();
+      if (!hechos.has(i)) toast(s.size === CONT.ruta.length ? "¡Terminaste la ruta! Qué bonito camino." : "Día " + (i+1) + " listo");
+    });
+    f.append(leer, marcar);
+    const cont = document.createElement("div"); cont.style.display = "flex"; cont.style.flexDirection = "column"; cont.style.gap = "6px"; cont.style.padding = "10px 0"; cont.style.borderBottom = "1px solid var(--oro3)";
+    b.style.borderBottom = "0"; b.style.padding = "0";
+    cont.append(b, f); r.append(cont);
+  });
+}
+
+/* ===================== DIARIO ===================== */
+let vistaDiario = "diario";
+$$("#v-diario [data-d]").forEach(b => b.onclick = () => { vistaDiario = b.dataset.d; $$("#v-diario [data-d]").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false")); pintarDiario(); });
+function pintarDiario(){
+  const l = $("#lista-diario"); l.innerHTML = "";
+  if (vistaDiario === "favs"){
+    if (!estado.favs.length){ l.innerHTML = '<div class="vacio">Aquí aparecen los versículos que guardes desde la Biblia, los salmos o la ruleta.</div>'; return; }
+    estado.favs.forEach(f => {
+      const a = document.createElement("article"); a.className = "marco";
+      a.innerHTML = '<p class="verso"></p><span class="ref"></span>';
+      a.querySelector(".verso").textContent = "«" + f.t + "»"; a.querySelector(".ref").textContent = f.ref;
+      const fila = document.createElement("div"); fila.className = "fila";
+      fila.append(btn("Abrir", "", () => { const p = parseRef(f.ref); if (p && p.libro) abrirCapitulo(p.libro, p.tramos[0].cap, p.tramos[0].vers); }), btn("Copiar", "", () => copiar("«" + f.t + "» (" + f.ref + ")")), borrarBtn(() => { estado.favs = estado.favs.filter(x => x.ref !== f.ref); guardarEstado(); pintarDiario(); pintarRejillaSalmos(); }));
+      a.append(fila); l.append(a);
+    });
+    return;
+  }
+  if (!diario.length){ l.innerHTML = '<div class="vacio">Aquí van a quedar tus escritos, tus oraciones y lo que quieras guardar de las conversaciones.</div>'; return; }
+  const ORIG = { chat:"de la conversación", evangelio:"Evangelio", devocional:"devocional", ruleta:"de la ruleta", oracion:"oración" };
+  diario.forEach(e => {
+    const a = document.createElement("article"); a.className = "marco entrada" + (e.o !== "yo" ? " lav" : "");
+    a.innerHTML = '<time></time><div class="txt"></div>';
+    a.querySelector("time").textContent = fechaCorta(e.ts) + (ORIG[e.o] ? " · " + ORIG[e.o] : "");
+    a.querySelector(".txt").textContent = e.t;
+    const f = document.createElement("div"); f.className = "fila";
+    f.append(btn("Conversar sobre esto", "", () => { ir("conversar"); enviar("Escribí esto en mi diario y quiero conversarlo contigo:\n\n" + e.t); }), btn("Copiar", "", () => copiar(e.t)), borrarBtn(() => { diario = diario.filter(d => d.id !== e.id); pintarDiario(); guardarDiario(); }));
+    a.append(f); l.append(a);
+  });
+}
+function borrarBtn(fn){
+  const x = btn("Borrar", "", () => {
+    if (x.dataset.seguro){ fn(); }
+    else { x.dataset.seguro = "1"; x.textContent = "Toca otra vez para borrar"; setTimeout(() => { if (x.isConnected){ x.textContent = "Borrar"; delete x.dataset.seguro; } }, 3000); }
+  });
+  return x;
+}
+$("#form-diario").addEventListener("submit", (ev) => { ev.preventDefault(); const t = $("#diario-txt").value.trim(); if (!t){ toast("Escribe algo primero"); return; } agregarDiario(t, "yo"); $("#diario-txt").value = ""; toast("Guardado"); });
+
+/* ===================== AJUSTES ===================== */
+const TRAD = {
+  catolica: "católica. Acompáñala desde la fe de la Iglesia católica: puedes citar los libros deuterocanónicos (Tobías, Judit, Sabiduría, Eclesiástico, Macabeos, Baruc), la liturgia, el Catecismo, la Virgen María y los santos cuando ayude de verdad, con naturalidad y sin imponer. Habla de los sacramentos (la Eucaristía, la confesión) como encuentros de amor y misericordia, nunca como amenaza.",
+  evangelica: "cristiana evangélica. Usa solo los 66 libros del canon protestante y no hables de santos ni de devociones marianas como práctica.",
+  cristiana: "cristiana sin una iglesia definida. Quédate en lo que comparten las tradiciones cristianas y no tomes partido por ninguna iglesia.",
+  buscando: "está buscando y todavía no se define. No asumas que ya cree; acompaña sus preguntas con paciencia, sin presionar ni intentar convencerla."
+};
+function pintarAjustes(){ $("#aj-gen").value = estado.genero === "h" ? "h" : "m"; $("#aj-nombre").value = estado.nombre || ""; $("#aj-trad").value = TRAD[estado.tradicion] ? estado.tradicion : "catolica"; }
+$("#aj-guardar").onclick = () => {
+  estado.nombre = $("#aj-nombre").value.trim().slice(0, 40);
+  estado.tradicion = TRAD[$("#aj-trad").value] ? $("#aj-trad").value : "catolica";
+  estado.genero = $("#aj-gen").value === "h" ? "h" : "m";
+  guardarEstado(); recalcular(); toast("Ajustes guardados");
+};
+const bb = $("#aj-borrar");
+bb.onclick = () => {
+  if (bb.dataset.seguro){ estado.chat = []; guardarEstado(); pintarChat(); bb.textContent = "Borrar la conversación"; delete bb.dataset.seguro; toast("Conversación borrada. Tu diario sigue intacto."); }
+  else { bb.dataset.seguro = "1"; bb.textContent = "Toca otra vez para confirmar"; setTimeout(() => { if (bb.dataset.seguro){ bb.textContent = "Borrar la conversación"; delete bb.dataset.seguro; } }, 3500); }
+};
+
+/* ===================== CONVERSAR ===================== */
+function instrucciones(){
+  const ev = liturgia && liturgia.evangelio ? "Hoy, " + fechaLarga() + ", el Evangelio de la misa es " + liturgia.evangelio + (liturgia.primera ? ", la primera lectura " + liturgia.primera : "") + (liturgia.salmo ? " y el salmo " + liturgia.salmo : "") + (liturgia.dia ? " (" + liturgia.dia + ")" : "") + "." : "Hoy es " + fechaLarga() + ". Si te pregunta por el Evangelio del día y no tienes certeza de cuál es, dilo con honestidad y sugiérele mirarlo en la sección de Inicio o en las lecturas oficiales.";
+  return [
+"Eres la acompañante espiritual de «Mi Refugio», una app para quienes buscan descansar en Dios. Hablas con " + (estado.nombre || "alguien que todavía no te ha dicho su nombre") + ", " + (estado.genero === "h" ? "un hombre (háblale en masculino)" : "una mujer (háblale en femenino)") + ". La acompañas desde la Biblia con amor, descanso y paz. La persona es " + TRAD[estado.tradicion || "catolica"],
+ev,
+(esDuena ? "A ella le encantan los Salmos: cuando encajen, dales prioridad." : "Cuando encajen, los Salmos son un gran recurso."),
+"",
+"CÓMO HABLAS",
+"- Español de Colombia, de tú, cálido y sencillo, como una amiga sabia que tiene fe. Nada de palabras rebuscadas, tono de sermón ni frases de tarjeta. Que suene humano y bonito.",
+"- Respuestas cortas para leer en el celular: entre 80 y 180 palabras, salvo que pida más. Sin títulos ni listas largas. Puedes usar **negrita** con mucha moderación.",
+"- Primero escucha: refleja en una o dos frases lo que la persona siente o vive, sin minimizarlo. Después ofrece la Palabra.",
+"",
+"CÓMO USAS LA BIBLIA",
+"- Comparte uno o dos pasajes que de verdad tengan que ver con lo que cuenta. Pon cada versículo en su propia línea, empezando con \"> \", el texto entre comillas « » y la referencia entre paréntesis al final, así: > «texto» (Libro capítulo:versículo).",
+"- Cuando copies el texto, usa la Reina-Valera 1909 con ortografía moderna y escribe «el Señor» donde el original dice «Jehová», porque así la trae la app. Para los libros deuterocanónicos explica con tus palabras. Si no tienes certeza del texto exacto, no lo inventes: da la referencia y explica el sentido, diciendo que es una paráfrasis. Nunca inventes versículos ni referencias.",
+"- Respeta el contexto del pasaje y explícalo en una frase cuando ayude (quién lo escribió, qué estaba pasando). No uses versículos para prometer prosperidad, curaciones garantizadas o que todo saldrá como la persona quiere.",
+"",
+"LA IMAGEN DE DIOS QUE TRANSMITES",
+"- Un Dios que es amor, descanso, paz, misericordia y cercanía. Nunca uses el miedo, el infierno, las amenazas, la culpa o la vergüenza para motivar.",
+"- Nunca digas ni insinúes que el sufrimiento es un castigo o que le falta fe. Las dudas, el cansancio y hasta el enojo con Dios son válidos; los Salmos, Job y Jeremías lo muestran.",
+"- No juzgas a la persona ni a nadie: ni su cuerpo, ni su orientación, ni sus decisiones, ni su historia. No das opiniones políticas.",
+"- Invitas, no exiges. Nada de «tienes que orar más» o «debes ir a misa»; si hablas de la misa o la confesión, que sea como una invitación amorosa.",
+"",
+"LÍMITES Y CUIDADO",
+"- No reemplazas a una psicóloga, a un médico, ni al sacerdote o la comunidad de la persona. Cuando el tema lo pida (duelo fuerte, ansiedad o tristeza que no se va, problemas de salud, decisiones grandes), anima con suavidad a buscar también ese apoyo humano. Nunca sugieras dejar un tratamiento o un medicamento, ni que la oración reemplaza la atención médica.",
+"- Si cuenta violencia o abuso: la seguridad va primero. Nunca le pidas aguantar, perdonar a la fuerza o someterse por fe. Menciona el 123 y, si es una mujer, la línea 155 (orientación a mujeres víctimas de violencia).",
+"- Si aparece la idea de morir, hacerse daño o no querer seguir: responde con mucha calidez y sin sermones, pregúntale si está a salvo ahora y comparte la Línea Nacional 106 (24 horas), la Línea Espérame de Bucaramanga 322 964 3755 (24 horas) y el 123. Anímala a llamar hoy a alguien de confianza.",
+"",
+"CÓMO CIERRAS",
+"- Termina con UNA de estas, la que encaje: una pregunta suave para seguir conversando, o una oración muy corta (dos o tres líneas, en primera persona, para que la diga si quiere). No siempre las dos.",
+"- Si quiere empezar a leer la Biblia, propón un paso pequeño y concreto para hoy (por ejemplo, un pasaje de Lucas o un salmo) y cuéntale que la app tiene una ruta de 14 días en «Cómo empezar»."
+  ].join("\n");
+}
+const BIENVENIDA = "Hola{n}. Qué bueno que estés aquí.\n\nEste es tu refugio: un espacio para conversar con calma, sin juicios y sin afán. Me puedes contar cómo te sientes, lo que te preocupa o lo que agradeces, y buscamos lo que dice la Palabra.\n\n> «Venid a mí todos los que estáis trabajados y cargados, que yo os haré descansar.» (Mateo 11:28)\n\n¿Cómo llegas hoy?";
+function negritas(s){ return s.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/(^|[^*])\*(?!\s)(.+?)\*(?!\*)/g,"$1<em>$2</em>"); }
+function formatear(texto){
+  return String(texto || "").replace(/\r/g,"").split(/\n{2,}/).map(b => {
+    const html = []; let par = [];
+    const cerrar = () => { if (par.length){ html.push("<p>" + par.join("<br>") + "</p>"); par = []; } };
+    b.split("\n").forEach(l => { const t = l.trim(); if (!t) return; if (/^>\s?/.test(t)){ cerrar(); html.push('<div class="cita">' + negritas(esc(t.replace(/^>\s?/,""))) + "</div>"); } else par.push(negritas(esc(t))); });
+    cerrar(); return html.join("");
+  }).join("");
+}
+function burbuja(m, i){
+  const div = document.createElement("div");
+  div.className = "msg " + (m.r === "u" ? "u" : "a");
+  div.innerHTML = '<span class="quien">' + esc(m.r === "u" ? (estado.nombre || "Tú") : "Mi Refugio") + '</span><div class="cuerpo">' + formatear(m.t) + "</div>";
+  if (m.r === "a" && i !== undefined){
+    const acc = document.createElement("div"); acc.className = "acciones";
+    acc.append(btn("Guardar en mi diario", "", () => { agregarDiario(m.t, "chat"); toast("Guardado en tu diario"); }), btn("Copiar", "", () => copiar(m.t)));
+    div.append(acc);
+  }
+  return div;
+}
+function pintarChat(){
+  const cont = $("#chat"); cont.innerHTML = "";
+  if (!estado.chat.length) cont.append(burbuja({ r:"a", t: BIENVENIDA.replace("{n}", estado.nombre ? ", " + estado.nombre : "") }));
+  estado.chat.forEach((m, i) => cont.append(burbuja(m, i)));
+  $("#chips").classList.toggle("oculto", estado.chat.length > 2);
+}
+function alFinal(){ const m = $("#main"); requestAnimationFrame(() => { m.scrollTop = m.scrollHeight; }); }
+const RIESGO = /(suicid|matarme|quitarme la vida|no quiero (seguir )?vivir|quiero morir(me)?|hacerme da[ñn]o|cortarme|acabar con (todo|mi vida)|desaparecer para siempre|no aguanto m[aá]s la vida)/i;
+let enviando = false;
+async function enviar(texto){
+  texto = (texto || "").trim();
+  if (!texto || enviando) return;
+  if (!sample){ $("#aviso-sin-claude").classList.remove("oculto"); toast(MODO === "web" ? "El chat está en la versión de Claude: toca el enlace" : "Para conversar necesitas entrar con una cuenta de Claude"); return; }
+  enviando = true; $("#enviar").disabled = true;
+  estado.chat.push({ r:"u", t:texto, ts:Date.now() });
+  if (RIESGO.test(texto)) $("#alerta-crisis").classList.remove("oculto");
+  pintarChat();
+  const viva = burbuja({ r:"a", t:"" });
+  viva.querySelector(".cuerpo").innerHTML = '<span class="pensando" aria-label="Pensando"><i></i><i></i><i></i></span>';
+  $("#chat").append(viva); alFinal();
+  const historial = estado.chat.slice(-16).map(m => (m.r === "u" ? "PERSONA" : "ACOMPAÑANTE") + ": " + m.t).join("\n\n");
+  const prompt = instrucciones() + "\n\nCONVERSACIÓN HASTA AHORA:\n" + historial + "\n\nResponde ahora como ACOMPAÑANTE al último mensaje de la PERSONA. Escribe solo tu respuesta, sin poner «ACOMPAÑANTE:» al inicio.";
+  let final = "";
+  try {
+    const r = await sample(prompt, { cache:false, onText: ({ text }) => { if (text && text !== "Thinking...") viva.querySelector(".cuerpo").innerHTML = formatear(text); } });
+    final = (r && r.text) || "";
+  } catch(e){
+    console.warn(e); final = (e && e.text) || "";
+    if (!final){
+      estado.chat.pop(); pintarChat(); enviando = false; $("#enviar").disabled = false;
+      toast(e && e.code === "rate_limited" ? "Vamos muy rápido. Espera un momento y vuelve a enviar." : e && e.code === "not_granted" ? "Hace falta dar permiso para conversar." : "No pude responder ahora. Intenta de nuevo.");
+      $("#entrada").value = texto; return;
+    }
+  }
+  final = final.replace(/^\s*ACOMPA[ÑN]ANTE:\s*/i, "").trim();
+  estado.chat.push({ r:"a", t:final, ts:Date.now() });
+  if (estado.chat.length > 60) estado.chat = estado.chat.slice(-60);
+  pintarChat(); alFinal(); guardarEstado();
+  enviando = false; $("#enviar").disabled = false;
+}
+function ajustarAlto(){ const ta = $("#entrada"); ta.style.height = "auto"; ta.style.height = Math.min(ta.scrollHeight, 160) + "px"; }
+$("#form-chat").addEventListener("submit", (ev) => { ev.preventDefault(); const t = $("#entrada").value; $("#entrada").value = ""; ajustarAlto(); enviar(t); });
+$("#entrada").addEventListener("input", ajustarAlto);
+$("#entrada").addEventListener("keydown", (ev) => { if (ev.key === "Enter" && !ev.shiftKey && window.matchMedia("(min-width:700px)").matches){ ev.preventDefault(); $("#form-chat").requestSubmit(); } });
+$("#chips").addEventListener("click", (ev) => { const b = ev.target.closest(".chip"); if (b) enviar(b.textContent); });
+$("#cerrar-alerta").onclick = () => $("#alerta-crisis").classList.add("oculto");
+
+/* ---------- dictado ---------- */
+let destino = null, base = "", escuchando = false;
+function iniciarDictado(campo){
+  if (!dict) return;
+  if (escuchando){ dict.stop().catch(() => {}); return; }
+  destino = campo; base = campo.value ? campo.value.trim() + " " : "";
+  dict.start().catch(e => { if (e && e.code === "not_granted"){ $("#mic").classList.add("oculto"); $("#mic-diario").classList.add("oculto"); toast("Sin permiso de micrófono. Puedes seguir escribiendo."); } });
+}
+$("#mic").onclick = () => iniciarDictado($("#entrada"));
+$("#mic-diario").onclick = () => iniciarDictado($("#diario-txt"));
+
+/* ===================== WEB PÚBLICA ===================== */
+function icsTexto(hora){
+  const [h, m] = hora.split(":").map(x => parseInt(x,10));
+  const d = new Date(); d.setDate(d.getDate() + (new Date().getHours()*60+new Date().getMinutes() >= h*60+m ? 1 : 0));
+  const f = (n) => String(n).padStart(2,"0");
+  const ini = d.getFullYear() + f(d.getMonth()+1) + f(d.getDate()) + "T" + f(h) + f(m) + "00";
+  const finM = h*60 + m + 10; const fin = d.getFullYear() + f(d.getMonth()+1) + f(d.getDate()) + "T" + f(Math.floor(finM/60)%24) + f(finM%60) + "00";
+  const url = location.href.split("#")[0];
+  const ahora = new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d+/,"");
+  return ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Mi Refugio//ES","CALSCALE:GREGORIAN","BEGIN:VEVENT",
+    "UID:mirefugio-" + Date.now() + "@mirefugio","DTSTAMP:" + ahora,"DTSTART:" + ini,"DTEND:" + fin,"RRULE:FREQ=DAILY",
+    "SUMMARY:Mi Refugio: tu cita con Dios","DESCRIPTION:Un ratico para el Evangelio\\, un salmo y descansar en Dios. " + url,"URL:" + url,
+    "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:Mi Refugio: tu cita con Dios","TRIGGER:PT0M","END:VALARM","END:VEVENT","END:VCALENDAR"].join("\r\n");
+}
+if (MODO === "web"){
+  $("#recordar").classList.remove("oculto");
+  $("#rec-btn").onclick = () => {
+    const hora = $("#rec-hora").value || "06:30";
+    const blob = new Blob([icsTexto(hora)], { type:"text/calendar;charset=utf-8" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "Recordatorio Mi Refugio.ics";
+    document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+    toast("Abre el archivo y acepta agregarlo a tu calendario");
+  };
+  $("#aviso-sin-claude").innerHTML = 'El chat vive en la versión de Mi Refugio dentro de Claude, porque ahí es donde la inteligencia artificial puede conversar contigo. Ábrelo aquí: <a href="' + CLAUDE_URL + '" target="_blank" rel="noopener">Conversar en Mi Refugio con Claude</a>. Para usarlo necesitas una cuenta de Claude, que se crea gratis.';
+  $("#aviso-sin-claude").classList.remove("oculto");
+  $("#chips").classList.add("oculto");
+  $("#form-chat").classList.add("oculto");
+  $("#form-oracion").querySelector(".fila").innerHTML = '<a class="btn oro" href="' + CLAUDE_URL + '" target="_blank" rel="noopener">Escribir mi oración en Claude</a>';
+}
+if (FORM_URL){ $("#opinion").classList.remove("oculto"); $("#form-link").href = FORM_URL; }
+
+/* ===================== ARRANQUE ===================== */
+function marcarDia(){ const h = hoyStr(); estado.dias = estado.dias || []; if (!estado.dias.includes(h)){ estado.dias.push(h); estado.dias = estado.dias.slice(-400); return true; } return false; }
+try {
+  const e = JSON.parse(localStorage.getItem("refugio-estado") || "null"); if (e) estado = Object.assign(estado, e);
+  const d = JSON.parse(localStorage.getItem("refugio-diario") || "null"); if (Array.isArray(d)) diario = d;
+} catch(e){}
+function migrar(){ if (!estado.v){ estado.tradicion = "catolica"; estado.v = 2; delete estado.hoy; delete estado.usados; } }
+migrar();
+if (HOY_SEMILLA && HOY_SEMILLA.fecha === hoyStr()) liturgia = HOY_SEMILLA;
+/* liturgia publicada como archivo: la leen todas, con o sin cuenta */
+fetch("liturgia.json?d=" + hoyStr(), { cache:"no-store" }).then(r => r.ok ? r.json() : null).then(j => {
+  const L = j && j[hoyStr()];
+  if (L && L.evangelio){ liturgia = Object.assign({ fecha: hoyStr() }, L); pintarEvangelio(); }
+}).catch(() => {});
+marcarDia();
+CONT = aplicarGenero(CONT_RAW);
+pintarInicio(); pintarEvangelio(); pintarTemas(); pintarRejillaSalmos(); pintarLibros(); pintarOraciones(); pintarDevocionales(); pintarRuta(); pintarDiario(); pintarAjustes(); pintarChat();
+
+(async function(){
+  const cl = window.claude;
+  if (!cl || typeof cl.use !== "function"){ $("#aviso-sin-claude").classList.remove("oculto"); soloLocal(); return; }
+  const [s, d, base_, u] = await Promise.all([cl.use("sample").catch(() => null), cl.use("dictation").catch(() => null), cl.use("db").catch(() => null), cl.use("user").catch(() => null)]);
+  sample = s || null;
+  if (!sample) $("#aviso-sin-claude").classList.remove("oculto");
+  dict = d || null;
+  if (dict){
+    $("#mic").classList.remove("oculto"); $("#mic-diario").classList.remove("oculto");
+    dict.onPartial(({ text }) => { if (destino) destino.value = base + text; });
+    dict.onFinal(({ text }) => { if (destino){ base = base + text + " "; destino.value = base; if (destino.id === "entrada") ajustarAlto(); } });
+    dict.onState(({ state }) => { escuchando = state === "listening"; $("#mic").classList.toggle("escuchando", escuchando && destino && destino.id === "entrada"); $("#mic-diario").textContent = escuchando && destino && destino.id === "diario-txt" ? "Detener dictado" : "Dictar"; });
+  }
+  if (base_){
+    // liturgia del día (compartida, la escribe la tarea programada)
+    conTiempo(base_.doc("liturgia/" + hoyStr()).get(), 10000).then(snap => {
+      if (snap && snap.exists){ liturgia = Object.assign({}, snap.data()); pintarEvangelio(); }
+      else if (!liturgia) pintarEvangelio();
+    }).catch(e => console.warn(e));
+  }
+  if (u){ try { esDuena = !!(await u.isOwner()); } catch(e){ esDuena = false; } $("#recordatorio-txt").classList.toggle("oculto", !esDuena); }
+  if (!base_ || !u) soloLocal();
+  if (base_ && u){
+    try { uid = await u.id(); } catch(e){ uid = null; }
+    if (!uid) soloLocal();
+    if (uid){
+      try {
+        const [se, sd] = await conTiempo(Promise.all([base_.doc("data/users/" + uid + "/estado").get(), base_.doc("data/users/" + uid + "/diario").get()]), 10000);
+        db = base_;
+        if (se.exists){ const v = limpio(se.data() || {}); estado = Object.assign({}, estado, v); migrar(); }
+        if (sd.exists){ const v = sd.data() || {}; if (Array.isArray(v.entradas)) diario = limpio(v.entradas); }
+        const nuevo = marcarDia();
+        recalcular(); pintarRejillaSalmos(); pintarDiario();
+        guardarLocal(); guardarEstado();
+      } catch(e){ console.warn(e); soloLocal(); toast("Por ahora lo tuyo se guarda en este celular."); }
+    }
+  }
+})();
+})();
+</script>
+</body>
+</html>
